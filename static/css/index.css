@@ -8,12 +8,14 @@
 #container #header {
   color: white;
 
+  z-index: 100;
+
   position: absolute;
   left: 175px;
   right: 0;
   height: 35px;
 
-  background-color: #34495e;
+  background-color: #2c3e50;
 }
 
 #container #header #user {
@@ -29,7 +31,17 @@
 }
 
 #container #header #user #userDrop {
-  color: red;
+  background-color: #3498db;
+  color: white;
+  font-family: Ubuntu, sans-serif;
+  font-size: 1.5em;
+  opacity: 0.8;
+}
+
+#container #header #user #userDrop #entry {
+  color: white;
+  text-align: center;
+  font-size: 0.6em;
 }
 
 #container #corner {
@@ -40,8 +52,20 @@
   font-size: 2em;
   font-family: Ubuntu, sans-serif;
 
-  background-color: #34495e;
+  background-color: #2c3e50;
+}
+
+#container #corner #cactus {
+  color: #27ae60;
+  display: inline-block;
+  font-size: 0.89em;
+  padding-left: 2px;
+}
+
+#container #corner #cpanel {
   color: white;
+  display: inline-block;
+  font-size: 0.89em;
 }
 
 #container #sidebar {
@@ -51,7 +75,7 @@
   bottom: 0;
   width: 178px;
 
-  background-color: #34495e;
+  background-color: #2c3e50;
 }
 
 #container #content {
