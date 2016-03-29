@@ -1,0 +1,48 @@
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+#container {
+}
+
+#container #header {
+  position: absolute;
+  left: 178px;
+  right: 0;
+  height: 92px;
+
+  background-color: red;
+}
+
+#container #content {
+  position: absolute;
+  left: 178px;
+  top: 92px;
+  right: 0;
+  bottom: 0;
+
+  background-color: blue;
+}
+
+#container #corner {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+
+  background-color: green;
+}
+
+#container #sidebar {
+  position: absolute;
+  left: 0;
+  top: 92px;
+  bottom: 0;
+  width: 178px;
+
+  background-color: orange;
+}
+
+#container #footer {
+
+}

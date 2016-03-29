@@ -1,9 +1,32 @@
-<html>
+<html ng-app="IndexApp">
 <head>
-  <title>CactusPanel - {{ Username }}</title>
+  <!-- Temp setting "username" -->
+  <title ng-controller="IndexController">Dashboard - {{ '{{ username }}' }}</title>
+
+  <!-- CSS, and js things and stuffs. -->
+
+  <script type="text/javascript" src="{{ url_for('static', filename='js/libs/angular.min.js') }}"></script>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+  <script src="{{ url_for('static', filename='js/angular/IndexMain.js') }}"></script>
 </head>
 
 <body>
+  <div id="container">
+    <div id="header">
+      header
+    </div>
 
+    <div id="corner">
+      Corner
+    </div>
+
+    <div id="content">
+      Content
+    </div>
+
+    <div id="sidebar">
+      Sidebar
+    </div>
+  </div>
 </body>
 </html>
