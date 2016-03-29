@@ -28,6 +28,7 @@
 
 #container #header #user #username {
   display: inline-block;
+  padding-right: 10px;
 }
 
 #container #header #user #userDrop {
@@ -42,6 +43,10 @@
   color: white;
   text-align: center;
   font-size: 0.6em;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 #container #corner {
