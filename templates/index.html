@@ -1,7 +1,7 @@
-<html ng-app="IndexApp">
+<html ng-app="IndexApp" ng-controller="IndexController">
 <head>
   <!-- Temp setting "username" -->
-  <title ng-controller="IndexController">Dashboard - {{ '{{ username }}' }}</title>
+  <title>Dashboard - {{ '{{ username }}' }}</title>
 
   <!-- CSS, and js things and stuffs. -->
 
@@ -13,19 +13,27 @@
 <body>
   <div id="container">
     <div id="header">
-      header
+      <div id="user">
+        <div id="username" ng-mouseenter="userHover()" ng-mouseleave="userHover()">
+          {{ '{{ username }}' }}
+          
+          <div id="userDrop" ng-show="showUserHover">
+            HOVER THING
+          </div>
+        </div>
+      </div>
     </div>
 
     <div id="corner">
-      Corner
+      CactusPanel
     </div>
 
     <div id="content">
-      Content
+
     </div>
 
     <div id="sidebar">
-      Sidebar
+
     </div>
   </div>
 </body>

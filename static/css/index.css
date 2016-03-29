@@ -3,26 +3,33 @@
   padding: 0px;
 }
 
-#container {
-}
+#container { }
 
 #container #header {
-  position: absolute;
-  left: 178px;
-  right: 0;
-  height: 92px;
+  color: white;
 
-  background-color: red;
+  position: absolute;
+  left: 175px;
+  right: 0;
+  height: 35px;
+
+  background-color: #34495e;
 }
 
-#container #content {
-  position: absolute;
-  left: 178px;
-  top: 92px;
-  right: 0;
-  bottom: 0;
+#container #header #user {
+  text-align: right;
+  font-size: 1em;
+  padding-right: 10px;
+  padding-top: 5px;
+  font-family: Ubuntu, sans-serif;
+}
 
-  background-color: blue;
+#container #header #user #username {
+  display: inline-block;
+}
+
+#container #header #user #userDrop {
+  color: red;
 }
 
 #container #corner {
@@ -30,19 +37,37 @@
   left: 0px;
   top: 0px;
 
-  background-color: green;
+  font-size: 2em;
+  font-family: Ubuntu, sans-serif;
+
+  background-color: #34495e;
+  color: white;
 }
 
 #container #sidebar {
   position: absolute;
   left: 0;
-  top: 92px;
+  top: 35px;
   bottom: 0;
   width: 178px;
 
-  background-color: orange;
+  background-color: #34495e;
 }
 
-#container #footer {
+#container #content {
+  position: absolute;
+  left: 178px;
+  top: 35px;
+  right: 0;
+  bottom: 0;
 
+  background-color: white;
+
+  padding-left: 25px;
+  padding-top: 20px;
+}
+
+
+#container #footer {
+  position: absolute;
 }
