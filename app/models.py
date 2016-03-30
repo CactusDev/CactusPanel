@@ -63,6 +63,11 @@ class User(db.Model):
         return '<User {}>'.format(self.username)
 
 
+class Playlist:
+    def p():
+        pass
+
+
 class Bot(db.Model):
     __tablename__ = "bots"
     id = db.Column(db.Integer, primary_key=True)
@@ -73,4 +78,4 @@ class Bot(db.Model):
         return "<{bname} - [{bid}] {owner}>".format(
                                                 bname=self.name,
                                                 bid=self.id,
-                                                owner=)
+                                                owner="innectic")

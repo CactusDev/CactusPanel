@@ -1,4 +1,4 @@
-<html ng-app="IndexApp" ng-controller="IndexControl">
+<html>
 <head>
   <!-- Temp setting "username" -->
   <title>Dashboard - {{ '{{ username }}' }}</title>
@@ -7,6 +7,8 @@
 
   <script type="text/javascript" src="{{ url_for('static', filename='js/libs/angular.min.js') }}"></script>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/commands.css') }}">
+  <script src="{{ url_for('static', filename='js/angular/CommandMain.js') }}"></script>
   <script src="{{ url_for('static', filename='js/angular/IndexMain.js') }}"></script>
 </head>
 
@@ -14,7 +16,7 @@
   <div id="container">
     <div id="header">
       <div id="user">
-        <div id="username" ng-mouseenter="userHover()" ng-mouseleave="userHover()">
+        <div ng-app="IndexApp" ng-controller="IndexControl" id="username" ng-mouseenter="userHover()" ng-mouseleave="userHover()">
           {{ '{{ username }}' }}
 
           <div id="userDrop" ng-show="showUserHover">
@@ -36,29 +38,40 @@
     </div>
 
     <div id="content">
+      <table ng-app="CommandApp" ng-controller="CommandControl">
+        <tr>
+          <td>
+            Command
+          </td>
+          <td>
+            Repsonse
+          </td>
+          <td>
+            Calls
+          </td>
+          <td>
+            Permission Level
+          </td>
+        </tr>
 
+        <tr ng-repeat="command in CommandList">
+          <td>
+              {{ '{{ random }}' }}
+          </td>
+          <td>
+            {{ ' {{ command.response }} ' }}
+          </td>
+          <td>
+            {{ '{{ command.calls }}' }}
+          </td>
+          <td>
+            {{ '{{ command.perm }}' }}
+          </td>
+        </tr>
+      </table>
     </div>
 
     <div id="sidebar">
-      <p id="selected">
-        Dashboard
-      </p>
-
-      <p id="entry">
-        Statistics
-      </p>
-
-      <p id="entry">
-        Bot settings
-      </p>
-
-      <p id="entry">
-        Alerts
-      </p>
-
-      <p id="entry">
-        Support
-      </p>
 
     </div>
   </div>

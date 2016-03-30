@@ -1,7 +1,7 @@
 var app = angular.module('IndexApp',[]);
 var showUserHover = false;
 
-app.controller('IndexController', ['$scope', function ($scope) {
+app.controller('IndexControl', ['$scope', function ($scope) {
   $scope.username = "Innectic";
 
   $scope.userHover = function () {

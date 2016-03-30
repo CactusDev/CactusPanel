@@ -4,10 +4,11 @@ from flask.ext.login import (login_user, logout_user, current_user,
                              login_required)
 from flask.ext.socketio import SocketIO, emit
 from app import app, db, lm, socketio
-# from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, RegisterForm
 from .models import User, Playlist
-import json
+from json import load
 from uuid import uuid4
+
 
 
 @app.before_request
@@ -24,6 +25,15 @@ def index():
         "index.html",
         title="CactusPanel",
         form=LoginForm()
+    )
+
+
+@app.route("/commands")
+# @login_required
+def commands():
+    return render_template(
+        "commands.html",
+        title="CactusPanel"
     )
 
 
