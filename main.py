@@ -4,7 +4,8 @@ from flask.ext.login import LoginManager, login_required, UserMixin
 from json import load
 
 app = Flask(__name__)
-secret = ""
+# CHANGE THIS BEFORE YOU PRODUCTION!!!!
+secret = "CHANGETHISBEFOREPRODUCTION!"
 
 # Load the config
 
