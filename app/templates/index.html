@@ -1,66 +1,122 @@
-<html ng-app="IndexApp" ng-controller="IndexControl">
+<html lang="en" >
 <head>
-  <!-- Temp setting "username" -->
-  <title>Dashboard - {{ '{{ username }}' }}</title>
+  <!-- Make mobile supported. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- CSS, and js things and stuffs. -->
+  <!-- Libs -->
 
-  <script type="text/javascript" src="{{ url_for('static', filename='js/libs/angular.min.js') }}"></script>
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+  <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+
   <script src="{{ url_for('static', filename='js/angular/IndexMain.js') }}"></script>
+
+  <!-- CSS -->
+
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+
 </head>
+<body ng-app="IndexApp" ng-cloak>
+  <div ng-cloak>
+    <md-content>
+      <md-tabs md-dynamic-height md-border-bottom ng-style="{backgroundColor: '699534'}">
+        <md-tab label="Dashboard">
+          <md-content class="md-padding">
+            <h1 class="md-display-2">Dashboard</h1>
+            <md-input-container class="md-block">
+              <input type="text" placeholder="Button Name" ng-model="buttonValue" />
+            </md-input-container>
+            <!-- <md-button class="md-raised" ng-style="{backgroundColor: '83BD52'}">{{ ' {{ username }} ' }}</md-button>
+            <md-button class="md-raised" ng-style="{color: 'white', backgroundColor: '699534'}">{{ ' {{ username }} ' }}</md-button> -->
+          </md-content>
+        </md-tab>
+        <md-tab label="Commands">
+          <md-content class="md-padding">
+            <h1 class="md-display-2">Commands</h1>
+            <p>STUFF</p>
+          </md-content>
+        </md-tab>
+        <md-tab label="Bot Settings">
+          <md-content class="md-padding">
+            <h1 class="md-display-2">Bot settings</h1>
+            <p>THINGS</p>
+          </md-content>
+        </md-tab>
 
-<body>
-  <div id="container">
-    <div id="header">
-      <div id="user">
-        <div id="username" ng-mouseenter="userHover()" ng-mouseleave="userHover()">
-          {{ '{{ username }}' }}
+        <md-tab label="Support">
+          <md-content class="md-padding">
+            <h1 class="md-display-2">Hello, Innectic.</h1>
+            <h5 class="md-subhead" id="movedown">What can we help with?</h5>
 
-          <div id="userDrop" ng-show="showUserHover">
-            <p id="entry">
-              <a href="/settings">Settings</a>
-            </p>
+            <md-checkbox ng-model="isTechnical" aria-label="Technical">
+              Technical
+            </md-checkbox>
 
-            <p id="entry">
-              <a href="/logout">Logout</a>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
+            <md-checkbox ng-model="isUser" aria-label="User">
+              User
+            </md-checkbox>
 
-    <div id="corner">
-      <h1 id="cactus">Cactus</h1>
-      <h1 id="cpanel">Panel</h1>
-    </div>
+            <md-checkbox ng-model="isOther" aria-label="Other">
+              Other
+            </md-checkbox>
 
-    <div id="content">
+            <div ng-if="isTechnical">
+               <h5 class="mg-subhead">Have you read our <a href="http://www.cactusbot.readthedocs.org">docs</a> first?</h5>
+               <br />
+               <md-checkbox ng-model="didRead" aria-label="Did Read">
+                 Yup!
+               </md-checkbox>
 
-    </div>
+               <div ng-if="didRead">
+                 <md-input-container class="md-block">
+                   <input type="text" placeholder="How can we help?" ng-model="buttonValue" />
+                   <br />
+                   <br />
+                   <md-button type="submit" class="md-raised" ng-style="{backgroundColor: '83BD52'}">Submit to us</md-button>
+                 </md-input-container>
+               </div>
+             </div>
 
-    <div id="sidebar">
-      <p id="selected">
-        Dashboard
-      </p>
+             <div ng-if="isOther">
+               <md-input-container class="md-block">
+                 <input type="text" ng-model="otherDesc" placeholder="What might this other be?" ng-model="buttonValue" />
+                 <br />
+                 <br />
+                 <br />
+                 <div ng-if="otherDesc">
+                   <md-input-container class="md-block">
+                     <input type="text" placeholder="How can we help?" ng-model="buttonValue" />
+                     <br />
+                     <br />
+                     <md-button type="submit" class="md-raised" ng-style="{backgroundColor: '83BD52'}">Submit to us</md-button>
+                   </md-input-container>
+                 </div>
+               </md-input-container>
+           </md-content>
+            </div>
 
-      <p id="entry">
-        Statistics
-      </p>
+            <div ng-if="isUser">
+              <md-input-container class="md-block">
+                <input type="text" placeholder="How can we help?" ng-model="buttonValue" />
+                <br />
+                <br />
+                <md-button type="submit" class="md-raised" ng-style="{backgroundColor: '83BD52'}">Submit to us</md-button>
+              </md-input-container>
+            </div>
+          </md-content>
+        </md-tab>
 
-      <p id="entry">
-        Bot settings
-      </p>
-
-      <p id="entry">
-        Alerts
-      </p>
-
-      <p id="entry">
-        Support
-      </p>
-
-    </div>
+        <md-tab label="User settings">
+          <md-content class="md-padding">
+            <h1 class="md-display-2">User settings</h1>
+          </md-content>
+        </md-tab>
+      </md-tabs>
+    </md-content>
   </div>
+
 </body>
 </html>
