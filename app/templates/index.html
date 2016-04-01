@@ -3,9 +3,14 @@
   <!-- Make mobile supported. -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Libs -->
+  <!-- CSS -->
 
   <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+
+  <!-- Libs -->
+
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
@@ -13,10 +18,8 @@
   <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
 
   <script src="{{ url_for('static', filename='js/angular/IndexMain.js') }}"></script>
-
-  <!-- CSS -->
-
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+  <script src="{{ url_for('static', filename='js/socket/socket.js')}}"></script>
+  <script src="{{ url_for('static', filename='js/diag/diag.js')}}"></script>
 
 </head>
 <body ng-app="IndexApp" ng-controller="IndexControl" ng-cloak>
@@ -93,7 +96,7 @@
                     </div>
                   </div>
 
-                  <md-button ng-disabled="shouldHideChangeText" ng-model="updateMessages" ng-click="pressedUpdateMessages()" class="md-raised" ng-style="{backgroundColor: '83BD52';}">Update</md-button>
+                  <md-button ng-disabled="shouldHideChangeText" ng-model="updateMessages" ng-click="pressedUpdateMessages()" class="md-raised" ng-style="{backgroundColor: '83BD52'}">Update</md-button>
 
                   <div ng-if="updateMessages">
                     <h1 class="md-title">We're updating it for you.</h1>
