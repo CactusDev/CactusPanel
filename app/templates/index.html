@@ -19,30 +19,168 @@
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
 
 </head>
-<body ng-app="IndexApp" ng-cloak>
+<body ng-app="IndexApp" ng-controller="IndexControl" ng-cloak>
   <div ng-cloak>
     <md-content>
       <md-tabs md-dynamic-height md-border-bottom ng-style="{backgroundColor: '699534'}">
-        <md-tab label="Dashboard">
+        <div id="dash">
+          <md-tab label="Dashboard">
+        </div>
           <md-content class="md-padding">
             <h1 class="md-display-2">Dashboard</h1>
-            <md-input-container class="md-block">
-              <input type="text" placeholder="Button Name" ng-model="buttonValue" />
-            </md-input-container>
-            <!-- <md-button class="md-raised" ng-style="{backgroundColor: '83BD52'}">{{ ' {{ username }} ' }}</md-button>
-            <md-button class="md-raised" ng-style="{color: 'white', backgroundColor: '699534'}">{{ ' {{ username }} ' }}</md-button> -->
+
           </md-content>
         </md-tab>
-        <md-tab label="Commands">
+
+        <div id="commands">
+          <md-tab label="Commands">
+        </div>
           <md-content class="md-padding">
             <h1 class="md-display-2">Commands</h1>
+            <!-- TODO: Display all of the commands for the user -->
             <p>STUFF</p>
           </md-content>
         </md-tab>
         <md-tab label="Bot Settings">
           <md-content class="md-padding">
             <h1 class="md-display-2">Bot settings</h1>
-            <p>THINGS</p>
+              <md-card>
+                <md-card-header>
+                  <!-- Image here -->
+
+                  <md-card-header-text>
+                    Chat and visual alerts
+                  </md-card-header-text>
+
+                </md-card-header>
+
+                <md-card-title>
+                  <md-card-title-text></md-card-title-text>
+                </md-card-title>
+
+                <md-card-content>
+                  <h6 class="md-display-1">
+                    Chat alerts
+                  </h6>
+                  <div ng-model="changeText" ng-hide="shouldHideChangeText">
+                    <h6 class="md-subhead">
+                      You can use variables. Where %user% is the user that followed
+                    </h6>
+                    <md-input-container class="md-block">
+                      <input type="text" ng-model="followText" placeholder="What would you like the bot to say when someone follows?" />
+                      <br />
+                      <br />
+                    </md-input-container>
+
+                    <div ng-if="isPartnered">
+
+                      <h6 class="md-subhead">
+                        You can use variables. Where %user% is the user that subscribed.
+                      </h6>
+
+                      <md-input-container class="md-block">
+                        <input type="text" ng-model="subText" placeholder="What would you like the bot to say when someone subscribes?" />
+                      </md-input-container>
+
+
+                      <h6 class="md-subhead">
+                        You can use variables. Where %user% is the user that subscribed, and %months% is how many months
+                      </h6>
+
+                      <md-input-container class="md-block">
+                        <input type="text" ng-model="resubText" placeholder="What would you like the bot to say whe someone resubscribes?" />
+                      </md-input-container>
+                    </div>
+                  </div>
+
+                  <md-button ng-disabled="shouldHideChangeText" ng-model="updateMessages" ng-click="pressedUpdateMessages()" class="md-raised" ng-style="{backgroundColor: '83BD52';}">Update</md-button>
+
+                  <div ng-if="updateMessages">
+                    <h1 class="md-title">We're updating it for you.</h1>
+                    <h1 class="md-title">Please wait...</h1>
+                  </div>
+
+                  <h6 class="md-display-1">
+                    Visual alerts
+                  </h6>
+
+                  <!-- TODO -->
+                </md-card-content>
+              </md-card>
+
+              <br />
+
+              <!-- Spam prot card -->
+
+              <md-card>
+                <md-card-header>
+                  <md-card-header-text>
+                    Protection
+                  </md-card-header-text>
+
+                </md-card-header>
+
+                <md-card-content>
+                  <h6 class="md-display-1">
+                    Spam
+                  </h6>
+
+                  <!-- Enable / Disable prot -->
+
+                  <md-switch ng-model="isProtEnabled" aria-label="Switch 1">
+                    Enable Protection?
+                  </md-switch>
+
+                  <!-- Sliders -->
+
+                  <!-- Message length -->
+
+                  <div flex layout="column" layout-align="center center">
+                    <md-content layout="row" layout-padding>
+                      <md-slider-container flex>
+                        <md-input-container>
+                          <input flex type="number" ng-disabled="!isProtEnabled" ng-model="messageLength" aria-label="messageLength" aria-controls="messageLength">
+                        </md-input-container>
+
+                      <md-slider ng-model="messageLength" ng-disabled="!isProtEnabled" min="0" max="480" aria-label="messageLength" aria-controls="messageLength" class="md-accent" md-range></md-slider>
+                        <h5>Max message length</h5>
+                      </md-slider-container>
+
+                    <!-- Max caps -->
+
+                    <div flex layout="column" layout-align="center center">
+                      <md-slider-container flex>
+                        <md-input-container>
+                          <input flex type="number" ng-disabled="!isProtEnabled" ng-model="maxCaps" aria-label="maxCaps" aria-controls="maxCaps">
+                        </md-input-container>
+                        <md-slider ng-model="maxCaps" ng-disabled="!isProtEnabled" min="0" max="1000" aria-label="maxCaps" aria-controls="maxCaps" class="md-accent" md-range></md-slider>
+                        </md-slider>
+                        <h5>Max caps</h5>
+                      </md-slider-container>
+                    </div>
+
+                    <!-- Max emotes -->
+
+                    <div flex layout="column" layout-align="center center">
+                      <md-slider-container>
+                        <md-input-container>
+                          <input flex type="number" ng-disabled="!isProtEnabled" ng-model="maxEmotes" aria-label="maxEmotes" aria-controls="max-emotes">
+                        </md-input-container>
+                        <md-slider ng-model="maxEmotes" ng-disabled="!isProtEnabled" min="0" max="100" aria-label="maxEmotes" aria-controls="maxEmotes" class="md-accent" md-range></md-slider>
+                        <h5>Max emotes</h5>
+                      </md-slider-container>
+                    </div>
+
+                    <!-- End spam protection -->
+
+                    <!-- TODO: Update on the bot's side -->
+
+                  </md-content>
+                </md-card-content>
+              </md-card>
+
+              <!-- End spam prot card -->
+
           </md-content>
         </md-tab>
 
@@ -72,7 +210,7 @@
 
                <div ng-if="didRead">
                  <md-input-container class="md-block">
-                   <input type="text" placeholder="How can we help?" ng-model="buttonValue" />
+                   <input type="text" placeholder="How can we help?" ng-model="howWeCanHelp" />
                    <br />
                    <br />
                    <md-button type="submit" class="md-raised" ng-style="{backgroundColor: '83BD52'}">Submit to us</md-button>
@@ -82,13 +220,13 @@
 
              <div ng-if="isOther">
                <md-input-container class="md-block">
-                 <input type="text" ng-model="otherDesc" placeholder="What might this other be?" ng-model="buttonValue" />
+                 <input type="text" ng-model="otherDesc" placeholder="What might this other be?"/>
                  <br />
                  <br />
                  <br />
                  <div ng-if="otherDesc">
                    <md-input-container class="md-block">
-                     <input type="text" placeholder="How can we help?" ng-model="buttonValue" />
+                     <input type="text" placeholder="How can we help?" />
                      <br />
                      <br />
                      <md-button type="submit" class="md-raised" ng-style="{backgroundColor: '83BD52'}">Submit to us</md-button>
@@ -100,7 +238,7 @@
 
             <div ng-if="isUser">
               <md-input-container class="md-block">
-                <input type="text" placeholder="How can we help?" ng-model="buttonValue" />
+                <input type="text" placeholder="How can we help?" />
                 <br />
                 <br />
                 <md-button type="submit" class="md-raised" ng-style="{backgroundColor: '83BD52'}">Submit to us</md-button>
