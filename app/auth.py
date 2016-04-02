@@ -1,5 +1,6 @@
 from rauth import OAuth2Service
 from flask import current_app, url_for, request, redirect, session
+import json
 
 
 class OAuthSignIn(object):
