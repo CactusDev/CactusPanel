@@ -63,6 +63,11 @@ def oauth_callback(provider):
     return redirect(url_for("index"))
 
 
+@app.route("/register")
+def register():
+    return "Not implemented yet!"
+
+
 @app.route("/login")
 def login():
     return oauth_authorize("beam")
