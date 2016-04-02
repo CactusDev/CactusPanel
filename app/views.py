@@ -3,11 +3,17 @@ from flask import (render_template, flash, redirect, session, url_for, request,
 from flask.ext.login import (login_user, logout_user, current_user,
                              login_required)
 from flask.ext.socketio import SocketIO, emit
-from app import app, db, lm, socketio, beam_app
+from app import app, db, lm, socketio
 from .forms import LoginForm, RegisterForm
 from .models import User
+from .auth import *
 import json
 from uuid import uuid4
+
+
+@lm.user_loader
+def load_user(id):
+    return User.query.get(int(id))
 
 
 @app.before_request
@@ -20,39 +26,46 @@ def before_request():
 @app.route("/index")
 def index():
     """Handles calls to / and /index, return the panel"""
-    return render_template(
-        "index.html",
-        title="CactusPanel",
-        form=LoginForm()
-    )
+    # return render_template(
+    #     "index.html",
+    #     title="CactusPanel",
+    #     form=LoginForm()
+    # )
+    return oauth_authorize("beam")
 
 
-@app.route("/oauth_authorized")
-@beam_app.authorized_handler
-def oauth_authorized(data):
-    next_url = request.args.get("next") or url_for("index")
+@app.route("/authorize/<provider>")
+def oauth_authorize(provider):
+    if not current_user.is_anonymous:
+        return redirect(url_for("index"))
 
-    print(resp)
+    oauth = OAuthSignIn.get_provider(provider)
+    return oauth.authorize()
 
-    if data is None:
-        flash(u"OAuth request to authenticate denied")
-        return redirect(next_url)
 
-    session["beam_token"] = (
-        resp["oauth_token"],
-        resp["oauth_token_secret"]
-    )
+@app.route("/callback/<provider>")
+def oauth_callback(provider):
+    if not current_user.is_anonymous:
+        return redirect(url_for("index"))
 
-    # flash("You were signed in as {}".format(resp.))
-    return redirect(next_url)
+    oauth = OAuthSignIn.get_provider(provider)
+    print(oauth.authorize())
+    # social_id, username, email = oauth.callback()
+    # if social_id is None:
+    #     flash('Authentication failed.')
+    #     return redirect(url_for('index'))
+    # user = User.query.filter_by(social_id=social_id).first()
+    # if not user:
+    #     user = User(social_id=social_id, nickname=username, email=email)
+    #     db.session.add(user)
+    #     db.session.commit()
+    # login_user(user, True)
+    # return oauth.authorize()
 
 
 @app.route("/login")
 def login():
-    return beam_app.authorize(
-        callback=url_for("oauth_authorized",
-        next=request.args.get("next") or request.referrer or None)
-    )
+    return oauth_authorized("beam")
 
 
 @app.route("/logout", methods=["GET"])

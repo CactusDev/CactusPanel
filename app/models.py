@@ -3,6 +3,7 @@ from passlib.context import CryptContext
 from itsdangerous import (TimedJSONWebSignatureSerializer
                           as Serializer, BadSignature, SignatureExpired)
 import json
+from flask.ext.login import UserMixin
 
 pwd_context = CryptContext(
     schemes=["bcrypt", "pbkdf2_sha256", "des_crypt"],
@@ -11,7 +12,7 @@ pwd_context = CryptContext(
 )
 
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
