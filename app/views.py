@@ -64,7 +64,7 @@ def oauth_callback(provider):
 
 @app.route("/register")
 def register():
-    return "Not implemented yet!"
+    return render_template("register.html")
 
 
 @app.route("/login")
