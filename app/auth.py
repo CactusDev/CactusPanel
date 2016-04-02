@@ -63,8 +63,7 @@ class BeamSignIn(OAuthSignIn):
                 "redirect_uri": self.get_callback_url(),
                 "client_id": self.consumer_id,
                 "client_secret": self.consumer_secret
-            },
-            decoder=lambda b: print(b)
+            }
         )
         print(oauth_session)
         return "FOO", "bar", "spam"
