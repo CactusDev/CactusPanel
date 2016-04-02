@@ -44,18 +44,15 @@ class BeamSignIn(OAuthSignIn):
         # self.callback_url = self.
 
     def authorize(self):
-        params={
+        params = {
             "redirect_uri": self.get_callback_url(),
             "response_type": "code",
             "scope": "user:details:self"
         }
         return redirect(self.service.get_authorize_url(**params))
 
-    def foo(self):
-        return "bar"
-
     def callback(self):
-        print(repr(request.args))
+        print(repr(request))
         if "code" not in request.args:
             return None, None, None
         oauth_session = self.service.get_auth_session(
