@@ -64,7 +64,6 @@ class BeamSignIn(OAuthSignIn):
                 "client_id": self.consumer_id,
                 "client_secret": self.consumer_secret
             },
-            decoder=lambda b: json.loads(b.decode('utf-8'))
+            decoder=lambda b: json.load(b.decode('utf-8'))
         )
-        print(oauth_session)
-        return "FOO", "bar", "spam"
+        return "foo", "bar", "spam"
