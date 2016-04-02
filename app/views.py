@@ -57,10 +57,9 @@ def oauth_callback(provider):
     if not user:
         # User does not exist, so redirect to registration page
         redirect(url_for("register"))
-        pass
-
-    login_user(user, True)
-    return redirect(url_for("index"))
+    else:
+        login_user(user, True)
+        return redirect(url_for("index"))
 
 
 @app.route("/register")
