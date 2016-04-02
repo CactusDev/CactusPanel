@@ -55,6 +55,7 @@ class BeamSignIn(OAuthSignIn):
         return "bar"
 
     def callback(self):
+        print(repr(request.args))
         if "code" not in request.args:
             return None, None, None
         oauth_session = self.service.get_auth_session(
