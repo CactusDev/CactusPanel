@@ -54,6 +54,7 @@ def oauth_callback(provider):
         return redirect(url_for("index"))
     user = User.query.filter_by(provider_id="{}${}".format(provider,
                                                            user_id)).first()
+    print(user)
     if not User:
         # User does not exist, so redirect to registration page
         redirect(url_for("register"))
