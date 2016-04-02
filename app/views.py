@@ -4,7 +4,7 @@ from flask.ext.login import (login_user, logout_user, current_user,
                              login_required)
 from flask.ext.socketio import SocketIO, emit
 from app import app, db, lm, socketio, beam_app
-# from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, RegisterForm
 from .models import User
 import json
 from uuid import uuid4
