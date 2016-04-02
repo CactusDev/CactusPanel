@@ -26,12 +26,11 @@ def before_request():
 @app.route("/index")
 def index():
     """Handles calls to / and /index, return the panel"""
-    # return render_template(
-    #     "index.html",
-    #     title="CactusPanel",
-    #     form=LoginForm()
-    # )
-    return oauth_authorize("beam")
+    return render_template(
+        "index.html",
+        title="CactusPanel",
+        form=LoginForm()
+    )
 
 
 @app.route("/authorize/<provider>")
@@ -49,23 +48,24 @@ def oauth_callback(provider):
         return redirect(url_for("index"))
 
     oauth = OAuthSignIn.get_provider(provider)
-    # social_id, username, email = oauth.callback()
-    print(oauth.callback())
-    # if social_id is None:
-    #     flash('Authentication failed.')
-    #     return redirect(url_for('index'))
-    # user = User.query.filter_by(social_id=social_id).first()
-    # if not user:
-    #     user = User(social_id=social_id, nickname=username, email=email)
-    #     db.session.add(user)
-    #     db.session.commit()
-    # login_user(user, True)
-    # return oauth.authorize()
+    user_id, username = oauth.callback()
+    if user_id is None:
+        flash("OAuth Authentication failed :(")
+        return redirect(url_for("index"))
+    user = User.query.filter_by(provider_id="{}${}".format(provider,
+                                                           user_id)).first()
+    if not User:
+        # User does not exist, so redirect to registration page
+        redirect(url_for("register"))
+        pass
+
+    login_user(user, True)
+    return redirect(url_for("index"))
 
 
 @app.route("/login")
 def login():
-    return oauth_authorized("beam")
+    return oauth_authorize("beam")
 
 
 @app.route("/logout", methods=["GET"])

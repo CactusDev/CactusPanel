@@ -66,5 +66,6 @@ class BeamSignIn(OAuthSignIn):
             },
             decoder=lambda b: json.loads(b.decode('utf-8'))
         )
-        me = oauth_session.get("https://beam.pro/api/v1/users/current")
-        print(me)
+        me = oauth_session.get("https://beam.pro/api/v1/users/current").json()
+
+        return me["id"], me["token"]
