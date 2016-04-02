@@ -52,10 +52,6 @@ class BeamSignIn(OAuthSignIn):
         }
         return redirect(self.service.get_authorize_url(**params))
 
-    def test(b):
-        print(b)
-        return json.loads(str(b))
-
     def callback(self):
         print(repr(request))
         if "code" not in request.args:
@@ -68,7 +64,7 @@ class BeamSignIn(OAuthSignIn):
                 "client_id": self.consumer_id,
                 "client_secret": self.consumer_secret
             },
-            decoder=test()
+            decoder=lambda b: print(b)
         )
         print(oauth_session)
         return "FOO", "bar", "spam"
