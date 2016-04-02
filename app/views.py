@@ -50,7 +50,7 @@ def oauth_callback(provider):
 
     oauth = OAuthSignIn.get_provider(provider)
     # social_id, username, email = oauth.callback()
-    print(oauth_callback())
+    print(oauth.callback())
     # if social_id is None:
     #     flash('Authentication failed.')
     #     return redirect(url_for('index'))
