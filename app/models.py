@@ -73,4 +73,4 @@ class Bot(db.Model):
         return "<{bname} - [{bid}] {owner}>".format(
                                                 bname=self.name,
                                                 bid=self.id,
-                                                owner=)
+                                                owner=self.owner)

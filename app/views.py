@@ -3,9 +3,9 @@ from flask import (render_template, flash, redirect, session, url_for, request,
 from flask.ext.login import (login_user, logout_user, current_user,
                              login_required)
 from flask.ext.socketio import SocketIO, emit
-from app import app, db, lm, socketio
+from app import app, db, lm, socketio, beam_app
 # from .forms import LoginForm, RegisterForm
-from .models import User, Playlist
+from .models import User
 import json
 from uuid import uuid4
 
@@ -24,6 +24,34 @@ def index():
         "index.html",
         title="CactusPanel",
         form=LoginForm()
+    )
+
+
+@app.route("/oauth_authorized")
+@beam_app.authorized_handler
+def oauth_authorized(data):
+    next_url = request.args.get("next") or url_for("index")
+
+    print(resp)
+
+    if data is None:
+        flash(u"OAuth request to authenticate denied")
+        return redirect(next_url)
+
+    session["beam_token"] = (
+        resp["oauth_token"],
+        resp["oauth_token_secret"]
+    )
+
+    # flash("You were signed in as {}".format(resp.))
+    return redirect(next_url)
+
+
+@app.route("/login")
+def login():
+    return beam_app.authorize(
+        callback=url_for("oauth_authorized",
+        next=request.args.get("next") or request.referrer or None)
     )
 
 

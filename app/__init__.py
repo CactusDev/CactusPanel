@@ -6,10 +6,9 @@ from flask.ext.wtf.csrf import CsrfProtect
 from flask_oauthlib.client import OAuth
 import eventlet
 import json
-from os.path import abspath, join, dirname
+import config
 
 app = Flask(__name__)
-config = json.load(open(abspath(join(dirname(__file__), "..", "data/config.json"))))
 app.config.from_object(config)
 db = SQLAlchemy(app)
 lm = LoginManager()
@@ -22,8 +21,8 @@ beam_app = oauth.remote_app(
     base_url="https://beam.pro/api/v1/",
     request_token_url="https://beam.pro/api/v1/oauth/token",
     authorize_url="https://beam.pro/oauth/authorize",
-    consumer_key=config["client_id"],
-    consumer_secret=config["client_secret"]
+    consumer_key=config.client_id,
+    consumer_secret=config.client_secret
 )
 socketio = SocketIO(app)
 eventlet.monkey_patch()
