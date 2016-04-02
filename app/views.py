@@ -56,7 +56,7 @@ def oauth_callback(provider):
                                                            user_id)).first()
     if not user:
         # User does not exist, so redirect to registration page
-        redirect(url_for("register"))
+        return redirect(url_for("register"))
     else:
         login_user(user, True)
         return redirect(url_for("index"))
