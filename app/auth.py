@@ -66,4 +66,7 @@ class BeamSignIn(OAuthSignIn):
             },
             decoder=lambda b: json.loads(b.decode('utf-8'))
         )
-        return "foo", "bar", "spam"
+        me = oauth_session.get({
+            "scope": "user:details:self"
+        })
+        print(me)
