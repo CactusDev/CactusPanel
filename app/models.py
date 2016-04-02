@@ -70,7 +70,7 @@ class Bot(db.Model):
     __tablename__ = "bots"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True)
-    owner = db.Column(db.Integer, db.ForeignKey('user.id'))
+    owner = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     def __repr__(self):
         return "<{bname} - [{bid}] {owner}>".format(
