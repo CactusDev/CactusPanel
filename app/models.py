@@ -20,7 +20,7 @@ class User(UserMixin, db.Model):
     oauth = db.Column(db.Boolean, default=False)
     provider_id = db.Column(db.String(64), index=True, unique=True)
     # Creates a link to all Bot models created backref-ing this User model
-    bots = db.relationship("Bot", backref="owner")
+    bots = db.relationship("Bot", backref="b_owner")
 
     @property
     def is_authenticated(self):
