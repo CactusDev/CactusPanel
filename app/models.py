@@ -3,6 +3,7 @@ from passlib.context import CryptContext
 from itsdangerous import (TimedJSONWebSignatureSerializer
                           as Serializer, BadSignature, SignatureExpired)
 import json
+from flask.ext.login import UserMixin
 
 pwd_context = CryptContext(
     schemes=["bcrypt", "pbkdf2_sha256", "des_crypt"],
@@ -11,14 +12,15 @@ pwd_context = CryptContext(
 )
 
 
-class User(db.Model):
-    __tablename__ = "users"
+class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     hashed_password = db.Column(db.String(60))
+    oauth = db.Column(db.Boolean, default=False)
+    provider_id = db.Column(db.String(64), index=True, unique=True)
     # Creates a link to all Bot models created backref-ing this User model
-    bots = db.relationship("Bot", backref="owner")
+    bots = db.relationship("Bot", backref="b_owner")
 
     @property
     def is_authenticated(self):
@@ -69,7 +71,6 @@ class Playlist:
 
 
 class Bot(db.Model):
-    __tablename__ = "bots"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True)
     owner = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -78,4 +79,4 @@ class Bot(db.Model):
         return "<{bname} - [{bid}] {owner}>".format(
                                                 bname=self.name,
                                                 bid=self.id,
-                                                owner="innectic")
+                                                owner=self.owner)
