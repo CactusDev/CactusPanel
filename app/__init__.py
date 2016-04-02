@@ -19,8 +19,8 @@ oauth = OAuth()
 beam_app = oauth.remote_app(
     "beam",
     base_url="https://beam.pro/api/v1/",
-    request_token_url="https://beam.pro/api/v1/oauth/token",
     authorize_url="https://beam.pro/oauth/authorize",
+    request_token_url="https://beam.pro/api/v1/oauth/token",
     consumer_key=config.client_id,
     consumer_secret=config.client_secret
 )
