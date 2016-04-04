@@ -29,16 +29,8 @@ def index():
     return render_template(
         "index.html",
         title="CactusPanel",
-        form=LoginForm()
-    )
-
-
-@app.route("/commands")
-# @login_required
-def commands():
-    return render_template(
-        "commands.html",
-        title="CactusPanel"
+        form=LoginForm(),
+        username="Innectic"
     )
 
 
@@ -58,8 +50,9 @@ def oauth_callback(provider):
 
     oauth = OAuthSignIn.get_provider(provider)
     user_id, username = oauth.callback()
+
     if user_id is None:
-        flash("OAuth Authentication failed :(")
+        flash("OAuth Authentication failed :( Please try again later!")
         return redirect(url_for("index"))
     user = User.query.filter_by(provider_id="{}${}".format(provider,
                                                            user_id)).first()
@@ -86,3 +79,14 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for("index"))
+
+
+@app.route('/alerts/builder', methods=["GET"])
+# @login_required
+def builder():
+    return render_template('alerts/builder/index.html')
+
+
+@app.route('/alerts/<username>', methods=["GET"])
+def alert(username):
+    pass

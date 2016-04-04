@@ -1,0 +1,14 @@
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+.preset {
+  background-color: #bdc3c7;
+  border-radius: 2px;
+  font-size: 10px;
+  font-family: Ubuntu, sans-serif;
+  margin-top: 60px;
+  margin-left: 20px;
+  padding: 5px 10px 5px 10px;
+}

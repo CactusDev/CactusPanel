@@ -6,3 +6,10 @@ socket.on('connect', function() {
     // diag
     console.log("Connection to socket.io worked.");
 });
+
+
+function send(type, message) {
+  socket.emit(type, message);
+
+  console.log("Sent data with the type of: " + type + " and the data of " + message)
+}
