@@ -45,26 +45,8 @@
 
             <h3 class="md-head">Here's a list of your commands, {{ username }}</h3>
 
+            <md-progress-circular class="md-warn md-hue-3" md-diameter="70"></md-progress-circular>
             <pad-bottom amt="25"></pad-bottom>
-
-            <!-- <div ng-repeat="command in commandList">
-              {{ ' {{ command.id }} ' }}
-              {{ ' {{ command.command }} ' }}
-              {{ ' {{ command.reponse }} ' }}
-              {{ ' {{ command.calls }} ' }}
-              {{ ' {{ command.author }} ' }}
-
-              <h4 class="md-head">Command: {{ ' {{ command.command }} ' }}</h4>
-
-
-
-              <hr id="commandSeperator" />
-
-              <pad-bottom amt="35"></pad-bottom>
-
-              Rest of things # TODO
-
-            </div> -->
 
             {% raw %}
             <table id="cmdListTable">

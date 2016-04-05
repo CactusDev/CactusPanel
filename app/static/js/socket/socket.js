@@ -1,15 +1,12 @@
+
 var socket = io.connect('http://' + document.domain + ':' + location.port);
 
 socket.on('connect', function() {
-    socket.emit('connection', true);
+  socket.emit('connection', true);
 
-    // diag
-    console.log("Connection to socket.io worked.");
+  console.log("Connected to the live server!");
 });
 
-
-function send(type, message) {
-  socket.emit(type, message);
-
-  console.log("Sent data with the type of: " + type + " and the data of " + message)
-}
+socket.on("reconnect_error", function(){
+    console.log("Unable to connect to the live server. Trying again.");
+});
