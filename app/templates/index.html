@@ -1,5 +1,7 @@
 <html lang="en">
 <head>
+  <title>CactusPanel</title>
+
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
@@ -19,6 +21,7 @@
 </head>
 
 <body ng-app="IndexApp" ng-controller="IndexControl" ng-cloak>
+
   <div ng-hide="connected" id="cover">
     <md-progress-circular md-mode="indeterminate" class="md-hue-8" md-diameter="100px"></md-progress-circular>
   </div>
@@ -28,14 +31,43 @@
     <md-content>
       <md-tabs md-dynamic-height md-border-bottom ng-style="{backgroundColor: '699534'}">
 
+        <!-- Dashboard tab -->
+
         <md-tab label="Dashboard">
 
-        <md-content class="md-padding">
-          <h1 class="md-display-2">Dashboard</h1>
+          <md-content class="md-padding">
+            <h1 class="md-display-2">Dashboard</h1>
+
+            <h6 class="md-headline"?>Ohai, {{ username }}! Welcome to your dashboard.</h6>
+
+            <!-- Chat through the bot -->
+
+            <div id="rightChat">
+              <md-input-container class="md-block">
+                <input type="text" ng-model="chatFromBot" placeholder="Want to chat throgh the bot?" />
+              </md-input-container>
+
+              <md-input-container class="md-block">
+                <md-button type="submit" class="md-raised" ng-style="{backgroundColor: '83BD52'}">Send Message</md-button>
+              </md-input-container>
+
+              <!-- Chat log -->
+              <pad-bottom amt="50"></pad-bottom>
+
+              <h7 class="md-title">Chat log</h7>
+
+              <iframe id="rightLog" src="https://beam.pro/embed/chat/{{ username }}">
+                <p>Well darn. You should use <a href="https://www.google.com/chrome/">Chrome</a>, or <a href="https://www.mozilla.org/en-US/firefox/new/">Firefox</a>.</p>
+              </iframe>
+
+            </div>
+
           </md-content>
         </md-tab>
 
-        <md-tab label="Commands" ng-click="clickedCommands()">
+        <!-- Commands tab -->
+
+        <md-tab label="Commands">
           <md-content class="md-padding">
             <h1 class="md-display-2">Commands</h1>
 
@@ -78,6 +110,8 @@
           </md-content>
         </md-tab>
 
+        <!-- Bot settings tab -->
+
         <md-tab label="Bot Settings">
           <md-content class="md-padding">
             <h1 class="md-display-2">Bot settings</h1>
@@ -86,7 +120,6 @@
                   <md-card-header-text>
                     Chat and visual alerts
                   </md-card-header-text>
-
                 </md-card-header>
 
                 <md-card-title>
@@ -125,6 +158,27 @@
                       <md-input-container class="md-block">
                         <input type="text" ng-model="resubText" placeholder="What would you like the bot to say whe someone resubscribes?" />
                       </md-input-container>
+
+                      <h6 class="md-subhead">
+                        You can use variables. Where %user% is the user that joined.
+                      </h6>
+
+                      <md-switch ng-model="announceEnter" aria-label="Enable join message">
+                        Enable join message?
+                      </md-switch>
+
+                      <md-input-container class="md-block">
+                        <input type="text" ng-disabled="!announceEnter" ng-model="announceEnterText" placeholder="What to say when a user joins the channel" />
+                      </md-input-container>
+
+
+                      <md-switch ng-model="announceLeave" aria-label="Enable leave message">
+                        Enable leave message?
+                      </md-switch>
+
+                      <md-input-container class="md-block">
+                        <input type="text" ng-disabled="!announceLeave" ng-model="announceLeaveText" placeholder="What to say when a user leaves the channel" />
+                      </md-input-container>
                     </div>
                   </div>
 
@@ -155,7 +209,7 @@
                     Spam
                   </h6>
 
-                  <md-switch ng-model="isProtEnabled" aria-label="Switch 1">
+                  <md-switch ng-model="isProtEnabled" aria-label="Enable Protection">
                     Enable Protection?
                   </md-switch>
 
@@ -175,7 +229,7 @@
                         <md-input-container>
                           <input flex type="number" ng-disabled="!isProtEnabled" ng-model="maxCaps" aria-label="maxCaps" aria-controls="maxCaps">
                         </md-input-container>
-                        <md-slider ng-model="maxCaps" ng-disabled="!isProtEnabled" min="0" max="1000" aria-label="maxCaps" aria-controls="maxCaps" class="md-accent" md-range></md-slider>
+                        <md-slider ng-model="maxCaps" ng-disabled="!isProtEnabled" min="0" max="480" aria-label="maxCaps" aria-controls="maxCaps" class="md-accent" md-range></md-slider>
                         </md-slider>
                         <h5>Max caps</h5>
                       </md-slider-container>
@@ -186,9 +240,15 @@
                         <md-input-container>
                           <input flex type="number" ng-disabled="!isProtEnabled" ng-model="maxEmotes" aria-label="maxEmotes" aria-controls="max-emotes">
                         </md-input-container>
-                        <md-slider ng-model="maxEmotes" ng-disabled="!isProtEnabled" min="0" max="100" aria-label="maxEmotes" aria-controls="maxEmotes" class="md-accent" md-range></md-slider>
+                        <md-slider ng-model="maxEmotes" ng-disabled="!isProtEnabled" min="0" max="480" aria-label="maxEmotes" aria-controls="maxEmotes" class="md-accent" md-range></md-slider>
                         <h5>Max emotes</h5>
                       </md-slider-container>
+                    </div>
+
+                    <div flex layout="column" layout-align="center center">
+                      <md-switch ng-model="allowLinks" aria-label="Allow links">
+                        Allow links?
+                      </md-switch>
                     </div>
                   </md-content>
                 </md-card-content>
@@ -196,6 +256,8 @@
 
           </md-content>
         </md-tab>
+
+        <!-- Support tab -->
 
         <md-tab label="Support">
           <md-content class="md-padding">
@@ -257,13 +319,6 @@
                 <md-button type="submit" class="md-raised" ng-style="{backgroundColor: '83BD52'}">Submit to us</md-button>
               </md-input-container>
             </div>
-          </md-content>
-        </md-tab>
-
-
-        <md-tab label="User settings">
-          <md-content class="md-padding">
-            <h1 class="md-display-2">User settings</h1>
           </md-content>
         </md-tab>
       </md-tabs>
