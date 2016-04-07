@@ -25,7 +25,15 @@
 
 <body ng-app="IndexApp" ng-controller="IndexControl" ng-cloak>
   <div ng-cloak>
+
+      <div id="cover" ng-show="!connected">
+          <md-progress-circular id="cont" md-mode="indeterminate" class="md-warn md-hue-3" md-diameter="60"></md-progress-circular>
+          <br />
+          <small id="text">Attempting to reconnect</small>
+      </div>
+
     <md-content>
+
       <md-tabs md-dynamic-height md-border-bottom ng-style="{backgroundColor: '699534'}">
 
         <!-- Dashboard tabs -->
@@ -45,10 +53,10 @@
 
             <h3 class="md-head">Here's a list of your commands, {{ username }}</h3>
 
-            <md-progress-circular class="md-warn md-hue-3" md-diameter="70"></md-progress-circular>
             <pad-bottom amt="25"></pad-bottom>
 
             {% raw %}
+
             <table id="cmdListTable">
               <tr>
                 <th>
@@ -60,21 +68,25 @@
                 </th>
               </tr>
 
-              <tr ng-repeat="command in commandList">
+              <tr ng-repeat="entry in commandList">
                 <td id="cmdT">
                   <md-input-container class="md-block">
-                      <input type="text" placeholder="Command Name" value="{{ command.command }}"/>
+                      <input type="text" placeholder="Command Name" value="{{ entry.command }}" />
                   </md-input-container>
                 </td>
 
                 <td id="respT">
                   <md-input-container class="md-block">
-                    <input type="text" placeholder="Command Response" value="{{ command.response }}"/>
+                    <input type="text" placeholder="Command Response" value="{{ entry.response }}" />
                   </md-input-container>
                 </td>
+
+
               </tr>
             </table>
             {% endraw %}
+            <md-button ng-model="clicked" type="submit" ng-click="clickedUpdateCommand()" class="md-raised" ng-style="{backgroundColor: '83BD52'}">Update</md-button>
+            <md-progress-circular ng-hide="!clicked" md-mode="indeterminate" class="md-warn md-hue-3" md-diameter="70"></md-progress-circular>
           </md-content>
         </md-tab>
 
@@ -132,11 +144,10 @@
                     </div>
                   </div>
 
-                  <md-button ng-disabled="shouldHideChangeText" ng-model="updateMessages" ng-click="pressedUpdateMessages()" class="md-raised" ng-style="{backgroundColor: '83BD52'}">Update</md-button>
+                  <md-button ng-disabled="shouldDisplayLoader" ng-model="shouldDisplayLoader" ng-click="pressedUpdateMessages()" class="md-raised" ng-style="{backgroundColor: '83BD52'}">Update</md-button>
 
-                  <div ng-if="updateMessages">
-                    <h1 class="md-title">We're updating it for you.</h1>
-                    <h1 class="md-title">Please wait...</h1>
+                  <div ng-show="shouldDisplayLoader">
+                    <md-progress-circular md-mode="indeterminate" class="md-warn md-hue-3" md-diameter="70"></md-progress-circular>
                   </div>
 
                   <h6 class="md-display-1">

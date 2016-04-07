@@ -9,6 +9,7 @@ def handle_message(recv):
 @socketio.on('updateAlerts')
 def handle(recv):
     print(recv)
+    socketio.emit('updateComplete')
 
 
 if __name__ == "__main__":

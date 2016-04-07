@@ -1,12 +1,24 @@
 var app = angular.module('IndexApp', ['ngMaterial']);
+
 var isPartnered = true;
 var updateMessages = false;
 var hideMessages = false;
+var spinner = false;
+
 var socket = io.connect('http://' + document.domain + ':' + location.port);
 
-// var socket = require('./../socket/socket.js')
-
 app.controller('IndexControl', ['$scope', function ($scope) {
+
+  socket.on('connect', function() {
+    $scope.connected = true;
+    $scope.$apply();
+  });
+
+  socket.on('disconnect', function() {
+    $scope.connected = false;
+    $scope.$apply();
+  });
+
   $scope.isPartnered = isPartnered;
 
   // Temp setting of these
@@ -30,6 +42,9 @@ app.controller('IndexControl', ['$scope', function ($scope) {
   $scope.pressedUpdateMessages = function() {
     updateMessages = !updateMessages;
     hideMessages = !hideMessages;
+    spinner = !spinner;
+
+    $scope.shouldDisplayLoader = spinner;
 
     $scope.updateMessages = updateMessages;
     $scope.shouldHideChangeText = hideMessages;
@@ -49,10 +64,14 @@ app.controller('IndexControl', ['$scope', function ($scope) {
     };
 
     socket.emit("updateAlerts", packet);
-  }
 
-  $scope.clickedCommands = function() {
+    socket.on('updateComplete', function() {
+      spinner = !spinner;
 
+      $scope.shouldDisplayLoader = spinner;
+
+      console.log('Update for alerts complete');
+    });
   }
 
   $scope.commandList = [
@@ -61,7 +80,7 @@ app.controller('IndexControl', ['$scope', function ($scope) {
     command: "hug",
     response: "%name% hugs %args%",
     calls: 73,
-    creation: "your/mom/.com",
+    creation: "121",
     author: 2547 // Beam user ID
   },
   {
@@ -69,41 +88,18 @@ app.controller('IndexControl', ['$scope', function ($scope) {
     command: "h2ug",
     response: "%n2ame% hugs %args%",
     calls: 723,
-    creation: "your/m2om/.com",
-    author: 252247 // Beam user ID
-  },
-  {
-    id: 3,
-    command: "h2ug",
-    response: "%n2ame% hugs %args%",
-    calls: 723,
-    creation: "your/m2om/.com",
-    author: 252247 // Beam user ID
-  },
-  {
-    id: 4,
-    command: "h2ug",
-    response: "%n2ame% hugs %args%",
-    calls: 723,
-    creation: "your/m2om/.com",
-    author: 252247 // Beam user ID
-  },
-  {
-    id: 5,
-    command: "h2ug",
-    response: "%n2ame% hugs %args%",
-    calls: 723,
-    creation: "your/m2om/.com",
+    creation: "212",
     author: 252247 // Beam user ID
   }
 ]
+
 }]);
 
 app.directive('padBottom', function() {
   return {
     restrict: 'E',
     scope: {
-      amt: '@',
+      amt: '@'
     },
     template: "<div style='padding-bottom: {{ amt }}px;'></div>"
    };
