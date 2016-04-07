@@ -1,14 +1,9 @@
 <html lang="en">
 <head>
-  <!-- Make mobile supported. -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- CSS -->
 
   <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
-
-  <!-- Libs -->
 
   <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
@@ -24,19 +19,14 @@
 </head>
 
 <body ng-app="IndexApp" ng-controller="IndexControl" ng-cloak>
+  <div ng-hide="connected" id="cover">
+    <md-progress-circular md-mode="indeterminate" class="md-hue-8" md-diameter="100px"></md-progress-circular>
+  </div>
+
+
   <div ng-cloak>
-
-      <div id="cover" ng-show="!connected">
-          <md-progress-circular id="cont" md-mode="indeterminate" class="md-warn md-hue-3" md-diameter="60"></md-progress-circular>
-          <br />
-          <small id="text">Attempting to reconnect</small>
-      </div>
-
     <md-content>
-
       <md-tabs md-dynamic-height md-border-bottom ng-style="{backgroundColor: '699534'}">
-
-        <!-- Dashboard tabs -->
 
         <md-tab label="Dashboard">
 
@@ -44,8 +34,6 @@
           <h1 class="md-display-2">Dashboard</h1>
           </md-content>
         </md-tab>
-
-        <!-- Command tabs -->
 
         <md-tab label="Commands" ng-click="clickedCommands()">
           <md-content class="md-padding">
@@ -90,15 +78,11 @@
           </md-content>
         </md-tab>
 
-        <!-- Bot settings tabs -->
-
         <md-tab label="Bot Settings">
           <md-content class="md-padding">
             <h1 class="md-display-2">Bot settings</h1>
               <md-card>
                 <md-card-header>
-                  <!-- Image here -->
-
                   <md-card-header-text>
                     Chat and visual alerts
                   </md-card-header-text>
@@ -158,8 +142,6 @@
 
               <br />
 
-              <!-- Spam prot card -->
-
               <md-card>
                 <md-card-header>
                   <md-card-header-text>
@@ -173,15 +155,9 @@
                     Spam
                   </h6>
 
-                  <!-- Enable / Disable prot -->
-
                   <md-switch ng-model="isProtEnabled" aria-label="Switch 1">
                     Enable Protection?
                   </md-switch>
-
-                  <!-- Sliders -->
-
-                  <!-- Message length -->
 
                   <div flex layout="column" layout-align="center center">
                     <md-content layout="row" layout-padding>
@@ -194,8 +170,6 @@
                         <h5>Max message length</h5>
                       </md-slider-container>
 
-                    <!-- Max caps -->
-
                     <div flex layout="column" layout-align="center center">
                       <md-slider-container flex>
                         <md-input-container>
@@ -207,8 +181,6 @@
                       </md-slider-container>
                     </div>
 
-                    <!-- Max emotes -->
-
                     <div flex layout="column" layout-align="center center">
                       <md-slider-container>
                         <md-input-container>
@@ -218,21 +190,12 @@
                         <h5>Max emotes</h5>
                       </md-slider-container>
                     </div>
-
-                    <!-- End spam protection -->
-
-                    <!-- TODO: Update on the bot's side -->
-
                   </md-content>
                 </md-card-content>
               </md-card>
 
-              <!-- End spam prot card -->
-
           </md-content>
         </md-tab>
-
-        <!-- Support tab -->
 
         <md-tab label="Support">
           <md-content class="md-padding">
@@ -297,7 +260,6 @@
           </md-content>
         </md-tab>
 
-        <!-- User settings tab -->
 
         <md-tab label="User settings">
           <md-content class="md-padding">
