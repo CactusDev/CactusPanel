@@ -61,7 +61,12 @@ target/
 #Ipython Notebook
 .ipynb_checkpoints
 
+<<<<<<< HEAD
 # Our things
 
 config.py
 .webassets-cache/
+=======
+# Our files
+config.py
+>>>>>>> innectic

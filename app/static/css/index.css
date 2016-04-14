@@ -45,14 +45,3 @@
   margin-left: -50px;
   margin-top: -50px;
 }
-
-#rightChat {
-  right: 0;
-  float: right;
-  width: calc(100% - 1000px);
-}
-
-#rightLog {
-  right: 0;
-  float: right;
-}

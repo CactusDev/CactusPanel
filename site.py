@@ -1,7 +1,6 @@
 from app import app, socketio
 from flask.ext.assets import Environment, Bundle
 
-
 assets = Environment(app)
 
 
@@ -36,7 +35,6 @@ if __name__ == "__main__":
     # Don't remove that. It makes EVERYTHING work.
     app.config['ASSETS_DEBUG'] = True
     # If you remove it, I will take your cat. And your dog. And your familiy.
-
 
     # Using socketio.run instead of app.run because we need to support socketio
     # MAKE SURE TO REMOVE PORT AND DEBUG!
