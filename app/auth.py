@@ -9,8 +9,8 @@ class OAuthSignIn(object):
     def __init__(self, provider_name):
         self.provider_name = provider_name
         credentials = current_app.config['OAUTH_CREDENTIALS'][provider_name]
-        self.consumer_id = credentials['id']
-        self.consumer_secret = credentials['secret']
+        self.consumer_id = credentials['CLIENT_ID']
+        self.consumer_secret = credentials['CLIENT_SECRET']
 
     def authorize(self):
         pass
