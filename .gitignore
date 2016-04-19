@@ -68,3 +68,4 @@ config.py
 app.db
 data/
 db_repository/
+packed.js

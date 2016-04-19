@@ -40,5 +40,5 @@ assets.register('js_all', js)
 # Don't remove that. It makes EVERYTHING work.
 app.config['ASSETS_DEBUG'] = True
 # If you remove it, I will take your cat. And your dog. And your familiy.
-
-from app import views, models, socketio
+from app import socket
+from app import views, models
