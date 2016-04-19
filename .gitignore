@@ -61,8 +61,10 @@ target/
 #Ipython Notebook
 .ipynb_checkpoints
 
-# Our files
+# Our things
+
 config.py
+.webassets-cache/
 app.db
 data/
 db_repository/
