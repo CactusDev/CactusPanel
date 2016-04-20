@@ -62,7 +62,6 @@ target/
 .ipynb_checkpoints
 
 # Our things
-
 config.py
 .webassets-cache/
 app.db
