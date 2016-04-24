@@ -29,16 +29,15 @@ js = Bundle('js/libs/angular.min.js',
             'js/libs/angular-messages.min.js',
             'js/libs/socket.io.min.js',
             'js/angular/index.js',
+            'js/angular/directives.js',
             'js/diag.js',
             'js/socket.js',
-            'js/angular/directives.js',
             filters='jsmin',
             output='js/packed.js')
 
 assets.register('js_all', js)
 
-# Don't remove that. It makes EVERYTHING work.
-app.config['ASSETS_DEBUG'] = True
-# If you remove it, I will take your cat. And your dog. And your familiy.
+# Removed it because it wasn't needed, it kept things js bundler from actually
+# bundling stuff
 from app import socket
 from app import views, models

@@ -5,8 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+  <script src="{{ url_for('static', filename='js/libs/jquery.min.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/libs/socket.io.min.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/diag.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/socket.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/libs/angular.min.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/libs/angular-animate.min.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/libs/angular-aria.min.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/libs/angular-material.min.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/libs/angular-messages.min.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/angular/index.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/angular/directives.js') }}" defer></script>
 </head>
-
 <body ng-app="IndexApp" ng-controller="IndexControl" ng-cloak>
 
   <div ng-hide="connected" id="cover">
@@ -223,13 +233,6 @@
         </md-tab>
       </md-tabs>
     </md-content>
-  </div>
-  <div id="assets">
-      {% assets "js_all" %}
-
-      <script src="{{ ASSET_URL }}"></script>
-
-      {% endassets %}
-  </div>
+    </div>
 </body>
 </html>
