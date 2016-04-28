@@ -2,7 +2,6 @@ from app import app, db
 from passlib.context import CryptContext
 from itsdangerous import (TimedJSONWebSignatureSerializer
                           as Serializer, BadSignature, SignatureExpired)
-import json
 from flask.ext.login import UserMixin
 
 pwd_context = CryptContext(
@@ -76,7 +75,8 @@ class Bot(db.Model):
     owner = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
-        return "<{bname} - [{bid}] {owner}>".format(
-                                                bname=self.name,
-                                                bid=self.id,
-                                                owner=self.owner)
+        return "<{name} - [{id}] {owner}>".format(
+            name=self.name,
+            id=self.id,
+            owner=self.owner
+        )

@@ -1,4 +1,4 @@
-from app import socketio
+from . import socketio
 
 
 @socketio.on('connection')

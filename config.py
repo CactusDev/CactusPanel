@@ -3,14 +3,16 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
 SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
+SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-DEBUG = True
+DEBUG = False
 PORT = 8000
-HOST = "127.0.0.1"    # 0.0.0.0 for public
-SECRET_KEY = "CHANGE_THESE"
+
+SECRET_KEY = "SECRET_KEY"
+
 OAUTH_CREDENTIALS = {
-    "Client Name, currently just beam": {
-        "CLIENT_ID": "CHANGE_THESE",
-        "CLIENT_SECRET": "CHANGE_THESE"
+    "CLIENT_NAME": {
+        "CLIENT_ID": "CLIENT_ID",
+        "CLIENT_SECRET": "CLIENT_SECRET"
     }
 }

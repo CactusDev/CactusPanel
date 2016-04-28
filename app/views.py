@@ -1,14 +1,10 @@
-from flask import (render_template, flash, redirect, session, url_for, request,
-                   g, jsonify, abort)
+from flask import render_template, flash, redirect, url_for, g
 from flask.ext.login import (login_user, logout_user, current_user,
                              login_required)
-from flask.ext.socketio import SocketIO, emit
-from app import app, db, lm, socketio
-from .forms import LoginForm, RegisterForm
+from . import app, lm
+from .forms import LoginForm
 from .models import User
-from .auth import *
-import json
-from uuid import uuid4
+from .auth import OAuthSignIn
 
 
 @lm.user_loader

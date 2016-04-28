@@ -1,5 +1,5 @@
 from rauth import OAuth2Service
-from flask import current_app, url_for, request, redirect, session
+from flask import current_app, url_for, request, redirect
 import json
 
 
