@@ -253,7 +253,7 @@
             <input type="text" ng-model="supportDeets" placeholder="More details on the issue" />
           </md-input-container>
 
-          <md-button class="md-raised md-primary" ng-model="submitted">Submit</md-button>
+          <md-button class="md-raised md-primary" ng-model="submitted" ng-click="{{ send_mail( '{[ priority ]}', '{[ supportReason ]}', '{[ support ]}') }}">Submit</md-button>
           </md-content>
         </md-tab>
 
