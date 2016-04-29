@@ -1,11 +1,29 @@
 
-from flask.ext.mail import Message
-from .. import mail
+import smtplib
+from email.mime.text import MIMEText
+from ..instance import config
 
 
-def send_mail(priority, reason, details):
-    msg = Message(priority + " .:. " + reason)
+def send_mail(priority, reason, details, username, contact):
+    body = """
+        Contact: %s
+        Priority: %s
+        Username: %s
 
-    msg.body = details
+        Reason: %s
 
-    mail.send(msg)
+        Details: %s
+    """
+
+    msg = MIMEText(body % tuple([
+        contact, priority, username, reason, details]))
+
+    msg['Subject'] = priority + " .:. " + reason + " .:. " + username
+    msg['From'] = config.MAIL_USERNAME
+    msg['To'] = ", ".join(config.RECIPIENTS)
+
+    session = smtplib.SMTP(config.SMTP_SERVER)
+    session.starttls()
+    session.login(config.MAIL_USERNAME, config.MAIL_PASSWORD)
+    session.sendmail(config.MAIL_USERNAME, config.RECIPIENTS, msg.as_string())
+    session.quit()

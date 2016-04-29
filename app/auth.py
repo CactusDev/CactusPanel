@@ -33,6 +33,7 @@ class OAuthSignIn(object):
 
 
 class BeamSignIn(OAuthSignIn):
+
     def __init__(self):
         super(BeamSignIn, self).__init__("beam")
         self.service = OAuth2Service(

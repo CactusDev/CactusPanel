@@ -65,6 +65,7 @@ class User(UserMixin, db.Model):
 
 
 class Playlist:
+
     def p():
         pass
 

@@ -1,10 +1,11 @@
 from flask import render_template, flash, redirect, url_for, g
 from flask.ext.login import (login_user, logout_user, current_user,
-                             login_required)
+                             login_required, request)
 from . import app, lm
 from .forms import LoginForm
 from .models import User
 from .auth import OAuthSignIn
+from .util.mailer import send_mail
 
 
 @lm.user_loader
@@ -19,7 +20,6 @@ def before_request():
 
 
 @app.route("/")
-@app.route("/index")
 def index():
     """Handles calls to / and /index, return the panel"""
     return render_template(
@@ -28,6 +28,15 @@ def index():
         form=LoginForm(),
         username="Innectic"
     )
+
+
+@app.route("/sendsupport", methods=['GET', 'POST'])
+def send_support():
+    if request.method == "GET":
+        send_mail(request.form['priority'], request.form['reason'], request.form['deatils'], g.user, request.form['contact'])
+        return redirect('/', code=302)
+    else:
+        return "POST is not supported."
 
 
 @app.route("/authorize/<provider>")
@@ -75,14 +84,3 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for("index"))
-
-
-@app.route('/alerts/builder', methods=["GET"])
-# @login_required
-def builder():
-    return render_template('alerts/builder/index.html')
-
-
-@app.route('/alerts/<username>', methods=["GET"])
-def alert(username):
-    pass
