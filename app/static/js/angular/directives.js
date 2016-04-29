@@ -1,4 +1,3 @@
-var app = angular.module('IndexApp');
 
 app.directive('pad', function() {
   return {

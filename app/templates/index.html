@@ -4,7 +4,7 @@
 
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  
+
   {% assets "angular_material_js" %}
     <script type="text/javascript" src="{{ ASSET_URL }}"></script>
   {% endassets %}
@@ -17,6 +17,7 @@
 
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
 </head>
+
 <body ng-app="IndexApp" ng-controller="IndexControl" ng-cloak>
 
   <div ng-hide="connected" id="cover">
@@ -32,9 +33,7 @@
         <md-tab label="Dashboard">
           <md-content class="md-padding">
             <h1 class="md-display-2">Dashboard</h1>
-
-            <h6 class="md-headline">Welcome to your dashboard, {{ username }}.</h6>
-
+            <h6 class="md-headline">Ohai, {{ username }}! Welcome to your dashboard.</h6>
           </md-content>
         </md-tab>
 
@@ -65,7 +64,7 @@
                 <!-- Names of the commands -->
                 <td id="cmdT">
                   <md-input-container class="md-block">
-                      <input type="text" placeholder="Command Name" value="{{ entry.command }}" />
+                      <input type="text" placeholder="Command Name" value="{[ entry.command ]}" />
                   </md-input-container>
                 </td>
 
@@ -73,7 +72,7 @@
 
                 <td id="respT">
                   <md-input-container class="md-block">
-                    <input type="text" placeholder="Command Response" value="{{ entry.response }}" />
+                    <input type="text" placeholder="Command Response" value="{[ entry.response ]}" />
                   </md-input-container>
                 </td>
 
@@ -96,10 +95,6 @@
                     Chat and visual alerts
                   </md-card-header-text>
                 </md-card-header>
-
-                <md-card-title>
-                  <md-card-title-text></md-card-title-text>
-                </md-card-title>
 
                 <md-card-content>
                   <h6 class="md-display-1">
@@ -228,9 +223,40 @@
                   </md-content>
                 </md-card-content>
               </md-card>
-
           </md-content>
         </md-tab>
+
+        <md-tab label="Support">
+          <md-content class="md-padding">
+            <h1 class="md-display-2">Support</h1>
+            <h6 class="md-headline">We're sorry about any issues that you're having.</h6>
+
+            <padding loc="bottom" amt="40"></padding>
+
+            <h6 class="md-headline">How can we help?</h6>
+
+            <padding loc="bottom" amt="20"></padding>
+
+            <md-input-container style="margin-right: 10px;">
+            <label>Priority</label>
+
+            <md-select ng-model="priority">
+              <md-option ng-repeat="priority in priorities" value="{[ priority.name ]}">{[ priority.name ]}</md-option>
+            </md-select>
+          </md-input-container>
+
+          <md-input-container class="md-block">
+            <input type="text" ng-model="supportReason" placeholder="Reason for contacting support" />
+          </md-input-container>
+
+          <md-input-container class="md-block">
+            <input type="text" ng-model="supportDeets" placeholder="More details on the issue" />
+          </md-input-container>
+
+          <md-button class="md-raised md-primary" ng-model="submitted">Submit</md-button>
+          </md-content>
+        </md-tab>
+
       </md-tabs>
     </md-content>
     </div>

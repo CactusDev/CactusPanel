@@ -1,5 +1,10 @@
 var app = angular.module('IndexApp', ['ngMaterial']);
 
+app.config(function ($interpolateProvider) {
+  $interpolateProvider.startSymbol('{[');
+  $interpolateProvider.endSymbol(']}');
+});
+
 var isPartnered = true;
 var updateMessages = false;
 var hideMessages = false;
@@ -73,6 +78,25 @@ app.controller('IndexControl', ['$scope', function ($scope) {
       console.log('Update for alerts complete');
     });
   }
+
+  $scope.priorities = [
+    {
+      id: 1,
+      name: "Low"
+    },
+    {
+      id: 2,
+      name: "Medium"
+    },
+    {
+      id: 3,
+      name: "High"
+    },
+    {
+      id: 4,
+      name: "Urgent"
+    }
+  ]
 
   $scope.commandList = [
   {
