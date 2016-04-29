@@ -94,12 +94,12 @@
 
                             <md-card-content>
                                 <h6 class="md-display-1">
-                    Chat alerts
-                  </h6>
+                                  Chat alerts
+                                </h6>
                                 <div ng-model="changeText" ng-hide="shouldHideChangeText">
                                     <h6 class="md-subhead">
-                      You can use variables. Where %user% is the user that followed
-                    </h6>
+                                      You can use variables. Where %user% is the user that followed
+                                    </h6>
                                     <md-input-container class="md-block">
                                         <input type="text" ng-model="followText" placeholder="What would you like the bot to say when someone follows?" />
                                         <br />
@@ -109,8 +109,8 @@
                                     <div ng-if="isPartnered">
 
                                         <h6 class="md-subhead">
-                        You can use variables. Where %user% is the user that subscribed.
-                      </h6>
+                                          You can use variables. Where %user% is the user that subscribed.
+                                        </h6>
 
                                         <md-input-container class="md-block">
                                             <input type="text" ng-model="subText" placeholder="What would you like the bot to say when someone subscribes?" />
@@ -118,16 +118,16 @@
 
 
                                         <h6 class="md-subhead">
-                        You can use variables. Where %user% is the user that subscribed, and %months% is how many months
-                      </h6>
+                                          You can use variables. Where %user% is the user that subscribed, and %months% is how many months
+                                        </h6>
 
                                         <md-input-container class="md-block">
                                             <input type="text" ng-model="resubText" placeholder="What would you like the bot to say whe someone resubscribes?" />
                                         </md-input-container>
 
                                         <h6 class="md-subhead">
-                        You can use variables. Where %user% is the user that joined.
-                      </h6>
+                                          You can use variables. Where %user% is the user that joined.
+                                        </h6>
 
                                         <md-switch ng-model="announceEnter" aria-label="Enable join message">
                                             Enable join message?
@@ -155,8 +155,8 @@
                                 </div>
 
                                 <h6 class="md-display-1">
-                    Visual alerts
-                  </h6>
+                                  Visual alerts
+                                </h6>
                             </md-card-content>
                         </md-card>
 
@@ -172,8 +172,8 @@
 
                             <md-card-content>
                                 <h6 class="md-display-1">
-                    Spam
-                  </h6>
+                                  Spam
+                                </h6>
 
                                 <md-switch ng-model="isProtEnabled" aria-label="Enable Protection">
                                     Enable Protection?
@@ -238,28 +238,31 @@
                         <padding loc="bottom" amt="20"></padding>
 
                         <form method="POST" action="/sendsupport" autocomplete="off">
-                            <md-input-container style="margin-right: 10px;">
-                                <label>Priority</label>
+                          {{ form.csrf_token }}
+<!-- Well, I was banning Para, and 2Cubed hit my bot with a banana! -->
+                          <md-input-container style="margin-right: 10px;">
+                              <label name="priority">Priority</label>
 
-                                <md-select ng-model="priority">
-                                    <md-option ng-repeat="priority in priorities" name="{[ priority.name ]}" value="{[ priority.name ]}">{[ priority.name ]}</md-option>
-                                </md-select>
-                            </md-input-container>
+                              <md-select ng-model="priority" name="priority">
+                                <md-option ng-repeat="priority in priorities" value="{[ priority.name ]}">{[ priority.name ]}</md-option>
+                              </md-select>
+                          </md-input-container>
 
-                            <md-input-container class="md-block">
-                                <input type="text" name="reason" placeholder="Reason for contacting support" />
-                            </md-input-container>
+                          <md-input-container class="md-block">
+                              <input type="text" name="reason" placeholder="Reason for contacting support" />
+                          </md-input-container>
 
-                            <md-input-container class="md-block">
-                                <input type="text" name="details" placeholder="More details on the issue" />
-                            </md-input-container>
+                          <md-input-container class="md-block">
+                              <input type="text" name="details" placeholder="More details on the issue" />
+                          </md-input-container>
 
-                            <md-input-container class="md-block">
-                                <input type="text" name="contact" placeholder="Where can we contact you?" />
-                            </md-input-container>
-                            <md-button type="submit" class="md-raised md-primary" ng-model="submitted">
-                                Submit
-                            </md-button>
+                          <md-input-container class="md-block">
+                              <input type="text" name="contact" placeholder="Where can we contact you?" />
+                          </md-input-container>
+                          
+                          <md-button type="submit" class="md-raised md-primary" ng-model="submitted">
+                              Submit
+                          </md-button>
                         </form>
                     </md-content>
                 </md-tab>

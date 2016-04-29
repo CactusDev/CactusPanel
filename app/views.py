@@ -32,11 +32,11 @@ def index():
 
 @app.route("/sendsupport", methods=['GET', 'POST'])
 def send_support():
-    if request.method == "GET":
-        send_mail(request.form['priority'], request.form['reason'], request.form['deatils'], g.user, request.form['contact'])
+    if request.method == "POST":
+        send_mail(request.form.get('priority'), request.form.get('reason'), request.form.get('details'), current_user.get_id(), request.form.get('contact'))
         return redirect('/', code=302)
     else:
-        return "POST is not supported."
+        return "GET is not supported."
 
 
 @app.route("/authorize/<provider>")

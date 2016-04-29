@@ -5,7 +5,7 @@ from ..instance import config
 
 
 def send_mail(priority, reason, details, username, contact):
-    body = """
+    body = """\n
         Contact: %s
         Priority: %s
         Username: %s
@@ -16,9 +16,9 @@ def send_mail(priority, reason, details, username, contact):
     """
 
     msg = MIMEText(body % tuple([
-        contact, priority, username, reason, details]))
+        str(contact), str(priority), str(username), str(reason), str(details)]))
 
-    msg['Subject'] = priority + " .:. " + reason + " .:. " + username
+    msg['Subject'] = str(priority) + " .:. " + str(reason) + " .:. " + str(username)
     msg['From'] = config.MAIL_USERNAME
     msg['To'] = ", ".join(config.RECIPIENTS)
 
