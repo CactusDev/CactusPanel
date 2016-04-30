@@ -57,6 +57,7 @@ local_settings.py
 instance/
 .webassets-cache
 gen/
+config.py
 
 # Scrapy stuff:
 .scrapy
