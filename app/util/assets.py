@@ -22,7 +22,7 @@ bundles = {
     "dashboard_js": Bundle(
         "js/libs/jquery.min.js",
         "js/libs/socket.io.min.js",
-        "js/angular/index.js",
+        "js/angular/main.js",
         "js/angular/directives.js",
         "js/socket.js",
         "js/diag.js",
