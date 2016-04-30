@@ -1,7 +1,7 @@
 
-var app = angular.module('IndexApp', ['ngMaterial']);
+var app = angular.module('IndexApp', ['ngMaterial', 'ui.router']);
 
-app.config(function($interpolateProvider) {
+app.config(function($interpolateProvider, $urlRouterProvider) {
     $interpolateProvider.startSymbol('{[');
     $interpolateProvider.endSymbol(']}');
 });
@@ -77,7 +77,7 @@ app.controller('IndexControl', ['$scope', function($scope) {
             console.log('Update for alerts complete');
         });
     }
-    
+
     $scope.commandList = [{
         id: 1,
         command: "hug",

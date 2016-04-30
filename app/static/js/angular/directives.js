@@ -5,6 +5,13 @@ app.directive('pad', function() {
             loc: '@',
             amt: '@'
         },
-        template: "<div style='padding-{{ loc }}: {{ amt }}px;'></div>"
+        template: "<div style='padding-{[ loc ]}: {[ amt ]}px;'></div>"
     };
+});
+
+app.directive('padded', function () {
+  return {
+    restrict: 'A',
+    template: "style='padding-bottom: 25px;'"
+  };
 });

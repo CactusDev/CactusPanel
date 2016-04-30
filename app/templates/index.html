@@ -11,10 +11,12 @@
     <script type="text/javascript" src="{{ ASSET_URL }}"></script>
     {% endassets %}
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.js"></script>
+
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
 </head>
 
-<body ng-app="IndexApp" ng-controller="IndexControl" ng-cloak>
+<body ng-app="IndexApp" ng-controller="IndexControl" ng-cloak ui-view>
 
     <div ng-hide="connected" id="cover">
         <md-progress-circular md-mode="indeterminate" class="md-hue-8" md-diameter="100px"></md-progress-circular>
@@ -23,254 +25,37 @@
     <div ng-cloak>
         <md-content>
             <md-tabs md-dynamic-height md-border-bottom ng-style="{backgroundColor: '699534'}">
+              <md-tab label="Dashboard">
+                <md-content class="md-padding">
+                  <h1 class="md-display-2">Welcome to your dashboard, {{ username }}!</h1>
 
-                <!-- Dashboard tab -->
+                  <!-- Statistics -->
+                  <div id="stats">
 
-                <md-tab label="Dashboard">
-                    <md-content class="md-padding">
-                        <h1 class="md-display-2">Dashboard</h1>
-                        <h6 class="md-headline">Ohai, {{ username }}! Welcome to your dashboard.</h6>
-                    </md-content>
-                </md-tab>
+                    <pad loc="top" amt="25"></pad>
 
-                <!-- Commands tab -->
+                    <h1 class="md-display-5">Statistics</h1>
 
-                <md-tab label="Commands">
-                    <md-content class="md-padding">
-                        <h1 class="md-display-2">Commands</h1>
+                    <h1 class="md-subhead">Coming soon!</h1>
+                  </div>
+                </md-content>
+              </md-tab>
 
-                        <h3 class="md-head">Here's a list of your commands, {{ username }}</h3>
+              <md-tab label="Bot settings">
 
-                        <pad loc="bottom" amt="25"></pad>
+              </md-tab>
 
-                        {% raw %}
+              <md-tab label="Commands">
 
-                        <table id="cmdListTable">
-                            <tr>
-                                <th>
-                                    Command
-                                </th>
+              </md-tab>
 
-                                <th>
-                                    Repsonse
-                                </th>
-                            </tr>
+              <md-tab label="User Settings">
 
-                            <tr ng-repeat="entry in commandList">
-                                <!-- Names of the commands -->
-                                <td id="cmdT">
-                                    <md-input-container class="md-block">
-                                        <input type="text" placeholder="Command Name" value="{[ entry.command ]}" />
-                                    </md-input-container>
-                                </td>
+              </md-tab>
 
-                                <!-- Responses for those commands -->
-
-                                <td id="respT">
-                                    <md-input-container class="md-block">
-                                        <input type="text" placeholder="Command Response" value="{[ entry.response ]}" />
-                                    </md-input-container>
-                                </td>
-
-                            </tr>
-                        </table>
-                        {% endraw %}
-                        <md-button ng-model="clicked" type="submit" ng-click="clickedUpdateCommand()" class="md-raised" ng-style="{backgroundColor: '83BD52'}">Update</md-button>
-                        <md-progress-circular ng-hide="!clicked" md-mode="indeterminate" class="md-warn md-hue-3" md-diameter="70"></md-progress-circular>
-                    </md-content>
-                </md-tab>
-
-                <!-- Bot settings tab -->
-
-                <md-tab label="Bot Settings">
-                    <md-content class="md-padding">
-                        <h1 class="md-display-2">Bot settings</h1>
-                        <md-card>
-                            <md-card-header>
-                                <md-card-header-text>
-                                    Chat and visual alerts
-                                </md-card-header-text>
-                            </md-card-header>
-
-                            <md-card-content>
-                                <h6 class="md-display-1">
-                                  Chat alerts
-                                </h6>
-                                <div ng-model="changeText" ng-hide="shouldHideChangeText">
-                                    <h6 class="md-subhead">
-                                      You can use variables. Where %user% is the user that followed
-                                    </h6>
-                                    <md-input-container class="md-block">
-                                        <input type="text" ng-model="followText" placeholder="What would you like the bot to say when someone follows?" />
-                                        <br />
-                                        <br />
-                                    </md-input-container>
-
-                                    <div ng-if="isPartnered">
-
-                                        <h6 class="md-subhead">
-                                          You can use variables. Where %user% is the user that subscribed.
-                                        </h6>
-
-                                        <md-input-container class="md-block">
-                                            <input type="text" ng-model="subText" placeholder="What would you like the bot to say when someone subscribes?" />
-                                        </md-input-container>
-
-
-                                        <h6 class="md-subhead">
-                                          You can use variables. Where %user% is the user that subscribed, and %months% is how many months
-                                        </h6>
-
-                                        <md-input-container class="md-block">
-                                            <input type="text" ng-model="resubText" placeholder="What would you like the bot to say whe someone resubscribes?" />
-                                        </md-input-container>
-
-                                        <h6 class="md-subhead">
-                                          You can use variables. Where %user% is the user that joined.
-                                        </h6>
-
-                                        <md-switch ng-model="announceEnter" aria-label="Enable join message">
-                                            Enable join message?
-                                        </md-switch>
-
-                                        <md-input-container class="md-block">
-                                            <input type="text" ng-disabled="!announceEnter" ng-model="announceEnterText" placeholder="What to say when a user joins the channel" />
-                                        </md-input-container>
-
-
-                                        <md-switch ng-model="announceLeave" aria-label="Enable leave message">
-                                            Enable leave message?
-                                        </md-switch>
-
-                                        <md-input-container class="md-block">
-                                            <input type="text" ng-disabled="!announceLeave" ng-model="announceLeaveText" placeholder="What to say when a user leaves the channel" />
-                                        </md-input-container>
-                                    </div>
-                                </div>
-
-                                <md-button ng-disabled="shouldDisplayLoader" ng-model="shouldDisplayLoader" ng-click="pressedUpdateMessages()" class="md-raised" ng-style="{backgroundColor: '83BD52'}">Update</md-button>
-
-                                <div ng-show="shouldDisplayLoader">
-                                    <md-progress-circular md-mode="indeterminate" class="md-warn md-hue-3" md-diameter="70"></md-progress-circular>
-                                </div>
-
-                                <h6 class="md-display-1">
-                                  Visual alerts
-                                </h6>
-                            </md-card-content>
-                        </md-card>
-
-                        <br />
-
-                        <md-card>
-                            <md-card-header>
-                                <md-card-header-text>
-                                    Protection
-                                </md-card-header-text>
-
-                            </md-card-header>
-
-                            <md-card-content>
-                                <h6 class="md-display-1">
-                                  Spam
-                                </h6>
-
-                                <md-switch ng-model="isProtEnabled" aria-label="Enable Protection">
-                                    Enable Protection?
-                                </md-switch>
-
-                                <div flex layout="column" layout-align="center center">
-                                    <md-content layout="row" layout-padding>
-                                        <md-slider-container flex>
-                                            <md-input-container>
-                                                <input flex type="number" ng-disabled="!isProtEnabled" ng-model="messageLength" aria-label="messageLength" aria-controls="messageLength">
-                                            </md-input-container>
-
-                                            <md-slider ng-model="messageLength" ng-disabled="!isProtEnabled" min="0" max="480" aria-label="messageLength" aria-controls="messageLength" class="md-accent" md-range></md-slider>
-                                            <h5>Max message length</h5>
-                                        </md-slider-container>
-
-                                        <div flex layout="column" layout-align="center center">
-                                            <md-slider-container flex>
-                                                <md-input-container>
-                                                    <input flex type="number" ng-disabled="!isProtEnabled" ng-model="maxCaps" aria-label="maxCaps" aria-controls="maxCaps">
-                                                </md-input-container>
-                                                <md-slider ng-model="maxCaps" ng-disabled="!isProtEnabled" min="0" max="480" aria-label="maxCaps" aria-controls="maxCaps" class="md-accent" md-range></md-slider>
-                                                </md-slider>
-                                                <h5>Max caps</h5>
-                                            </md-slider-container>
-                                        </div>
-
-                                        <div flex layout="column" layout-align="center center">
-                                            <md-slider-container>
-                                                <md-input-container>
-                                                    <input flex type="number" ng-disabled="!isProtEnabled" ng-model="maxEmotes" aria-label="maxEmotes" aria-controls="max-emotes">
-                                                </md-input-container>
-                                                <md-slider ng-model="maxEmotes" ng-disabled="!isProtEnabled" min="0" max="480" aria-label="maxEmotes" aria-controls="maxEmotes" class="md-accent" md-range></md-slider>
-                                                <h5>Max emotes</h5>
-                                            </md-slider-container>
-                                        </div>
-
-                                        <div flex layout="column" layout-align="center center">
-                                            <md-switch ng-model="allowLinks" aria-label="Allow links">
-                                                Allow links?
-                                            </md-switch>
-                                        </div>
-                                    </md-content>
-                            </md-card-content>
-                        </md-card>
-                    </md-content>
-                </md-tab>
-
-                <md-tab label="Support">
-                    <md-content class="md-padding">
-                        <h1 class="md-display-2">Support</h1>
-                        <h6 class="md-headline">We're sorry about any issues that you're having.</h6>
-
-                        <padding loc="bottom" amt="40"></padding>
-
-                        <div ng-if="submitted == false">
-                            STUFF
-                        </div>
-
-                        <h6 class="md-headline">How can we help?</h6>
-
-                        <padding loc="bottom" amt="20"></padding>
-
-                        <form method="POST" action="/sendsupport" autocomplete="off">
-                          {{ form.csrf_token }}
-
-                          <p>
-                            For now, we need you to include your username in the the support message. We're working on a fix for this. Thanks.
-
-                            - CactusDev
-                          </p>
-
-                          <!-- <md-radio-group name="priority" ng-model="priority" value="{[ priority ]}">
-                            <md-radio-button value="Low">Low</md-radio-button>
-                            <md-radio-button value="Medium">Medium</md-radio-button>
-                            <md-radio-button value="High">High</md-radio-button>
-                          </md-radio-group> -->
-
-                          <md-input-container class="md-block">
-                              <input type="text" name="reason" placeholder="Reason for contacting support" />
-                          </md-input-container>
-
-                          <md-input-container class="md-block">
-                              <input type="text" name="details" placeholder="More details on the issue" />
-                          </md-input-container>
-
-                          <md-input-container class="md-block">
-                              <input type="text" name="contact" placeholder="Where can we contact you?" />
-                          </md-input-container>
-
-                          <md-button type="submit" class="md-raised md-primary" ng-model="submitted">
-                              Submit
-                          </md-button>
-                        </form>
-                    </md-content>
-                </md-tab>
-
+              <md-tab label="Statistics">
+                
+              </md-tab>
             </md-tabs>
         </md-content>
         </div>
