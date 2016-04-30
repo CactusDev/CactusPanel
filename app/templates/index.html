@@ -239,14 +239,18 @@
 
                         <form method="POST" action="/sendsupport" autocomplete="off">
                           {{ form.csrf_token }}
-<!-- Well, I was banning Para, and 2Cubed hit my bot with a banana! -->
-                          <md-input-container style="margin-right: 10px;">
-                              <label name="priority">Priority</label>
 
-                              <md-select ng-model="priority" name="priority">
-                                <md-option ng-repeat="priority in priorities" value="{[ priority.name ]}">{[ priority.name ]}</md-option>
-                              </md-select>
-                          </md-input-container>
+                          <p>
+                            For now, we need you to include your username in the the support message. We're working on a fix for this. Thanks.
+
+                            - CactusDev
+                          </p>
+
+                          <!-- <md-radio-group name="priority" ng-model="priority" value="{[ priority ]}">
+                            <md-radio-button value="Low">Low</md-radio-button>
+                            <md-radio-button value="Medium">Medium</md-radio-button>
+                            <md-radio-button value="High">High</md-radio-button>
+                          </md-radio-group> -->
 
                           <md-input-container class="md-block">
                               <input type="text" name="reason" placeholder="Reason for contacting support" />
@@ -259,7 +263,7 @@
                           <md-input-container class="md-block">
                               <input type="text" name="contact" placeholder="Where can we contact you?" />
                           </md-input-container>
-                          
+
                           <md-button type="submit" class="md-raised md-primary" ng-model="submitted">
                               Submit
                           </md-button>
