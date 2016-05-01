@@ -1,11 +1,13 @@
 from flask import Flask
 
-from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.login import LoginManager
-from flask.ext.socketio import SocketIO
-from flask.ext.wtf.csrf import CsrfProtect
-from flask.ext.mail import Mail
-
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager, request
+from flask_socketio import SocketIO
+from flask_wtf.csrf import CsrfProtect
+from flask_mail import Mail
+from flask_security import (Security, SQLAlchemyUserDatastore,
+                            UserMixin, RoleMixin, login_required,
+                            login_user, logout_user, current_user)
 
 app = Flask(__name__, instance_relative_config=True)
 
@@ -29,6 +31,6 @@ socketio = SocketIO(app)
 
 from . import views, models
 from .util import assets
-from .util.mailer import send_mail
 
-app.jinja_env.globals.update(send_mail=send_mail)
+user_datastore = SQLAlchemyUserDatastore(db, models.User, models.Role)
+security = Security(app, user_datastore)

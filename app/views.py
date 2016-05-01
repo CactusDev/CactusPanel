@@ -1,11 +1,12 @@
 from flask import render_template, flash, redirect, url_for, g
-from flask.ext.login import (login_user, logout_user, current_user,
-                             login_required, request)
+from flask_login import request
+from flask_security import (Security, SQLAlchemyUserDatastore,
+                            UserMixin, RoleMixin, login_required,
+                            login_user, logout_user, current_user)
 from . import app, lm
-from .forms import LoginForm
+from .forms import LoginForm, RegisterForm
 from .models import User
 from .auth import OAuthSignIn
-from .util.mailer import send_mail
 
 
 @lm.user_loader
@@ -20,6 +21,7 @@ def before_request():
 
 
 @app.route("/")
+@login_required
 def index():
     """Handles calls to / and /index, return the panel"""
     return render_template(
@@ -28,15 +30,6 @@ def index():
         form=LoginForm(),
         username="Innectic"
     )
-
-
-@app.route("/sendsupport", methods=['GET', 'POST'])
-def send_support():
-    if request.method == "POST":
-        send_mail("Low", request.form.get('reason'), request.form.get('details'), current_user.get_id(), request.form.get('contact'))
-        return redirect('/', code=302)
-    else:
-        return "GET is not supported."
 
 
 @app.route("/authorize/<provider>")
@@ -69,9 +62,17 @@ def oauth_callback(provider):
         return redirect(url_for("index"))
 
 
+@app.route("/admin", methods=["GET"])
+@login_required
+def admin():
+    return "Foo bar"
+
+
 @app.route("/register")
 def register():
-    return render_template("register.html")
+    return render_template("register.html",
+                           form=RegisterForm(),
+                           title="CactusPanel | Register")
 
 
 @app.route("/login")

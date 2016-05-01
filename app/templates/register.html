@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html>
-
+<head>
+  <title>{{ title }}</title>
+</head>
 <body>
-    <p>
-        Not implemented yet!
-    </p>
+    <div id="register">
+      {{ form.csrf_token }}
+      {{ form.username.label }} {{ form.username(size=32) }}
+      <br />
+      {{ form.email }}
+    </div>
 </body>
 
 </html>

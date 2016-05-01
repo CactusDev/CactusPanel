@@ -2,7 +2,8 @@ from app import app, db
 from passlib.context import CryptContext
 from itsdangerous import (TimedJSONWebSignatureSerializer
                           as Serializer, BadSignature, SignatureExpired)
-from flask.ext.login import UserMixin
+from flask.ext.security import (Security, SQLAlchemyUserDatastore,
+                                UserMixin, RoleMixin)
 
 pwd_context = CryptContext(
     schemes=["bcrypt", "pbkdf2_sha256", "des_crypt"],
@@ -10,12 +11,25 @@ pwd_context = CryptContext(
     all__vary_rounds=0.1
 )
 
+roles_users = db.Table('roles_users',
+                       db.Column('user_id',
+                                 db.Integer(),
+                                 db.ForeignKey('user.id')),
+                       db.Column('role_id',
+                                 db.Integer(),
+                                 db.ForeignKey('role.id'))
+                       )
+
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
-    hashed_password = db.Column(db.String(60))
+    password = db.Column(db.String(60))
+    active = db.Column(db.Boolean())
+    confirmed_at = db.Column(db.DateTime())
+    roles = db.relationship('Role', secondary=roles_users,
+                            backref=db.backref('users', lazy='dynamic'))
     oauth = db.Column(db.Boolean, default=False)
     provider_id = db.Column(db.String(64), index=True, unique=True)
     # Creates a link to all Bot models created backref-ing this User model
@@ -64,10 +78,10 @@ class User(UserMixin, db.Model):
         return '<User {}>'.format(self.username)
 
 
-class Playlist:
-
-    def p():
-        pass
+class Role(db.Model, RoleMixin):
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(80), unique=True)
+    description = db.Column(db.String(255))
 
 
 class Bot(db.Model):
