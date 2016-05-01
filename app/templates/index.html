@@ -47,70 +47,70 @@
                     <md-tab label="Bot settings">
                         <md-content class="md-padding">
                             <h1 class="md-display-5">Bot settings</h1>
-                              <div flex-xs flex-gt-xs="50" layout="column">
+                            <div flex-xs flex-gt-xs="50" layout="column">
                                 <md-card>
-                                  <md-card-title>
-                                    <md-card-title-text>
-                                      <span class="md-headline">Authentication</span>
-                                    </md-card-title-text>
-                                  </md-card-title>
+                                    <md-card-title>
+                                        <md-card-title-text>
+                                            <span class="md-headline">Authentication</span>
+                                        </md-card-title-text>
+                                    </md-card-title>
 
-                                  <pad loc="top" amt="30"></pad>
+                                    <pad loc="top" amt="30"></pad>
 
-                                  <md-button>Join Chat</md-button>
+                                    <md-button>Join Chat</md-button>
 
-                                  <md-input-container md-no-float class="md-block">
-                                      <input ng-model="botUsername" type="text" placeholder="Bot Username">
-                                  </md-input-container>
+                                    <md-input-container md-no-float class="md-block">
+                                        <input ng-model="botUsername" type="text" placeholder="Bot Username">
+                                    </md-input-container>
 
-                                  <md-input-container md-no-float class="md-block">
-                                      <input ng-model="botPassword" type="password" placeholder="Bot Password">
-                                  </md-input-container>
+                                    <md-input-container md-no-float class="md-block">
+                                        <input ng-model="botPassword" type="password" placeholder="Bot Password">
+                                    </md-input-container>
 
-                                  <md-card-actions layout="row" layout-align="end center">
-                                    <md-button>Save</md-button>
-                                  </md-card-actions>
+                                    <md-card-actions layout="row" layout-align="end center">
+                                        <md-button>Save</md-button>
+                                    </md-card-actions>
                                 </md-card>
 
                                 <md-card>
-                                  <md-card-title>
-                                    <md-card-title-text>
-                                      <span class="md-headline">Spam Protection</span>
-                                    </md-card-title-text>
-                                  </md-card-title>
+                                    <md-card-title>
+                                        <md-card-title-text>
+                                            <span class="md-headline">Spam Protection</span>
+                                        </md-card-title-text>
+                                    </md-card-title>
 
-                                  <pad loc="top" amt="30"></pad>
+                                    <pad loc="top" amt="30"></pad>
 
-                                  <md-switch class="md-primary" md-no-ink aria-label="Enable Protection" ng-model="isProtected">
-                                    Enable Protection?
-                                  </md-switch>
+                                    <md-switch class="md-primary" md-no-ink aria-label="Enable Protection" ng-model="isProtected">
+                                        Enable Protection?
+                                    </md-switch>
 
-                                  <pad loc="top" amt="5"></pad>
+                                    <pad loc="top" amt="5"></pad>
 
-                                  <md-switch class="md-primary" md-no-ink aria-label="Enable Protection" ng-model="allowLinks">
-                                    Allow links?
-                                  </md-switch>
+                                    <md-switch class="md-primary" md-no-ink aria-label="Enable Protection" ng-model="allowLinks">
+                                        Allow links?
+                                    </md-switch>
 
-                                  <pad loc="top" amt="30"></pad>
+                                    <pad loc="top" amt="30"></pad>
 
-                                  <h6 class="md-title">Max Caps</h6>
-                                  <md-slider flex class="md-primary" md-discrete ng-model="maxCaps" step="1" min="1" max="480"></md-slider>
+                                    <h6 class="md-title">Max Caps</h6>
+                                    <md-slider flex class="md-primary" md-discrete ng-model="maxCaps" step="1" min="1" max="480"></md-slider>
 
-                                  <pad loc="top" amt="50"></pad>
+                                    <pad loc="top" amt="50"></pad>
 
-                                  <h6 class="md-title">Max Emotes</h6>
-                                  <md-slider flex class="md-primary" md-discrete ng-model="maxEmotes" step="1" min="1" max="480"></md-slider>
+                                    <h6 class="md-title">Max Emotes</h6>
+                                    <md-slider flex class="md-primary" md-discrete ng-model="maxEmotes" step="1" min="1" max="480"></md-slider>
 
-                                  <pad loc="top" amt="50"></pad>
+                                    <pad loc="top" amt="50"></pad>
 
-                                  <h6 class="md-title">Max Message Length</h6>
-                                  <md-slider flex class="md-primary" md-discrete ng-model="maxMessageLength" step="1" min="1" max="480"></md-slider>
+                                    <h6 class="md-title">Max Message Length</h6>
+                                    <md-slider flex class="md-primary" md-discrete ng-model="maxMessageLength" step="1" min="1" max="480"></md-slider>
 
-                                  <pad loc="top" amt="50"></pad>
+                                    <pad loc="top" amt="50"></pad>
 
-                                  <md-card-actions layout="row" layout-align="end center">
-                                    <md-button>Save</md-button>
-                                  </md-card-actions>
+                                    <md-card-actions layout="row" layout-align="end center">
+                                        <md-button>Save</md-button>
+                                    </md-card-actions>
                                 </md-card>
                             </div>
                         </md-content>
@@ -120,7 +120,35 @@
                         <md-content class="md-padding">
                             <h1 class="md-display-5">Commands</h1>
 
-                            <h1 class="md-subhead">Coming soon!</h1>
+                            <h3 class="md-head">Here's a list of your commands,
+                                {{ username }}</h3>
+
+                            <table id="cmdListTable">
+                                <tr>
+                                    <th>
+                                        Command
+                                    </th>
+
+                                    <th>
+                                        Response
+                                    </th>
+                                </tr>
+
+                                <tr ng-repeat="command in commandList">
+                                    <td id="cmdT">
+                                        <md-input-container class="md-block">
+                                            <input type="text" placeholder="Command name" value="{[ command.name ]}"/>
+                                        </md-input-container>
+                                    </td>
+                                </tr>
+
+                                <td id="respT">
+                                    <md-input-container class="md-block">
+                                        <input type="text" placeholder="Command response" value="{[ command.response ]}"/>
+                                    </md-input-container>
+                                </td>
+                            </table>
+
                         </md-content>
                     </md-tab>
 
