@@ -7,10 +7,10 @@ index.config(function($interpolateProvider, $mdThemingProvider) {
 
     $mdThemingProvider.theme('default')
     .primaryPalette('green', {
-      'default': "900"
+      'default': "200"
     })
     .accentPalette('light-blue', {
-      'default': "900"
+      'default': "500"
     });
 });
 
@@ -38,6 +38,7 @@ index.controller('IndexControl', ['$scope', function($scope) {
     }
 
 ];
+
 
     socket.on('connect', function() {
         $scope.connected = true;

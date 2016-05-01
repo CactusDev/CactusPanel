@@ -47,15 +47,72 @@
                     <md-tab label="Bot settings">
                         <md-content class="md-padding">
                             <h1 class="md-display-5">Bot settings</h1>
+                              <div flex-xs flex-gt-xs="50" layout="column">
+                                <md-card>
+                                  <md-card-title>
+                                    <md-card-title-text>
+                                      <span class="md-headline">Authentication</span>
+                                    </md-card-title-text>
+                                  </md-card-title>
 
-                            <md-input-container md-no-float class="md-block">
-                                <input ng-model="botUsername" type="text" placeholder="Bot Username">
-                            </md-input-container>
+                                  <pad loc="top" amt="30"></pad>
 
-                            <md-input-container md-no-float class="md-block">
-                                <input ng-model="botPassword" type="password" placeholder="Bot Password">
-                            </md-input-container>
+                                  <md-button class="md-raised md-primary">Join chat</md-button>
 
+                                  <md-input-container md-no-float class="md-block">
+                                      <input ng-model="botUsername" type="text" placeholder="Bot Username">
+                                  </md-input-container>
+
+                                  <md-input-container md-no-float class="md-block">
+                                      <input ng-model="botPassword" type="password" placeholder="Bot Password">
+                                  </md-input-container>
+
+                                  <md-card-actions layout="row" layout-align="end center">
+                                    <md-button>Save</md-button>
+                                  </md-card-actions>
+                                </md-card>
+
+                                <md-card>
+                                  <md-card-title>
+                                    <md-card-title-text>
+                                      <span class="md-headline">Spam Protection</span>
+                                    </md-card-title-text>
+                                  </md-card-title>
+
+                                  <pad loc="top" amt="30"></pad>
+
+                                  <md-switch class="md-primary" md-no-ink aria-label="Enable Protection" ng-model="isProtected">
+                                    Enable Protection?
+                                  </md-switch>
+
+                                  <pad loc="top" amt="5"></pad>
+
+                                  <md-switch class="md-primary" md-no-ink aria-label="Enable Protection" ng-model="allowLinks">
+                                    Allow links?
+                                  </md-switch>
+
+                                  <pad loc="top" amt="30"></pad>
+
+                                  <h6 class="md-title">Max Caps</h6>
+                                  <md-slider flex class="md-primary" md-discrete ng-model="maxCaps" step="1" min="1" max="480"></md-slider>
+
+                                  <pad loc="top" amt="50"></pad>
+
+                                  <h6 class="md-title">Max Emotes</h6>
+                                  <md-slider flex class="md-primary" md-discrete ng-model="maxEmotes" step="1" min="1" max="480"></md-slider>
+
+                                  <pad loc="top" amt="50"></pad>
+
+                                  <h6 class="md-title">Max Message Length</h6>
+                                  <md-slider flex class="md-primary" md-discrete ng-model="maxMessageLength" step="1" min="1" max="480"></md-slider>
+
+                                  <pad loc="top" amt="50"></pad>
+
+                                  <md-card-actions layout="row" layout-align="end center">
+                                    <md-button>Save</md-button>
+                                  </md-card-actions>
+                                </md-card>
+                            </div>
                         </md-content>
                     </md-tab>
 
@@ -86,15 +143,14 @@
                                                 <h3>Representative: {[ item.user ]}</h3>
                                                 <p>Latest response: {[ item.latest ]}</p>
                                             </div>
-                                            <md-button class="md-secondary">Respond</md-button>
+
+                                            <md-button class="md-secondary" ng-click="">Respond</md-button>
                                             <md-divider ng-if="!$last"></md-divider>
                                         </md-list-item>
                                     </md-list>
                                 </md-content>
                             </div>
                         </md-content>
-
-                        <!-- <h1 class="md-subhead">Coming soon!</h1> -->
                     </md-content>
                 </md-tab>
             </md-tabs>
