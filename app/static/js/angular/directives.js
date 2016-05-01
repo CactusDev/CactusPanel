@@ -9,11 +9,11 @@ index.directive('pad', function() {
     };
 });
 
-index.directive('padded', function () {
-  return {
-    restrict: 'A',
-    template: "style='padding-bottom: 25px;'"
-  };
+index.directive('padded', function() {
+    return {
+        restrict: 'A',
+        template: "style='padding-bottom: 25px;'"
+    };
 });
 
 admin.directive('pad', function() {
@@ -27,9 +27,9 @@ admin.directive('pad', function() {
     };
 });
 
-admin.directive('padded', function () {
-  return {
-    restrict: 'A',
-    template: "style='padding-bottom: 25px;'"
-  };
+admin.directive('padded', function() {
+    return {
+        restrict: 'A',
+        template: "style='padding-bottom: 25px;'"
+    };
 });

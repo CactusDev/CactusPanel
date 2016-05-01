@@ -1,4 +1,3 @@
-
 var index = angular.module('IndexApp', ['ngMaterial']);
 var admin = angular.module('AdminApp', ['ngMaterial']);
 
@@ -27,6 +26,6 @@ index.controller('IndexControl', ['$scope', function($scope) {
     });
 }]);
 
-admin.controller('AdminControl', ['$scope'], function ($scope) {
+admin.controller('AdminControl', ['$scope'], function($scope) {
 
 });

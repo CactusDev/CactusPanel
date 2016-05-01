@@ -1,42 +1,46 @@
 <html lang="en">
 
-<head>
-    <title>CactusBot Control Panel</title>
+    <head>
+        <title>CactusBot Control Panel</title>
 
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1"> {% assets "angular_material_js" %}
-    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
-    {% endassets %} {% assets "angular_material_css" %}
-    <link rel="stylesheet" href="{{ ASSET_URL }}"> {% endassets %} {% assets "dashboard_js" %}
-    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
-    {% endassets %}
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% assets "angular_material_js" %}
+        <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+        {% endassets %}
+        {% assets "angular_material_css" %}
+        <link rel="stylesheet" href="{{ ASSET_URL }}">
+        {% endassets %}
+        {% assets "dashboard_js" %}
+        <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+        {% endassets %}
 
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
-</head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+    </head>
 
-<body ng-app="IndexApp" ng-controller="IndexControl" ng-cloak>
+    <body ng-app="IndexApp" ng-controller="IndexControl" ng-cloak>
 
-    <div ng-hide="connected" id="cover">
-        <md-progress-circular md-mode="indeterminate" class="md-hue-8" md-diameter="100px"></md-progress-circular>
-    </div>
-
-    <div ng-cloak>
-        <md-content>
-            <md-tabs md-stretch-tabs md-dynamic-height md-border-bottom ng-style="{backgroundColor: '699534'}">
-              <md-tab label="Support Tickets">
-                <md-content class="md-padding">
-                  <h1 class="md-display-2">Stuff</h1>
-                </md-content>
-              </md-tab>
-
-              <md-tab label="Statistics">
-                <md-content class="md-padding">
-                  <h1 class="md-display-2">Things</h1>
-                </md-content>
-              </md-tab>
-            </md-tabs>
-        </md-content>
+        <div ng-hide="connected" id="cover">
+            <md-progress-circular md-mode="indeterminate" class="md-hue-8" md-diameter="100px"></md-progress-circular>
         </div>
-</body>
+
+        <div ng-cloak>
+            <md-content>
+                <md-tabs md-stretch-tabs md-dynamic-height md-border-bottom ng-style="{backgroundColor: '699534'}">
+                    <md-tab label="Support Tickets">
+                        <md-content class="md-padding">
+                            <h1 class="md-display-2">Support tickets</h1>
+                        </md-content>
+                    </md-tab>
+
+                    <md-tab label="Statistics">
+                        <md-content class="md-padding">
+                            <h1 class="md-display-2">Statistics</h1>
+                        </md-content>
+                    </md-tab>
+                </md-tabs>
+            </md-content>
+        </div>
+    </body>
 
 </html>
