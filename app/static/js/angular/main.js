@@ -23,6 +23,8 @@ var socket = io.connect('http://' + document.domain + ':' + location.port);
 
 index.controller('IndexControl', ['$scope', function($scope) {
 
+    // isProtected = true;
+
     $scope.stuff = [{
         user: 'Innectic',
         latest: 'LOLOLOL JAVA LOLOLOL'

@@ -48,14 +48,12 @@
                         <md-content class="md-padding">
                             <h1 class="md-display-5">Bot settings</h1>
                             <div flex-xs flex-gt-xs="50" layout="column">
-                                <md-card>
+                                <md-card class="md-padding">
                                     <md-card-title>
                                         <md-card-title-text>
                                             <span class="md-headline">Authentication</span>
                                         </md-card-title-text>
                                     </md-card-title>
-
-                                    <pad loc="top" amt="30"></pad>
 
                                     <md-button>Join Chat</md-button>
 
@@ -79,8 +77,6 @@
                                         </md-card-title-text>
                                     </md-card-title>
 
-                                    <pad loc="top" amt="30"></pad>
-
                                     <md-switch class="md-primary" md-no-ink aria-label="Enable Protection" ng-model="isProtected">
                                         Enable Protection?
                                     </md-switch>
@@ -94,17 +90,17 @@
                                     <pad loc="top" amt="30"></pad>
 
                                     <h6 class="md-title">Max Caps</h6>
-                                    <md-slider flex class="md-primary" md-discrete ng-model="maxCaps" step="1" min="1" max="480"></md-slider>
+                                    <md-slider md-enabled="isProtected" flex class="md-primary" md-discrete ng-model="maxCaps" step="1" min="1" max="480"></md-slider>
 
                                     <pad loc="top" amt="50"></pad>
 
                                     <h6 class="md-title">Max Emotes</h6>
-                                    <md-slider flex class="md-primary" md-discrete ng-model="maxEmotes" step="1" min="1" max="480"></md-slider>
+                                    <md-slider md-enabled="isProtected" flex class="md-primary" md-discrete ng-model="maxEmotes" step="1" min="1" max="480"></md-slider>
 
                                     <pad loc="top" amt="50"></pad>
 
                                     <h6 class="md-title">Max Message Length</h6>
-                                    <md-slider flex class="md-primary" md-discrete ng-model="maxMessageLength" step="1" min="1" max="480"></md-slider>
+                                    <md-slider md-enabled="isProtected" flex class="md-primary" md-discrete ng-model="maxMessageLength" step="1" min="1" max="480"></md-slider>
 
                                     <pad loc="top" amt="50"></pad>
 
