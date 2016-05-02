@@ -28,7 +28,6 @@ csrf_protect = CsrfProtect(app)
 
 socketio = SocketIO(app)
 
-
 from . import views, models
 from .util import assets
 

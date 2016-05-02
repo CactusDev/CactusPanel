@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, g
+from flask import render_template, flash, redirect, url_for, g, jsonify
 from flask_login import request
 from flask_security import (Security, SQLAlchemyUserDatastore,
                             UserMixin, RoleMixin, login_required,
@@ -68,10 +68,17 @@ def admin():
     return "Foo bar"
 
 
-@app.route("/register")
+@app.route("/register", methods=["GET", "POST"])
 def register():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        # Do foo stuff
+        return jsonify({"nothing": "yet"})
+
+    print(form.errors)
+
     return render_template("register.html",
-                           form=RegisterForm(),
+                           form=form,
                            title="CactusPanel | Register")
 
 
