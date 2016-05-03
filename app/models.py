@@ -25,12 +25,10 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
-    password = db.Column(db.String(60))
     active = db.Column(db.Boolean())
     confirmed_at = db.Column(db.DateTime())
     roles = db.relationship('Role', secondary=roles_users,
                             backref=db.backref('users', lazy='dynamic'))
-    oauth = db.Column(db.Boolean, default=False)
     provider_id = db.Column(db.String(64), index=True, unique=True)
     # Creates a link to all Bot models created backref-ing this User model
     bots = db.relationship("Bot", backref="b_owner")

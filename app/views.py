@@ -1,12 +1,13 @@
-from flask import render_template, flash, redirect, url_for, g, jsonify
+from flask import render_template, flash, redirect, url_for, g, jsonify, session
 from flask_login import request
 from flask_security import (Security, SQLAlchemyUserDatastore,
                             UserMixin, RoleMixin, login_required,
                             login_user, logout_user, current_user)
-from . import app, lm
+from . import app, lm, user_datastore
 from .forms import LoginForm, RegisterForm
 from .models import User
 from .auth import OAuthSignIn
+from datetime import datetime
 
 
 @lm.user_loader
@@ -47,7 +48,11 @@ def oauth_callback(provider):
         return redirect(url_for("index"))
 
     oauth = OAuthSignIn.get_provider(provider)
-    user_id, username = oauth.callback()
+    user_id, username, email = oauth.callback()
+    session["user_id"] = user_id
+    session["username"] = username
+    session["email"] = email
+    session["provider"] = provider
 
     if user_id is None:
         flash("OAuth Authentication failed :( Please try again later!")
@@ -56,6 +61,7 @@ def oauth_callback(provider):
                                                            user_id)).first()
     if not user:
         # User does not exist, so redirect to registration page
+        # Include user_id, username, email
         return redirect(url_for("register"))
     else:
         login_user(user, True)
@@ -71,11 +77,24 @@ def admin():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     form = RegisterForm()
-    if form.validate_on_submit():
-        # Do foo stuff
-        return jsonify({"nothing": "yet"})
+    if request.method == "POST":
+        if form.validate_on_submit():
+            # Do foo stuff
+            user = user_datastore.create_user(
+                username=session["username"],
+                email=session["email"],
+                confirmed_at=datetime.now(),
+                roles=["user"],
+                provider_id="{}${}".format(session["provider"], session["user_id"]),
+                active=True     # Mark them as active so they're logged in
+                )
 
-    print(form.errors)
+            login_user(user, True)
+            return redirect(url_for("index"))
+
+        else:
+            print(form.errors)
+            return jsonify({"error": 1, "message": form.errors})
 
     return render_template("register.html",
                            form=form,

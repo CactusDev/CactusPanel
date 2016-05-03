@@ -70,4 +70,4 @@ class BeamSignIn(OAuthSignIn):
         )
         me = oauth_session.get("https://beam.pro/api/v1/users/current").json()
 
-        return me["id"], me["username"]
+        return me["id"], me["username"], me["email"]
