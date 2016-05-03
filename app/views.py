@@ -31,6 +31,16 @@ def index():
     )
 
 
+@app.route("/sendsupport", methods=['GET', 'POST'])
+def send_support():
+    if request.method == "POST":
+        send_mail("Low", request.form.get('reason'), request.form.get(
+            'details'), current_user.get_id(), request.form.get('contact'))
+        return redirect('/', code=302)
+    else:
+        return "GET is not supported."
+
+
 @app.route("/authorize/<provider>")
 def oauth_authorize(provider):
     if not current_user.is_anonymous:
@@ -89,5 +99,5 @@ def stuff():
 
 
 @app.route('/support/respond')
-def respond():
+def things():
     return render_template('directives/RespondToTicket.html')
