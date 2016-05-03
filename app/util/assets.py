@@ -11,6 +11,8 @@ bundles = {
         "js/libs/angular-aria.min.js",
         "js/libs/angular-material.min.js",
         "js/libs/angular-messages.min.js",
+        "js/libs/angular-route.min.js",
+        "js/libs/svg-assets-cache.js",
         filters="jsmin",
         output="gen/angular-material.js"),
 

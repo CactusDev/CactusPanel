@@ -1,5 +1,6 @@
 <md-dialog aria-label="Create Support Ticket" ng-cloak>
-  <form>
+  <form action="" method="post">
+    {% csrf_token %}
     <md-toolbar>
       <div class="md-toolbar-tools">
         <h2>Create Support Ticket</h2>
