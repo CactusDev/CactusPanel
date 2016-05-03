@@ -25,7 +25,7 @@ index.controller('IndexControl', ['$scope', '$mdDialog', '$mdMedia', function($s
 
     $mdDialog.show({
         controller: DialogController,
-        templateUrl: '/create',
+        templateUrl: '/support/create',
         parent: angular.element(document.body),
         targetEvent: ev,
         clickOutsideToClose: true,
@@ -45,12 +45,12 @@ index.controller('IndexControl', ['$scope', '$mdDialog', '$mdMedia', function($s
 
   };
 
-  $scope.showResponse = function(ev) {
+  $scope.showRespond = function(ev) {
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
 
     $mdDialog.show({
         controller: DialogController,
-        templateUrl: '/respond',
+        templateUrl: '/support/respond',
         parent: angular.element(document.body),
         targetEvent: ev,
         clickOutsideToClose: true,

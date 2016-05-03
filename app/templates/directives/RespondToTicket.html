@@ -1,9 +1,8 @@
-<md-dialog aria-label="Respond to a Support Ticket" ng-cloak>
-  <form action="" method="post">
-    {% csrf_token %}
+<md-dialog aria-label="Respond to Support Ticket" ng-cloak>
+  <form>
     <md-toolbar>
       <div class="md-toolbar-tools">
-        <h2>Respond to a Support Ticket</h2>
+        <h2>Respond to Support Ticket</h2>
         <span flex></span>
         <md-button class="md-icon-button" ng-click="cancel()">
           X
@@ -12,13 +11,10 @@
     </md-toolbar>
     <md-dialog-content>
       <div class="md-dialog-content">
-        <h2>Sorry that you're having issues. We gotchu bb.</h2>
-        <pad loc="bottom" amt="30"></pad>
         <md-input-container style="width: 100%;">
           <label>Response</label>
           <input ng-model="response">
         </md-input-container>
-
       </div>
     </md-dialog-content>
     <md-dialog-actions layout="row">
