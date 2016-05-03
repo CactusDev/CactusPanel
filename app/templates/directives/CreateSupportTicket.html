@@ -1,0 +1,38 @@
+<md-dialog aria-label="Create Support Ticket" ng-cloak>
+  <form>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Create Support Ticket</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          X
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <h2>Sorry that you're having issues. We gotchu bb.</h2>
+        <pad loc="bottom" amt="30"></pad>
+        <md-input-container style="width: 100%;">
+          <label>What's the issue that you're having?</label>
+          <input ng-model="issue">
+        </md-input-container>
+
+        <md-input-container style="width: 100%;">
+          <label>More details</label>
+          <input ng-model="details">
+        </md-input-container>
+
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button ng-click="cancel()">
+        Cancel
+      </md-button>
+      <md-button ng-click="send()" style="margin-right:20px;">
+        Send
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

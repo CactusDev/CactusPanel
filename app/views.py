@@ -91,3 +91,8 @@ def logout():
 @app.route('/admin', methods=["GET"])
 def admin():
     return render_template('admin.html')
+
+
+@app.route('/test', methods=["GET"])
+def stuff():
+    return render_template('directives/CreateSupportTicket.html')
