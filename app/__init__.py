@@ -28,10 +28,13 @@ csrf_protect = CsrfProtect(app)
 
 socketio = SocketIO(app)
 
-from . import models
+from .models import User, Role
+
+user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+security = Security(app, user_datastore)
+
+from . import views, models
 from .util import assets
 
-user_datastore = SQLAlchemyUserDatastore(db, models.User, models.Role)
-security = Security(app, user_datastore)
 
 from . import views

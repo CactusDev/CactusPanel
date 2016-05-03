@@ -33,3 +33,5 @@ Tempita==0.5.2
 webassets==0.11.1
 Werkzeug==0.11.9
 WTForms==2.1
+jsmin=2.2.1
+cssmin=0.2.0
