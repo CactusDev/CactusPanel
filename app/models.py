@@ -18,6 +18,7 @@ class User(UserMixin, db.Model):
     hashed_password = db.Column(db.String(60))
     oauth = db.Column(db.Boolean, default=False)
     provider_id = db.Column(db.String(64), index=True, unique=True)
+    role = db.Column(db.String(64))
     # Creates a link to all Bot models created backref-ing this User model
     bots = db.relationship("Bot", backref="b_owner")
 

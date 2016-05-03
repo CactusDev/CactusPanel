@@ -26,7 +26,8 @@ def index():
         "index.html",
         title="CactusPanel",
         form=LoginForm(),
-        username="Innectic"
+        username="Innectic",
+        role="admin"
     )
 
 

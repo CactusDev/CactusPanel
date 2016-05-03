@@ -3,37 +3,12 @@
     padding: 0px;
 }
 
-#tabcont {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    top: 0;
-    left: 0;
+.resp {
+  width: 75%;
 }
 
-#resp {
-    width: calc(100% + 300px);
-    display: block;
-}
-
-#cmd {
-    width: calc(100% - 300px);
-    display: block;
-}
-
-#cmdListTable {
-    width: 100%;
-    display: inline-block;
-}
-
-#cmdT {
-    width: 20%;
-    display: inline-block;
-}
-
-#respT {
-    width: 80%;
-    display: inline-block;
+.cmd {
+  width: 15%;
 }
 
 #cover {

@@ -18,7 +18,8 @@ def send_mail(priority, reason, details, username, contact):
     msg = MIMEText(body % tuple([
         str(contact), str(priority), str(username), str(reason), str(details)]))
 
-    msg['Subject'] = str(priority) + " .:. " + str(reason) + " .:. " + str(username)
+    msg['Subject'] = str(priority) + " .:. " + \
+        str(reason) + " .:. " + str(username)
     msg['From'] = config.MAIL_USERNAME
     msg['To'] = ", ".join(config.RECIPIENTS)
 

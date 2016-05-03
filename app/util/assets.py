@@ -28,7 +28,6 @@ bundles = {
         "js/diag.js",
         filters="jsmin",
         output="gen/dashboard.js")
-
 }
 
 assets.register(bundles)
