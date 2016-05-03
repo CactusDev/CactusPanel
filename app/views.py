@@ -93,6 +93,11 @@ def admin():
     return render_template('admin.html')
 
 
-@app.route('/test', methods=["GET"])
+@app.route('/support/create', methods=["GET"])
 def stuff():
     return render_template('directives/CreateSupportTicket.html')
+
+
+@app.route('/support/respond')
+def things():
+    return render_template('directives/RespondToTicket.html')
