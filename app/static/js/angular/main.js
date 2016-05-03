@@ -20,12 +20,37 @@ index.controller('IndexControl', ['$scope', '$mdDialog', '$mdMedia', function($s
   $scope.status = '  ';
   $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
 
-  $scope.showAdvanced = function(ev) {
+  $scope.showCreate = function(ev) {
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
 
     $mdDialog.show({
         controller: DialogController,
-        templateUrl: '/test',
+        templateUrl: '/create',
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        clickOutsideToClose: true,
+        fullscreen: useFullScreen
+      })
+      .then(function(answer) {
+        $scope.status = 'You said the information was "' + answer + '".';
+      }, function() {
+        $scope.status = 'You cancelled the dialog.';
+      });
+
+    $scope.$watch(function() {
+      return $mdMedia('xs') || $mdMedia('sm');
+    }, function(wantsFullScreen) {
+      $scope.customFullscreen = (wantsFullScreen === true);
+    });
+
+  };
+
+  $scope.showResponse = function(ev) {
+    var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
+
+    $mdDialog.show({
+        controller: DialogController,
+        templateUrl: '/respond',
         parent: angular.element(document.body),
         targetEvent: ev,
         clickOutsideToClose: true,
