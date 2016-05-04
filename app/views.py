@@ -93,11 +93,21 @@ def admin():
     return render_template('admin.html')
 
 
-@app.route('/support/create', methods=["GET"])
-def stuff():
-    return render_template('directives/CreateSupportTicket.html')
+@app.route('/support/create', methods=["GET", "POST"])
+def create_ticket():
+    if request.method == "GET":
+        return render_template('directives/CreateSupportTicket.html')
+    elif request.method == "POST":
+        return "Things"  # TODO
+    else:
+        return "Method not supported."
 
 
-@app.route('/support/respond')
-def things():
-    return render_template('directives/RespondToTicket.html')
+@app.route('/support/respond', methods=["GET", "POST"])
+def ticket_response():
+    if request.method == "GET":
+        return render_template('directives/RespondToTicket.html')
+    elif request.method == "POST":
+        return "Stuff"  # TODO
+    else:
+        return "Method not supported."

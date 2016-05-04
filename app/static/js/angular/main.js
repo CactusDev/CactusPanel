@@ -112,4 +112,8 @@ function DialogController($scope, $mdDialog) {
   $scope.answer = function(answer) {
     $mdDialog.hide(answer);
   };
+
+  $scope.send = function() {
+
+  }
 }
