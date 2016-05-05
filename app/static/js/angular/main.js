@@ -23,11 +23,6 @@ index.controller('IndexControl', ['$scope', '$mdDialog', '$mdMedia', function($s
   $scope.hasEntered = false;
   $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
 
-  $scope.canConfirm = function() {
-    // TODO
-  }
-
-
   $scope.showCreate = function(ev) {
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
 

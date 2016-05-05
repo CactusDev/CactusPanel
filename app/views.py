@@ -5,7 +5,6 @@ from . import app, lm
 from .forms import LoginForm
 from .models import User
 from .auth import OAuthSignIn
-from .util.mailer import send_mail
 
 
 @lm.user_loader
@@ -99,6 +98,9 @@ def create_ticket():
     if request.method == "GET":
         return render_template('directives/CreateSupportTicket.html')
     elif request.method == "POST":
+
+        # Support ticket stuff goes here
+
         session['supported'] = True
         return redirect(url_for("index", supported=True), code=302)
     else:
