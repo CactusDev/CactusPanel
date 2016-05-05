@@ -120,6 +120,11 @@ def confirmed():
     return render_template('directives/GotSupported.html')
 
 
+@app.route('/c-emoji', methods=["GET"])
+def emoji():
+    return render_template('directives/c-emoji.html')
+
+
 def got_supported():
     if session["supported"] is True:
         return True
@@ -129,3 +134,7 @@ def got_supported():
 
 def reset_supported():
     session["supported"] = None
+
+
+def do_redirect(where):
+    return redirect(where)

@@ -1,0 +1,13 @@
+<div style="padding-top: 20px;">
+  <div ng-if="emoji == 'cactus'">
+    <img style="width: {[ x ]}; height: {[ y ]}; display: block; margin-left: auto; margin-right: auto;" src="{{ url_for('static', filename='assets/images/cactus.png') }}" />
+  </div>
+
+  <div ng-if="emoji == 'heart'">
+    <img style="width: {[ x ]}; height: {[ y ]}; display: block; margin-left: auto; margin-right: auto;" src="{{ url_for('static', filename='assets/images/green_heart.png') }}" />
+  </div>
+
+  <div ng-if="emoji == 'cone'">
+    <img style="width: {[ x ]}; height: {[ y ]}; display: block; margin-left: auto; margin-right: auto;" src="{{ url_for('static', filename='assets/images/snow_cone.png') }}" />
+  </div>
+</div>

@@ -17,6 +17,18 @@ index.directive("createSupportTicket", function() {
   };
 });
 
+index.directive("cEmoji", function() {
+  return {
+    restrict: 'E',
+    scope: {
+      emoji: '@',
+      x: '@',
+      y: '@'
+    },
+    templateUrl: "/c-emoji"
+  }
+});
+
 admin.directive('pad', function() {
   return {
     restrict: 'E',
