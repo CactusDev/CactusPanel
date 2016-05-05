@@ -9,14 +9,6 @@ index.directive('pad', function() {
   };
 });
 
-index.directive("createSupportTicket", function() {
-  return {
-    restrict: 'E',
-    scope: {},
-    templateUrl: "{{ url_for('static', filename='js/angular/directives/CreateSupportTicket.html' }}"
-  };
-});
-
 index.directive("cEmoji", function() {
   return {
     restrict: 'E',

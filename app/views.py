@@ -99,7 +99,8 @@ def create_ticket():
     if request.method == "GET":
         return render_template('directives/CreateSupportTicket.html')
     elif request.method == "POST":
-        return "Things"  # TODO
+        session['supported'] = True
+        return redirect(url_for("index", supported=True), code=302)
     else:
         return "Method not supported."
 
@@ -109,8 +110,7 @@ def ticket_response():
     if request.method == "GET":
         return render_template('directives/RespondToTicket.html')
     elif request.method == "POST":
-        session['supported'] = True
-        return redirect(url_for("index", supported=True), code=302)
+        return "THINGS! #TODO"
     else:
         return "Method not supported."
 

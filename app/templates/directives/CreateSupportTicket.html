@@ -1,5 +1,5 @@
 <md-dialog aria-label="Create Support Ticket" ng-cloak>
-  <form>
+  <form action="/support/create" method="post">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
     <md-toolbar>
       <div class="md-toolbar-tools">
@@ -14,15 +14,16 @@
       <div class="md-dialog-content">
         <h2>Sorry that you're having issues. We gotchu bb.</h2>
         <pad loc="bottom" amt="30"></pad>
-        <md-input-container aria-label="What's the issue that you're having?" style="width: 100%;">
+        <md-input-container ng-change="canConfirm()" ng-model="issue" aria-label="What's the issue that you're having?" style="width: 100%;">
           <label>What's the issue that you're having?</label>
-          <input ng-model="issue">
+          <input>
         </md-input-container>
 
-        <md-input-container aria-label="More details" style="width: 100%;">
+        <md-input-container ng-change="canConfirm()" ng-model="details" aria-label="More details" style="width: 100%;">
           <label>More details</label>
-          <input ng-model="details">
+          <input>
         </md-input-container>
+        {[ hasEntered ]}
 
       </div>
     </md-dialog-content>
@@ -31,7 +32,9 @@
       <md-button ng-click="cancel()">
         Cancel
       </md-button>
-      <md-button ng-click="send()" style="margin-right:20px;">
+
+
+      <md-button ng-disabled="!hasEntered" ng-click="send()" type="submit" style="margin-right:20px;">
         Send
       </md-button>
     </md-dialog-actions>

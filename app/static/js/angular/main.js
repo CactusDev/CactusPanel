@@ -20,7 +20,13 @@ index.config(function($interpolateProvider, $mdThemingProvider) {
 index.controller('IndexControl', ['$scope', '$mdDialog', '$mdMedia', function($scope, $mdDialog, $mdMedia) {
   $scope.status = '  ';
   $scope.didClose = false;
+  $scope.hasEntered = false;
   $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
+
+  $scope.canConfirm = function() {
+    // TODO
+  }
+
 
   $scope.showCreate = function(ev) {
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
