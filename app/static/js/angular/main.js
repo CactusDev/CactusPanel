@@ -17,7 +17,7 @@ index.config(function($interpolateProvider, $mdThemingProvider) {
     });
 });
 
-index.controller('IndexControl', ['$scope', '$mdDialog', '$mdMedia', function($scope, $mdDialog, $mdMedia) {
+index.controller('IndexControl', ['$scope', '$mdDialog', '$mdMedia', function($scope, $mdDialog, $mdMedia, $timeout) {
   $scope.status = '  ';
   $scope.didClose = false;
   $scope.hasEntered = false;

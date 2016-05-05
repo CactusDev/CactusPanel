@@ -26,19 +26,9 @@ def index():
         title="CactusPanel",
         form=LoginForm(),
         username="Innectic",
-        role="admin",
+        role="pro",
         supported=False
     )
-
-
-@app.route("/sendsupport", methods=['GET', 'POST'])
-def send_support():
-    if request.method == "POST":
-        send_mail("Low", request.form.get('reason'), request.form.get(
-            'details'), current_user.get_id(), request.form.get('contact'))
-        return redirect('/', code=302)
-    else:
-        return "GET is not supported."
 
 
 @app.route("/authorize/<provider>")

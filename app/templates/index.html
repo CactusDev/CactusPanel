@@ -66,7 +66,7 @@
                 <!-- TODO: Add `ng-disabled` onto the button and disable if the bot is already in chat -->
                 <!-- TODO: Add a force rejoin -->
 
-                <md-button>Join Chat</md-button>
+                <md-button>{{ bot_in_channel(username) }}</md-button>
 
                 <md-input-container md-no-float class="md-block">
                   <input ng-model="botUsername" type="text" placeholder="Bot Username">
@@ -172,6 +172,7 @@
                         <h3>Representative: {[ item.user ]}</h3>
                         <p>Latest response: {[ item.latest ]}</p>
                       </div>
+
                       <md-button class="md-secondary" ng-click="showRespond($event)">Respond</md-button>
 
                       <md-divider ng-if="!$last"></md-divider>
