@@ -32,3 +32,5 @@ from .util import assets
 from .util.mailer import send_mail
 
 app.jinja_env.globals.update(send_mail=send_mail)
+app.jinja_env.globals.update(is_supported=views.got_supported)
+app.jinja_env.globals.update(reset_supported=views.reset_supported)

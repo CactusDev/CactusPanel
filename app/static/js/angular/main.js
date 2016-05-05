@@ -70,6 +70,31 @@ index.controller('IndexControl', ['$scope', '$mdDialog', '$mdMedia', function($s
 
   };
 
+  $scope.showConfirmed = function(ev) {
+    var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
+
+    $mdDialog.show({
+        controller: DialogController,
+        templateUrl: '/support/confirmed',
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        clickOutsideToClose: true,
+        fullscreen: useFullScreen
+      })
+      .then(function(answer) {
+        $scope.status = 'You said the information was "' + answer + '".';
+      }, function() {
+        $scope.status = 'You cancelled the dialog.';
+      });
+
+    $scope.$watch(function() {
+      return $mdMedia('xs') || $mdMedia('sm');
+    }, function(wantsFullScreen) {
+      $scope.customFullscreen = (wantsFullScreen === true);
+    });
+
+  };
+
   $scope.stuff = [{
     user: 'Innectic',
     latest: 'LOLOLOL JAVA LOLOLOL'
@@ -112,8 +137,4 @@ function DialogController($scope, $mdDialog) {
   $scope.answer = function(answer) {
     $mdDialog.hide(answer);
   };
-
-  $scope.send = function() {
-
-  }
 }

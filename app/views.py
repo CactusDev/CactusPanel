@@ -1,6 +1,6 @@
 from flask import render_template, flash, redirect, url_for, g
 from flask.ext.login import (login_user, logout_user, current_user,
-                             login_required, request)
+                             login_required, request, session)
 from . import app, lm
 from .forms import LoginForm
 from .models import User
@@ -27,7 +27,8 @@ def index():
         title="CactusPanel",
         form=LoginForm(),
         username="Innectic",
-        role="admin"
+        role="admin",
+        supported=False
     )
 
 
@@ -108,6 +109,23 @@ def ticket_response():
     if request.method == "GET":
         return render_template('directives/RespondToTicket.html')
     elif request.method == "POST":
-        return "Stuff"  # TODO
+        session['supported'] = True
+        return redirect(url_for("index", supported=True), code=302)
     else:
         return "Method not supported."
+
+
+@app.route('/support/confirmed', methods=["GET"])
+def confirmed():
+    return render_template('directives/GotSupported.html')
+
+
+def got_supported():
+    if session["supported"] is True:
+        return True
+    else:
+        return False
+
+
+def reset_supported():
+    session["supported"] = None

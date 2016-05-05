@@ -1,5 +1,6 @@
 <md-dialog aria-label="Create Support Ticket" ng-cloak>
   <form>
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
     <md-toolbar>
       <div class="md-toolbar-tools">
         <h2>Create Support Ticket</h2>
@@ -13,12 +14,12 @@
       <div class="md-dialog-content">
         <h2>Sorry that you're having issues. We gotchu bb.</h2>
         <pad loc="bottom" amt="30"></pad>
-        <md-input-container style="width: 100%;">
+        <md-input-container aria-label="What's the issue that you're having?" style="width: 100%;">
           <label>What's the issue that you're having?</label>
           <input ng-model="issue">
         </md-input-container>
 
-        <md-input-container style="width: 100%;">
+        <md-input-container aria-label="More details" style="width: 100%;">
           <label>More details</label>
           <input ng-model="details">
         </md-input-container>
