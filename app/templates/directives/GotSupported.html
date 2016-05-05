@@ -1,9 +1,9 @@
-<md-dialog aria-label="Respond to Support Ticket" ng-cloak>
-  <form action="/support/respond" method="post">
+<md-dialog aria-label="Thanks for contacting support." ng-cloak>
+  <form>
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
     <md-toolbar>
       <div class="md-toolbar-tools">
-        <h2>Respond to Support Ticket</h2>
+        <h2>Thanks for contacting support.</h2>
         <span flex></span>
         <md-button class="md-icon-button" ng-click="cancel()">
           X
@@ -12,19 +12,14 @@
     </md-toolbar>
     <md-dialog-content>
       <div class="md-dialog-content">
-        <md-input-container aria-label="Repsonse" style="width: 100%;">
-          <label>Response</label>
-          <input name="response" ng-model="response">
-        </md-input-container>
+        <h4>We'll hopefully get back to you within 48 hours.</h4>
+        <c-emoji x="64px" y="64px" emoji="cactus"></c-emoji>
       </div>
     </md-dialog-content>
     <md-dialog-actions layout="row">
       <span flex></span>
       <md-button ng-click="cancel()">
-        Cancel
-      </md-button>
-      <md-button type="submit" style="margin-right:20px;">
-        Send
+        Cool!
       </md-button>
     </md-dialog-actions>
   </form>

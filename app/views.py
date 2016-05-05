@@ -1,11 +1,10 @@
 from flask import render_template, flash, redirect, url_for, g
 from flask.ext.login import (login_user, logout_user, current_user,
-                             login_required, request)
+                             login_required, request, session)
 from . import app, lm
 from .forms import LoginForm
 from .models import User
 from .auth import OAuthSignIn
-from .util.mailer import send_mail
 
 
 @lm.user_loader
@@ -27,7 +26,8 @@ def index():
         title="CactusPanel",
         form=LoginForm(),
         username="Innectic",
-        role="admin"
+        role="admin",
+        supported=False
     )
 
 
@@ -93,11 +93,50 @@ def admin():
     return render_template('admin.html')
 
 
-@app.route('/support/create', methods=["GET"])
-def stuff():
-    return render_template('directives/CreateSupportTicket.html')
+@app.route('/support/create', methods=["GET", "POST"])
+def create_ticket():
+    if request.method == "GET":
+        return render_template('directives/CreateSupportTicket.html')
+    elif request.method == "POST":
+
+        # Support ticket stuff goes here
+
+        session['supported'] = True
+        return redirect(url_for("index", supported=True), code=302)
+    else:
+        return "Method not supported."
 
 
-@app.route('/support/respond')
-def things():
-    return render_template('directives/RespondToTicket.html')
+@app.route('/support/respond', methods=["GET", "POST"])
+def ticket_response():
+    if request.method == "GET":
+        return render_template('directives/RespondToTicket.html')
+    elif request.method == "POST":
+        return "THINGS! #TODO"
+    else:
+        return "Method not supported."
+
+
+@app.route('/support/confirmed', methods=["GET"])
+def confirmed():
+    return render_template('directives/GotSupported.html')
+
+
+@app.route('/c-emoji', methods=["GET"])
+def emoji():
+    return render_template('directives/c-emoji.html')
+
+
+def got_supported():
+    if session["supported"] is True:
+        return True
+    else:
+        return False
+
+
+def reset_supported():
+    session["supported"] = None
+
+
+def do_redirect(where):
+    return redirect(where)

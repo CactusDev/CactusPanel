@@ -9,12 +9,16 @@ index.directive('pad', function() {
   };
 });
 
-index.directive("createSupportTicket", function() {
+index.directive("cEmoji", function() {
   return {
     restrict: 'E',
-    scope: {},
-    templateUrl: "{{ url_for('static', filename='js/angular/directives/CreateSupportTicket.html' }}"
-  };
+    scope: {
+      emoji: '@',
+      x: '@',
+      y: '@'
+    },
+    templateUrl: "/c-emoji"
+  }
 });
 
 admin.directive('pad', function() {

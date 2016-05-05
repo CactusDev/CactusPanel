@@ -35,13 +35,12 @@
     <div ng-app="IndexApp" ng-controller="IndexControl" ng-cloak>
       <md-content>
         <md-tabs md-dynamic-height md-border-bottom ng-style="{backgroundColor: '699534'}">
-
+          {% if is_supported() %} {{ reset_supported() }} {[ showConfirmed($event) ]} {% endif %}
           <!-- Dashboard tab -->
 
           <md-tab label="Dashboard">
             <md-content class="md-padding">
-              <h1 class="md-display-2">Welcome to your dashboard,
-{{ username }}!</h1>
+              <h1 class="md-display-2">Welcome to your dashboard, {{ username }}!</h1>
 
               <!-- Statistics -->
               <div id="stats">
@@ -61,78 +60,61 @@
             <md-content class="md-padding">
               <h1 class="md-display-5">Bot settings</h1>
               <div flex-xs flex-gt-xs="50" layout="column">
-                <md-card class="md-padding">
-                  <md-card-title>
-                    <md-card-title-text>
-                      <span class="md-headline">Authentication</span>
-                    </md-card-title-text>
-                  </md-card-title>
+                <span class="md-headline">Authentication</span>
 
-                  <!-- TODO: Make the join chat button have the bot join the chat -->
-                  <!-- TODO: Add `ng-disabled` onto the button and disable if the bot is already in chat -->
-                  <!-- TODO: Add a force rejoin -->
+                <!-- TODO: Make the join chat button have the bot join the chat -->
+                <!-- TODO: Add `ng-disabled` onto the button and disable if the bot is already in chat -->
+                <!-- TODO: Add a force rejoin -->
 
-                  <md-button>Join Chat</md-button>
+                <md-button>Join Chat</md-button>
 
-                  <md-input-container md-no-float class="md-block">
-                    <input ng-model="botUsername" type="text" placeholder="Bot Username">
-                  </md-input-container>
+                <md-input-container md-no-float class="md-block">
+                  <input ng-model="botUsername" type="text" placeholder="Bot Username">
+                </md-input-container>
 
-                  <md-input-container md-no-float class="md-block">
-                    <input ng-model="botPassword" type="password" placeholder="Bot Password">
-                  </md-input-container>
+                <md-input-container md-no-float class="md-block">
+                  <input ng-model="botPassword" type="password" placeholder="Bot Password">
+                </md-input-container>
+                <!-- TODO: Make the save button do things -->
 
-                  <md-card-actions layout="row" layout-align="end center">
-                    <!-- TODO: Make the save button do things -->
+                <md-button>Save</md-button>
 
-                    <md-button>Save</md-button>
-                  </md-card-actions>
-                </md-card>
+                <span class="md-headline">Spam Protection</span>
 
-                <md-card>
-                  <md-card-title>
-                    <md-card-title-text>
-                      <span class="md-headline">Spam Protection</span>
-                    </md-card-title-text>
-                  </md-card-title>
+                <!-- Do you want spam protection? Because I'm pretty sure this is how you get spam protection. -->
 
-                  <!-- Do you want spam protection? Because I'm pretty sure this is how you get spam protection. -->
+                <md-switch class="md-primary" md-no-ink aria-label="Enable Protection" ng-model="isProtected">
+                  Enable Protection?
+                </md-switch>
 
-                  <md-switch class="md-primary" md-no-ink aria-label="Enable Protection" ng-model="isProtected">
-                    Enable Protection?
-                  </md-switch>
+                <pad loc="top" amt="5"></pad>
 
-                  <pad loc="top" amt="5"></pad>
+                <!-- Do you want links? Because I'm - That joke is old now. -->
 
-                  <!-- Do you want links? Because I'm - That joke is old now. -->
+                <md-switch class="md-primary" md-no-ink aria-label="Enable Protection" ng-model="allowLinks">
+                  Allow links?
+                </md-switch>
 
-                  <md-switch class="md-primary" md-no-ink aria-label="Enable Protection" ng-model="allowLinks">
-                    Allow links?
-                  </md-switch>
+                <pad loc="top" amt="30"></pad>
 
-                  <pad loc="top" amt="30"></pad>
+                <h6 class="md-title">Max Caps</h6>
+                <md-slider ng-disabled="!isProtected" aria-label="Max Caps Slider" flex class="md-primary" md-discrete ng-model="maxCaps" step="1" min="1" max="480"></md-slider>
 
-                  <h6 class="md-title">Max Caps</h6>
-                  <md-slider md-enabled="isProtected" aria-label="Max Caps Slider" flex class="md-primary" md-discrete ng-model="maxCaps" step="1" min="1" max="480"></md-slider>
+                <pad loc="top" amt="50"></pad>
 
-                  <pad loc="top" amt="50"></pad>
+                <h6 class="md-title">Max Emotes</h6>
+                <md-slider ng-disabled="!isProtected" aria-label="Max emotes slider" flex class="md-primary" md-discrete ng-model="maxEmotes" step="1" min="1" max="480"></md-slider>
 
-                  <h6 class="md-title">Max Emotes</h6>
-                  <md-slider md-enabled="isProtected" aria-label="Max emotes slider" flex class="md-primary" md-discrete ng-model="maxEmotes" step="1" min="1" max="480"></md-slider>
+                <pad loc="top" amt="50"></pad>
 
-                  <pad loc="top" amt="50"></pad>
+                <h6 class="md-title">Max Message Length</h6>
+                <md-slider ng-disabled="!isProtected" aria-label="Max message length" flex class="md-primary" md-discrete ng-model="maxMessageLength" step="1" min="1" max="480"></md-slider>
 
-                  <h6 class="md-title">Max Message Length</h6>
-                  <md-slider md-enabled="isProtected" aria-label="Max message length" flex class="md-primary" md-discrete ng-model="maxMessageLength" step="1" min="1" max="480"></md-slider>
+                <pad loc="top" amt="50"></pad>
 
-                  <pad loc="top" amt="50"></pad>
+                <!-- TODO: Make the save button work  -->
 
-                  <md-card-actions layout="row" layout-align="end center">
-                    <!-- TODO: Make the save button work  -->
-
-                    <md-button>Save</md-button>
-                  </md-card-actions>
-                </md-card>
+                <md-button>Save</md-button>
               </div>
             </md-content>
           </md-tab>
@@ -183,9 +165,10 @@
               <div ng-cloak>
                 <md-content>
                   <md-button class="md-raised md-primary" ng-enabled="canSendSupportTicket" ng-click="showCreate($event)">Create Support Ticket</md-button>
+
                   <md-list>
-                    <md-list-item class="md-3-line" ng-repeat="item in stuff">
-                      <div class="md-list-item-text">
+                    <md-list-item class="md-3-line " ng-repeat="item in stuff ">
+                      <div class="md-list-item-text ">
                         <h3>Representative: {[ item.user ]}</h3>
                         <p>Latest response: {[ item.latest ]}</p>
                       </div>
