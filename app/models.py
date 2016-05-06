@@ -24,6 +24,7 @@ roles_users = db.Table('roles_users',
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
+    password = db.Column(db.String(32))
     email = db.Column(db.String(120), index=True, unique=True)
     active = db.Column(db.Boolean())
     confirmed_at = db.Column(db.DateTime())

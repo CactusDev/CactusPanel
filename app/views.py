@@ -1,9 +1,10 @@
-from flask import render_template, flash, redirect, url_for, g, jsonify, session
+from flask import (render_template, flash, redirect, url_for, g, jsonify,
+                   session)
 from flask_login import request
 from flask_security import (Security, SQLAlchemyUserDatastore,
                             UserMixin, RoleMixin, login_required,
                             login_user, logout_user, current_user)
-from . import app, lm, user_datastore
+from . import app, lm, user_datastore, security
 from .forms import LoginForm, RegisterForm
 from .models import User
 from .auth import OAuthSignIn
@@ -80,17 +81,34 @@ def register():
     if request.method == "POST":
         if form.validate_on_submit():
             # Do foo stuff
+            user_role = user_datastore.find_or_create_role("user")
             user = user_datastore.create_user(
                 username=session["username"],
+                password="",  # None, because it's required for
+                              # Flask-Login's auth key setup
                 email=session["email"],
                 confirmed_at=datetime.now(),
-                roles=["user"],
-                provider_id="{}${}".format(session["provider"], session["user_id"]),
+                roles=[user_role, ],
+                provider_id="{pid}${uid}".format(pid=session["provider"],
+                                                 uid=session["user_id"]),
                 active=True     # Mark them as active so they're logged in
                 )
 
-            login_user(user, True)
-            return redirect(url_for("index"))
+            user = User.query.filter_by(
+                provider_id="{}${}".format(session["provider"],
+                                           session["user_id"]
+                                           )).first()
+
+            if user is not None:
+                login_user(user, True)
+
+                return jsonify({
+                    "error": 0,
+                    "message": "Registration success!",
+                    "redirect": url_for("index")
+                    })
+            else:
+                return jsonify({"error": 2, "message": "User creation failed"})
 
         else:
             print(form.errors)
@@ -107,7 +125,6 @@ def login():
 
 
 @app.route("/logout", methods=["GET"])
-@login_required
 def logout():
     logout_user()
     return redirect(url_for("index"))
