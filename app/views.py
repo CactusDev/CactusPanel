@@ -22,9 +22,10 @@ def before_request():
 
 
 @app.route("/")
-@login_required
+# @login_required
 def index():
     """Handles calls to / and /index, return the panel"""
+    print(g.user)
     return render_template(
         "index.html",
         title="CactusPanel",
