@@ -1,6 +1,7 @@
-from flask import render_template, flash, redirect, url_for, g
+from flask import render_template, flash, redirect, url_for, g, jsonify
 from flask.ext.login import (login_user, logout_user, current_user,
                              login_required, request, session)
+import json
 from . import app, lm
 from .forms import LoginForm
 from .models import User
@@ -88,11 +89,16 @@ def create_ticket():
     if request.method == "GET":
         return render_template('directives/CreateSupportTicket.html')
     elif request.method == "POST":
-
+        print("FOO!")
+        print(json.loads(request.data.decode("utf-8")))
+        # new_ticker = Tickets(who=request.args)
         # Support ticket stuff goes here
 
-        session['supported'] = True
-        return redirect(url_for("index", supported=True), code=302)
+        # session['supported'] = True
+
+        return jsonify({"foo": "bar"}, code=302)
+
+        # return redirect(url_for("index", supported=True), code=302)
     else:
         return "Method not supported."
 
@@ -118,7 +124,7 @@ def emoji():
 
 
 def got_supported():
-    if session["supported"] is True:
+    if session.get("supported", False) is True:
         return True
     else:
         return False

@@ -65,12 +65,6 @@ class User(UserMixin, db.Model):
         return '<User {}>'.format(self.username)
 
 
-class Playlist:
-
-    def p():
-        pass
-
-
 class Bot(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True)
