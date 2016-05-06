@@ -19,11 +19,6 @@ mail.init_app(app)
 
 db = SQLAlchemy(app)
 
-lm = LoginManager()
-
-lm.init_app(app)
-lm.login_view = "login"
-
 csrf_protect = CsrfProtect(app)
 
 socketio = SocketIO(app)
@@ -32,6 +27,11 @@ from .models import User, Role
 
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore)
+
+lm = LoginManager()
+
+lm.init_app(app)
+lm.login_view = "login"
 
 from . import views, models
 from .util import assets

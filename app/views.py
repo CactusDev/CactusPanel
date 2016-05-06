@@ -1,10 +1,10 @@
 from flask import (render_template, flash, redirect, url_for, g, jsonify,
                    session)
-from flask_login import request
-from flask_security import (Security, SQLAlchemyUserDatastore,
+from flask.ext.login import request
+from flask.ext.security import (Security, SQLAlchemyUserDatastore,
                             UserMixin, RoleMixin, login_required,
                             login_user, logout_user, current_user)
-from . import app, lm, user_datastore, security
+from . import app, lm, user_datastore, security, db
 from .forms import LoginForm, RegisterForm
 from .models import User
 from .auth import OAuthSignIn
@@ -23,10 +23,12 @@ def before_request():
 
 
 @app.route("/")
-# @login_required
+@login_required
 def index():
     """Handles calls to / and /index, return the panel"""
-    print(g.user)
+
+    print("Index:CurrentUser:\t", current_user)
+
     return render_template(
         "index.html",
         title="CactusPanel",
@@ -97,8 +99,10 @@ def register():
 
             user = User.query.filter_by(
                 provider_id="{}${}".format(session["provider"],
-                                           session["user_id"]
-                                           )).first()
+                                           session["user_id"])
+                ).first()
+
+            db.session.commit()
 
             if user is not None:
                 login_user(user, True)
