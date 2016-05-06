@@ -2,9 +2,9 @@ from flask import render_template, flash, redirect, url_for, g, jsonify
 from flask.ext.login import (login_user, logout_user, current_user,
                              login_required, request, session)
 import json
-from . import app, lm
+from . import app, lm, db
 from .forms import LoginForm
-from .models import User
+from .models import User, Tickets
 from .auth import OAuthSignIn
 
 
@@ -89,14 +89,19 @@ def create_ticket():
     if request.method == "GET":
         return render_template('directives/CreateSupportTicket.html')
     elif request.method == "POST":
-        print("FOO!")
-        print(json.loads(request.data.decode("utf-8")))
-        # new_ticker = Tickets(who=request.args)
+        data = json.loads(request.data.decode("utf-8"))
+
+        print(data)
+        # new_ticker = Tickets(
+        #                 who=request.args["username"],
+        #                 issue=request.args["issue"],
+        #                 details=request.args["details"]
+        #                 )
+        # db.session.add(new_ticker)
+        # db.session.commit()
         # Support ticket stuff goes here
 
-        # session['supported'] = True
-
-        return jsonify({"foo": "bar"}, code=302)
+        return jsonify({"success": True})
 
         # return redirect(url_for("index", supported=True), code=302)
     else:

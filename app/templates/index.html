@@ -36,7 +36,6 @@
     <div ng-app="IndexApp" ng-controller="IndexControl" ng-cloak>
       <md-content>
         <md-tabs md-dynamic-height md-border-bottom ng-style="{backgroundColor: '699534'}">
-          {% if is_supported() %} {{ reset_supported() }} {[ showConfirmed($event) ]} {% endif %}
           <!-- Dashboard tab -->
 
           <md-tab label="Dashboard">

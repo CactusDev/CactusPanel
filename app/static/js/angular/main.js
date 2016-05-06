@@ -155,19 +155,30 @@ function DialogController($scope, $mdDialog) {
     $mdDialog.hide(answer);
   };
 
-  $scope.submit = function() {
-      $.ajax({
-         url: '/support/create',
-         type: 'POST',
-         data: JSON.stringify({
-             issue:        $scope.issue,
-             details:      $scope.details,
-         }),
-         contentType: 'application/json'
-      })
-      .done( function(request) {
-          console.log(JSON.stringify(request));
-      });
+  $scope.submit = function(e) {
+      if (e.which === 13) {
+          if (e.button != true) {
+              e.preventDefault();
+          }
+          $.ajax({
+             url: '/support/create',
+             type: 'POST',
+             data: JSON.stringify({
+                 issue:        $scope.issue,
+                 details:      $scope.details,
+             }),
+             contentType: 'application/json'
+          })
+          .done( function(request) {
+              request = JSON.stringify(request);
+              console.log(request);
+              if (request.success) {
+                  console.log("SUCCESS!")
+                  $mdDialog.hide();
+                  showConfirmed($event);
+              }
+          });
+      }
   }
 }
 
