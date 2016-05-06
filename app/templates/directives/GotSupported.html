@@ -1,26 +1,26 @@
 <md-dialog aria-label="Thanks for contacting support." ng-cloak>
-  <form>
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-    <md-toolbar>
-      <div class="md-toolbar-tools">
-        <h2>Thanks for contacting support.</h2>
-        <span flex></span>
-        <md-button class="md-icon-button" ng-click="cancel()">
-          X
-        </md-button>
-      </div>
-    </md-toolbar>
-    <md-dialog-content>
-      <div class="md-dialog-content">
-        <h4>We'll hopefully get back to you within 48 hours.</h4>
-        <c-emoji x="64px" y="64px" emoji="cactus"></c-emoji>
-      </div>
-    </md-dialog-content>
-    <md-dialog-actions layout="row">
-      <span flex></span>
-      <md-button ng-click="cancel()">
-        Cool!
-      </md-button>
-    </md-dialog-actions>
-  </form>
+    <form>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Thanks for contacting support.</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    X
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <h4>We'll hopefully get back to you within 48 hours.</h4>
+                <c-emoji x="64px" y="64px" emoji="cactus"></c-emoji>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()">
+                Cool!
+            </md-button>
+        </md-dialog-actions>
+    </form>
 </md-dialog>

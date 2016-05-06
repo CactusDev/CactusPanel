@@ -1,41 +1,45 @@
 <md-dialog aria-label="Create Support Ticket" ng-cloak>
-<input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-<md-toolbar>
-  <div class="md-toolbar-tools">
-    <h2>Create Support Ticket</h2>
-    <span flex></span>
-    <md-button class="md-icon-button" ng-click="cancel()">
-      X
-    </md-button>
-  </div>
-</md-toolbar>
-<md-dialog-content>
-  <div class="md-dialog-content">
-    <h2>Sorry that you're having issues. We gotchu bb.</h2>
-    <pad loc="bottom" amt="30"></pad>
-    <md-input-container id="issue" ng-model="issue" aria-label="What's the issue that you're having?" style="width: 100%;">
-      <label>What's the issue that you're having?</label>
-      <input>
-    </md-input-container>
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Create Support Ticket</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                X
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <h2>Sorry that you're having issues. We gotchu bb.</h2>
+            <pad loc="bottom" amt="30"></pad>
+            <md-input-container id="issue" ng-model="issue" aria-label="What's the issue that you're having?" style="width: 100%;">
+                <label>What's the issue that you're having?</label>
+                <input>
+            </md-input-container>
 
-    <md-input-container id="details" ng-model="details" aria-label="More details" style="width: 100%;">
-      <label>More details</label>
-      <input>
-    </md-input-container>
-  </div>
-</md-dialog-content>
-<md-dialog-actions layout="row">
-  <span flex></span>
-  <md-button ng-click="cancel()">
-    Cancel
-  </md-button>
-  <md-button type="submit" style="margin-right:20px;" ng-click="submit()">
-    Send
-  </md-button>
-</md-dialog-actions>
+            <md-input-container id="details" ng-model="details" aria-label="More details" style="width: 100%;">
+                <label>More details</label>
+                <input>
+            </md-input-container>
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <span flex></span>
+        <md-button ng-click="cancel()">
+            Cancel
+        </md-button>
+        <md-button type="submit" style="margin-right:20px;" ng-click="submit()">
+            Send
+        </md-button>
+    </md-dialog-actions>
 </md-dialog>
 
 <script>
     // CSRF protection bro
-    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    $SCRIPT_ROOT = {
+        {
+            request.script_root | tojson | safe
+        }
+    };
 </script>
