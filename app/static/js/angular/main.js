@@ -7,11 +7,11 @@ var shouldShow = true;
 var csrftoken = $('meta[name=csrf-token]').attr('content')
 
 $.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-        if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type)) {
-            xhr.setRequestHeader("X-CSRFToken", csrftoken)
-        }
+  beforeSend: function(xhr, settings) {
+    if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type)) {
+      xhr.setRequestHeader("X-CSRFToken", csrftoken)
     }
+  }
 });
 
 index.config(function($interpolateProvider, $mdThemingProvider) {
@@ -31,24 +31,20 @@ index.controller('IndexControl', ['$scope', '$mdDialog', '$mdMedia', function($s
   $scope.status = '  ';
   $scope.didClose = false;
   $scope.hasEntered = false;
+  $scope.gotSupported = false;
   $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
 
   $scope.showCreate = function(ev) {
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
 
     $mdDialog.show({
-        controller: DialogController,
-        templateUrl: '/support/create',
-        parent: angular.element(document.body),
-        targetEvent: ev,
-        clickOutsideToClose: true,
-        fullscreen: useFullScreen
-      })
-      .then(function(answer) {
-        $scope.status = 'You said the information was "' + answer + '".';
-      }, function() {
-        $scope.status = 'You cancelled the dialog.';
-      });
+      controller: DialogController,
+      templateUrl: '/support/create',
+      parent: angular.element(document.body),
+      targetEvent: ev,
+      clickOutsideToClose: true,
+      fullscreen: useFullScreen
+    });
 
     $scope.$watch(function() {
       return $mdMedia('xs') || $mdMedia('sm');
@@ -62,18 +58,13 @@ index.controller('IndexControl', ['$scope', '$mdDialog', '$mdMedia', function($s
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
 
     $mdDialog.show({
-        controller: DialogController,
-        templateUrl: '/support/respond',
-        parent: angular.element(document.body),
-        targetEvent: ev,
-        clickOutsideToClose: true,
-        fullscreen: useFullScreen
-      })
-      .then(function(answer) {
-        $scope.status = 'You said the information was "' + answer + '".';
-      }, function() {
-        $scope.status = 'You cancelled the dialog.';
-      });
+      controller: DialogController,
+      templateUrl: '/support/respond',
+      parent: angular.element(document.body),
+      targetEvent: ev,
+      clickOutsideToClose: true,
+      fullscreen: useFullScreen
+    });
 
     $scope.$watch(function() {
       return $mdMedia('xs') || $mdMedia('sm');
@@ -89,18 +80,13 @@ index.controller('IndexControl', ['$scope', '$mdDialog', '$mdMedia', function($s
       var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
 
       $mdDialog.show({
-          controller: ConfirmedController,
-          templateUrl: '/support/confirmed',
-          parent: angular.element(document.body),
-          targetEvent: ev,
-          clickOutsideToClose: true,
-          fullscreen: useFullScreen
-        })
-        .then(function(answer) {
-          $scope.status = 'You said the information was "' + answer + '".';
-        }, function() {
-          $scope.status = 'You cancelled the dialog.';
-        });
+        controller: ConfirmedController,
+        templateUrl: '/support/confirmed',
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        clickOutsideToClose: true,
+        fullscreen: useFullScreen
+      });
 
       $scope.$watch(function() {
         return $mdMedia('xs') || $mdMedia('sm');
@@ -151,38 +137,36 @@ function DialogController($scope, $mdDialog) {
     $mdDialog.cancel();
   };
 
-  $scope.answer = function(answer) {
-    $mdDialog.hide(answer);
-  };
-
   $scope.submit = function(e) {
-      if (e.which === 13) {
-          if (e.button != true) {
-              e.preventDefault();
-          }
-          if ($scope.issue == undefined || $scope.issue == '' ||
-              $scope.details == undefined || $scope.details == '') {
-              // @Innectic needs to add stuff to display an error under the input
-          }
-          $.ajax({
-             url: '/support/create',
-             type: 'POST',
-             data: JSON.stringify({
-                 issue:        $scope.issue,
-                 details:      $scope.details,
-             }),
-             contentType: 'application/json'
-          })
-          .done( function(request) {
-              request = JSON.stringify(request);
-              console.log(request);
-              if (request.success) {
-                  console.log("SUCCESS!")
-                  $mdDialog.hide();
-                  showConfirmed($event);
-              }
-          });
+    if (e.which === 13) {
+      if (e.button != true) {
+        e.preventDefault();
       }
+      if ($scope.issue == undefined || $scope.issue == '' ||
+        $scope.details == undefined || $scope.details == '') {
+        console.log("BIG BAD EXPLOSIONS")
+      }
+      $.ajax({
+          url: '/support/create',
+          type: 'POST',
+          data: JSON.stringify({
+            issue: $scope.issue,
+            details: $scope.details,
+          }),
+          contentType: 'application/json'
+        })
+        .done(function(request) {
+          request = JSON.stringify(request);
+          console.log(request);
+          if (request.success) {
+            console.log("SUCCESS!")
+
+            $scope.gotSupported = true;
+          } else {
+            $scope.gotSupported = true;
+          }
+        });
+    }
   }
 }
 
@@ -191,9 +175,5 @@ function ConfirmedController($scope, $mdDialog) {
     $scope.didClose = true;
 
     $mdDialog.cancel();
-  };
-
-  $scope.answer = function(answer) {
-    $mdDialog.hide(answer);
   };
 }

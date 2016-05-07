@@ -1,42 +1,53 @@
 <form>
-    <md-dialog aria-label="Create Support Ticket" ng-cloak>
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-        <md-toolbar>
-          <div class="md-toolbar-tools">
-            <h2>Create Support Ticket</h2>
-            <span flex></span>
-            <md-button class="md-icon-button" ng-click="cancel()">
-              X
-            </md-button>
-          </div>
-        </md-toolbar>
-        <md-dialog-content>
-          <div class="md-dialog-content" ng-keypress="submit($event, $event.button=false)">
-            <h2>Sorry that you're having issues. We gotchu bb.</h2>
-            <pad loc="bottom" amt="30"></pad>
-            <md-input-container aria-label="What's the issue that you're having?" style="width: 100%;">
-              <label>What's the issue that you're having?</label>
-              <input type="text" ng-model="issue" ng-model-options="{allowInvalid: true}">
-            </md-input-container>
+  <md-dialog aria-label="Create Support Ticket" ng-cloak>
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Create Support Ticket</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          X
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div ng-show="!gotSupported">
+        <div class="md-dialog-content" ng-keypress="submit($event, $event.button=false)">
+          {[ gotSupported ]}
+          <h2>Sorry that you're having issues. We gotchu bb.</h2>
+          <pad loc="bottom" amt="30"></pad>
+          <md-input-container aria-label="What's the issue that you're having?" style="width: 100%;">
+            <label>What's the issue that you're having?</label>
+            <input type="text" ng-model="issue" ng-model-options="{allowInvalid: true}">
+          </md-input-container>
 
-            <md-input-container aria-label="More details" style="width: 100%;">
-              <label>More details</label>
-              <input type="text" ng-model="details" ng-model-options="{allowInvalid: true}">
-            </md-input-container>
-          </div>
-        </md-dialog-content>
-        <md-dialog-actions layout="row">
-          <span flex></span>
-          <md-button ng-click="cancel()">
-            Cancel
-          </md-button>
-          <md-button type="submit" style="margin-right:20px;" ng-click="submit({which: 13, button: true})">
-            Send
-          </md-button>
-        </md-dialog-actions>
-    </md-dialog>
+          <md-input-container aria-label="More details" style="width: 100%;">
+            <label>More details</label>
+            <input type="text" ng-model="details" ng-model-options="{allowInvalid: true}">
+          </md-input-container>
+        </div>
+      </div>
+
+      <div ng-show="gotSupported">
+        Stuff
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button ng-click="cancel()">
+        Cancel
+      </md-button>
+      <md-button ng-hide="gotSupported" type="submit" style="margin-right:20px;" ng-click="submit({which: 13, button: true})">
+        Send
+      </md-button>
+    </md-dialog-actions>
+  </md-dialog>
 </form>
 <script>
-    // CSRF protection bro
-    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+  // CSRF protection bro
+  $SCRIPT_ROOT = {
+    {
+      request.script_root | tojson | safe
+    }
+  };
 </script>
