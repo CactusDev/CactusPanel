@@ -31,7 +31,4 @@ from . import views, models
 from .util import assets
 from .util.bot import is_in_channel
 
-app.jinja_env.globals.update(is_supported=views.got_supported)
-app.jinja_env.globals.update(reset_supported=views.reset_supported)
-app.jinja_env.globals.update(do_redirect=views.do_redirect)
 app.jinja_env.globals.update(bot_in_channel=is_in_channel)

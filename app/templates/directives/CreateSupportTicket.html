@@ -13,7 +13,6 @@
     <md-dialog-content>
       <div ng-show="!gotSupported">
         <div class="md-dialog-content" ng-keypress="submit($event, $event.button=false)">
-          {[ gotSupported ]}
           <h2>Sorry that you're having issues. We gotchu bb.</h2>
           <pad loc="bottom" amt="30"></pad>
           <md-input-container aria-label="What's the issue that you're having?" style="width: 100%;">
@@ -29,12 +28,23 @@
       </div>
 
       <div ng-show="gotSupported">
-        Stuff
+        <md-dialog-content>
+          <div class="md-dialog-content">
+            <h4>We'll hopefully get back to you within 48 hours.</h4>
+            <c-emoji x="64px" y="64px" emoji="cactus"></c-emoji>
+          </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+          <span flex></span>
+          <md-button ng-click="cancel()">
+            Cool!
+          </md-button>
+        </md-dialog-actions>
       </div>
     </md-dialog-content>
     <md-dialog-actions layout="row">
       <span flex></span>
-      <md-button ng-click="cancel()">
+      <md-button ng-hide="gotSupported" ng-click="cancel()">
         Cancel
       </md-button>
       <md-button ng-hide="gotSupported" type="submit" style="margin-right:20px;" ng-click="submit({which: 13, button: true})">

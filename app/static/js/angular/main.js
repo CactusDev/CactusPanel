@@ -144,8 +144,10 @@ function DialogController($scope, $mdDialog) {
       }
       if ($scope.issue == undefined || $scope.issue == '' ||
         $scope.details == undefined || $scope.details == '') {
-        console.log("BIG BAD EXPLOSIONS")
+        console.log("BIG BAD EXPLOSIONS!")
       }
+      $scope.gotSupported = true;
+
       $.ajax({
           url: '/support/create',
           type: 'POST',
@@ -160,10 +162,6 @@ function DialogController($scope, $mdDialog) {
           console.log(request);
           if (request.success) {
             console.log("SUCCESS!")
-
-            $scope.gotSupported = true;
-          } else {
-            $scope.gotSupported = true;
           }
         });
     }
