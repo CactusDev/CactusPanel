@@ -11,6 +11,11 @@ from .auth import OAuthSignIn
 from datetime import datetime
 
 
+@lm.user_loader
+def load_user(id):
+    return User.query.get(int(id))
+
+
 @app.before_request
 def before_request():
     """Set the Flask session object's user to Flask-Login's current_user"""
