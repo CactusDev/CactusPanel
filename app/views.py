@@ -93,9 +93,9 @@ def create_ticket():
 
         print(data)
         new_ticker = Tickets(
-                        who=request.args["username"],
-                        issue=request.args["issue"],
-                        details=request.args["details"]
+                        who=data["username"],
+                        issue=data["issue"],
+                        details=data["details"]
                         )
         db.session.add(new_ticker)
         db.session.commit()
