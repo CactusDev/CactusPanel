@@ -94,3 +94,12 @@ class Bot(db.Model):
             id=self.id,
             owner=self.owner
         )
+
+
+class Tickets(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    who = db.Column(db.String(1000), index=True)
+    issue = db.Column(db.String(1000))
+    details = db.Column(db.String(10000))
+    been_read = db.Column(db.Boolean, default=False)
+    representative = db.Column(db.String(100), default="")

@@ -133,3 +133,67 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for("index"))
+
+
+@app.route('/admin', methods=["GET"])
+def admin():
+    return render_template('admin.html')
+
+
+@app.route('/support/create', methods=["GET", "POST"])
+def create_ticket():
+    if request.method == "GET":
+        return render_template('directives/CreateSupportTicket.html')
+    elif request.method == "POST":
+        data = json.loads(request.data.decode("utf-8"))
+
+        print(data)
+        new_ticker = Tickets(
+                        who=data["username"],
+                        issue=data["issue"],
+                        details=data["details"]
+                        )
+        db.session.add(new_ticker)
+        db.session.commit()
+        # Support ticket stuff goes here
+
+        return jsonify({"success": True})
+
+        # return redirect(url_for("index", supported=True), code=302)
+    else:
+        return "Method not supported."
+
+
+@app.route('/support/respond', methods=["GET", "POST"])
+def ticket_response():
+    if request.method == "GET":
+        return render_template('directives/RespondToTicket.html')
+    elif request.method == "POST":
+        return "THINGS! #TODO"
+    else:
+        return "Method not supported."
+
+
+@app.route('/support/confirmed', methods=["GET"])
+def confirmed():
+    return render_template('directives/GotSupported.html')
+
+
+@app.route('/c-emoji', methods=["GET"])
+def emoji():
+    return render_template('directives/c-emoji.html')
+
+
+def got_supported():
+    if session.get("supported", False) is True:
+        return True
+    else:
+        return False
+
+
+def reset_supported():
+    session["supported"] = None
+
+
+def do_redirect(where):
+    return redirect(where)
