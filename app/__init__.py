@@ -9,6 +9,7 @@ from flask_security import (Security, SQLAlchemyUserDatastore,
                             UserMixin, RoleMixin, login_required,
                             login_user, logout_user, current_user)
 
+
 app = Flask(__name__, instance_relative_config=True)
 
 app.config.from_object("config")
@@ -27,6 +28,7 @@ from .models import User, Role
 
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore)
+print(security.app.login_manager.login_view)
 
 lm = LoginManager()
 

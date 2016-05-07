@@ -1,19 +1,14 @@
 from flask import (render_template, flash, redirect, url_for, g, jsonify,
                    session)
-from flask.ext.login import request
+from flask.ext.login import request, login_required
 from flask.ext.security import (Security, SQLAlchemyUserDatastore,
-                            UserMixin, RoleMixin, login_required,
-                            login_user, logout_user, current_user)
-from . import app, lm, user_datastore, security, db
+                                UserMixin, RoleMixin, roles_required,
+                                login_user, logout_user, current_user)
+from . import app, user_datastore, security, db
 from .forms import LoginForm, RegisterForm
 from .models import User
 from .auth import OAuthSignIn
 from datetime import datetime
-
-
-@lm.user_loader
-def load_user(id):
-    return User.query.get(int(id))
 
 
 @app.before_request
@@ -70,12 +65,6 @@ def oauth_callback(provider):
     else:
         login_user(user, True)
         return redirect(url_for("index"))
-
-
-@app.route("/admin", methods=["GET"])
-@login_required
-def admin():
-    return "Foo bar"
 
 
 @app.route("/register", methods=["GET", "POST"])
