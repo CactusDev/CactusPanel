@@ -4,7 +4,7 @@ from flask.ext.login import request, login_required
 from flask.ext.security import (Security, SQLAlchemyUserDatastore,
                                 UserMixin, RoleMixin, roles_required,
                                 login_user, logout_user, current_user)
-from . import app, user_datastore, security, db
+from . import lm, app, user_datastore, security, db
 from .forms import LoginForm, RegisterForm
 from .models import User
 from .auth import OAuthSignIn
