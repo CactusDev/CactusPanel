@@ -28,7 +28,6 @@ from .models import User, Role
 
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore)
-print(security.app.login_manager.login_view)
 
 lm = LoginManager()
 
