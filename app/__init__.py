@@ -35,8 +35,6 @@ lm.login_view = "login"
 
 from . import views, models
 from .util import assets
-<<<<<<< HEAD
-
 
 from . import views
 from .util.bot import is_in_channel
