@@ -6,10 +6,11 @@ from flask.ext.security import (Security, SQLAlchemyUserDatastore,
                                 login_user, logout_user, current_user)
 from . import lm, app, user_datastore, security, db
 from .forms import LoginForm, RegisterForm
-from .models import User
+from .models import User, Tickets
 from .auth import OAuthSignIn
 from datetime import datetime
 import json
+from uuid import uuid4
 
 
 @lm.user_loader
@@ -65,58 +66,49 @@ def oauth_callback(provider):
     user = User.query.filter_by(provider_id="{}${}".format(provider,
                                                            user_id)).first()
     if not user:
-        # User does not exist, so redirect to registration page
-        # Include user_id, username, email
-        return redirect(url_for("register"))
+        # User doesn't exist yet, so we'll create it, then redirect to index
+        registered, e = register()
+        if register:
+            return redirect(url_for("index"))
+        else:
+            # TODO: Make this redirect to an error page
+            return jsonify({"error": 3, "data": jsonify(e.args)})
+
     else:
+        # User exists, so login and redirect to index
         login_user(user, True)
         return redirect(url_for("index"))
 
 
-@app.route("/register", methods=["GET", "POST"])
 def register():
-    form = RegisterForm()
-    if request.method == "POST":
-        if form.validate_on_submit():
-            # Do foo stuff
-            user_role = user_datastore.find_or_create_role("user")
-            user = user_datastore.create_user(
-                username=session["username"],
-                password="",  # None, because it's required for
-                              # Flask-Login's auth key setup
-                email=session["email"],
-                confirmed_at=datetime.now(),
-                roles=[user_role, ],
-                provider_id="{pid}${uid}".format(pid=session["provider"],
-                                                 uid=session["user_id"]),
-                active=True     # Mark them as active so they're logged in
-                )
+    try:
+        user_role = user_datastore.find_or_create_role("user")
+        user = user_datastore.create_user(
+            username=session["username"],
+            password="",  # None, because it's required for
+                          # Flask-Login's auth key setup
+            email=session["email"],
+            confirmed_at=datetime.now(),
+            roles=[user_role, ],
+            provider_id="{pid}${uid}".format(pid=session["provider"],
+                                             uid=session["user_id"]),
+            active=True     # Mark them as active so they're logged in
+            )
 
-            user = User.query.filter_by(
-                provider_id="{}${}".format(session["provider"],
-                                           session["user_id"])
-                ).first()
+        user = User.query.filter_by(
+            provider_id="{}${}".format(session["provider"],
+                                       session["user_id"])
+            ).first()
 
-            db.session.commit()
+        db.session.commit()
 
-            if user is not None:
-                login_user(user, True)
-
-                return jsonify({
-                    "error": 0,
-                    "message": "Registration success!",
-                    "redirect": url_for("index")
-                    })
-            else:
-                return jsonify({"error": 2, "message": "User creation failed"})
-
+        if user is not None:
+            login_user(user, True)
+            return True, None
         else:
-            print(form.errors)
-            return jsonify({"error": 1, "message": form.errors})
-
-    return render_template("register.html",
-                           form=form,
-                           title="CactusPanel | Register")
+            return False, None
+    except Exception as e:
+        return False, e
 
 
 @app.route("/login")
@@ -142,17 +134,25 @@ def create_ticket():
     elif request.method == "POST":
         data = json.loads(request.data.decode("utf-8"))
 
-        print(data)
+        ticket_id = str(uuid4())
+
         new_ticker = Tickets(
-                        who=data["username"],
+                        who=session["username"],
                         issue=data["issue"],
-                        details=data["details"]
+                        details=data["details"],
+                        ticket_id=ticket_id
                         )
         db.session.add(new_ticker)
         db.session.commit()
-        # Support ticket stuff goes here
 
-        return jsonify({"success": True})
+        ticket = Tickets.query.filter_by(ticket_id=ticket_id).first()
+
+        if ticket is not None:
+            print(ticket)
+
+            return jsonify({"success": True})
+        else:
+            return jsonify({"success": False})
 
         # return redirect(url_for("index", supported=True), code=302)
     else:
