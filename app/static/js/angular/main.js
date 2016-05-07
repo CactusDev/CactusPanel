@@ -160,6 +160,10 @@ function DialogController($scope, $mdDialog) {
           if (e.button != true) {
               e.preventDefault();
           }
+          if ($scope.issue == undefined || $scope.issue == '' ||
+              $scope.details == undefined || $scope.details == '') {
+              // @Innectic needs to add stuff to display an error under the input
+          }
           $.ajax({
              url: '/support/create',
              type: 'POST',

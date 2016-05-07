@@ -92,13 +92,13 @@ def create_ticket():
         data = json.loads(request.data.decode("utf-8"))
 
         print(data)
-        # new_ticker = Tickets(
-        #                 who=request.args["username"],
-        #                 issue=request.args["issue"],
-        #                 details=request.args["details"]
-        #                 )
-        # db.session.add(new_ticker)
-        # db.session.commit()
+        new_ticker = Tickets(
+                        who=request.args["username"],
+                        issue=request.args["issue"],
+                        details=request.args["details"]
+                        )
+        db.session.add(new_ticker)
+        db.session.commit()
         # Support ticket stuff goes here
 
         return jsonify({"success": True})
