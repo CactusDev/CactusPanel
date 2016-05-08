@@ -35,7 +35,8 @@ def index():
         "index.html",
         title="CactusPanel",
         form=LoginForm(),
-        username="Innectic"
+        username="Innectic",
+        role="pro"
     )
 
 
@@ -169,26 +170,6 @@ def ticket_response():
         return "Method not supported."
 
 
-@app.route('/support/confirmed', methods=["GET"])
-def confirmed():
-    return render_template('directives/GotSupported.html')
-
-
 @app.route('/c-emoji', methods=["GET"])
 def emoji():
     return render_template('directives/c-emoji.html')
-
-
-def got_supported():
-    if session.get("supported", False) is True:
-        return True
-    else:
-        return False
-
-
-def reset_supported():
-    session["supported"] = None
-
-
-def do_redirect(where):
-    return redirect(where)
