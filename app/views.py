@@ -35,7 +35,7 @@ def index():
         "index.html",
         title="CactusPanel",
         form=LoginForm(),
-        username="Innectic",
+        username=session["username"],
         role="pro"
     )
 
