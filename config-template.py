@@ -11,6 +11,8 @@ HOST = "0.0.0.0"
 
 SECRET_KEY = "SECRET_KEY"
 
+SECURITY_LOGIN_URL = "/security_login"
+
 OAUTH_CREDENTIALS = {
     "CLIENT_NAME": {
         "CLIENT_ID": "CLIENT_ID",
