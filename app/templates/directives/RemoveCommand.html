@@ -1,0 +1,78 @@
+<div layout="column">
+  <form>
+    <md-dialog aria-label="Add a command" ng-cloak>
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+      <md-toolbar>
+        <div class="md-toolbar-tools">
+          <h2>Add a command</h2>
+          <span flex></span>
+          <md-button class="md-icon-button" ng-click="cancel()">
+            X
+          </md-button>
+        </div>
+      </md-toolbar>
+      <md-dialog-content>
+        <div flex ng-show="showCreate">
+          <div class="md-dialog-content">
+            <pad loc="bottom" amt="30"></pad>
+            <md-input-container aria-label="Command name" style="width: 100%;">
+              <label>Command name</label>
+              <input type="text" ng-model="commandName">
+            </md-input-container>
+
+            <md-input-container aria-label="Command name" style="width: 100%;">
+              <label>Command response</label>
+              <input type="text" ng-model="commandResponse">
+            </md-input-container>
+          </div>
+        </div>
+
+        <div flex ng-show="addingCommand">
+          <md-dialog-content>
+            <div class="md-dialog-content">
+              <div id="cover">
+                <md-progress-circular md-mode="indeterminate" class="md-hue-8" md-diameter="100px"></md-progress-circular>
+              </div>
+            </div>
+          </md-dialog-content>
+          <md-dialog-actions layout="row"></md-dialog-actions>
+        </div>
+
+        <div flex ng-show="addedCommand">
+          <md-dialog-content>
+            <div class="md-dialog-content">
+              <h4 style="padding-left: 30px;">Command added.</h4>
+              <c-emoji x="64px" y="64px" emoji="cone"></c-emoji>
+            </div>
+          </md-dialog-content>
+
+          <md-dialog-actions style="padding-right: 25px;" layout="center">
+            <md-button id="widener" ng-click="cancel()">
+              Awesomesauce!
+            </md-button>
+          </md-dialog-actions>
+        </div>
+      </md-dialog-content>
+
+      <md-dialog-actions>
+        <div flex>
+          <md-button ng-show="showCreate" ng-click="cancel()">
+            Cancel
+          </md-button>
+
+          <md-button ng-show="showCreate" ng-click="addCommand()">
+            Add command
+          </md-button>
+        </div>
+      </md-dialog-actions>
+    </md-dialog>
+  </form>
+  <script>
+    // CSRF protection bro
+    $SCRIPT_ROOT = {
+      {
+        request.script_root | tojson | safe
+      }
+    };
+  </script>
+</div>

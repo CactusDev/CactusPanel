@@ -1,0 +1,56 @@
+<md-content class="md-padding">
+  <h1 class="md-display-5">Bot settings</h1>
+  <div flex-xs flex-gt-xs="50" layout="column">
+    <span class="md-headline">Authentication</span>
+
+    <md-button ng-click="" class="md-primary md-hue-1">Force join</md-button>
+
+    <md-input-container md-no-float class="md-block">
+      <input ng-model="botUsername" type="text" placeholder="Bot Username">
+    </md-input-container>
+
+    <md-input-container md-no-float class="md-block">
+      <input ng-model="botPassword" type="password" placeholder="Bot Password">
+    </md-input-container>
+    <!-- TODO: Make the save button do things -->
+
+    <md-button>Save</md-button>
+
+    <span class="md-headline">Spam Protection</span>
+
+    <!-- Do you want spam protection? Because I'm pretty sure this is how you get spam protection. -->
+
+    <md-switch class="md-primary" md-no-ink aria-label="Enable Protection" ng-model="isProtected">
+      Enable Protection?
+    </md-switch>
+
+    <pad loc="top" amt="5"></pad>
+
+    <!-- Do you want links? Because I'm - That joke is old now. -->
+
+    <md-switch class="md-primary" md-no-ink aria-label="Enable Protection" ng-model="allowLinks">
+      Allow links?
+    </md-switch>
+
+    <pad loc="top" amt="30"></pad>
+
+    <h6 class="md-title">Max Caps</h6>
+    <md-slider ng-disabled="!isProtected" aria-label="Max Caps Slider" flex class="md-primary" md-discrete ng-model="maxCaps" step="1" min="1" max="480"></md-slider>
+
+    <pad loc="top" amt="50"></pad>
+
+    <h6 class="md-title">Max Emotes</h6>
+    <md-slider ng-disabled="!isProtected" aria-label="Max emotes slider" flex class="md-primary" md-discrete ng-model="maxEmotes" step="1" min="1" max="480"></md-slider>
+
+    <pad loc="top" amt="50"></pad>
+
+    <h6 class="md-title">Max Message Length</h6>
+    <md-slider ng-disabled="!isProtected" aria-label="Max message length" flex class="md-primary" md-discrete ng-model="maxMessageLength" step="1" min="1" max="480"></md-slider>
+
+    <pad loc="top" amt="50"></pad>
+
+    <!-- TODO: Make the save button work  -->
+
+    <md-button>Save</md-button>
+  </div>
+</md-content>

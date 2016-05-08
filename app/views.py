@@ -124,6 +124,7 @@ def logout():
 
 
 @app.route('/admin', methods=["GET"])
+@login_required
 def admin():
     return render_template('admin.html')
 
@@ -154,8 +155,6 @@ def create_ticket():
             return jsonify({"success": True})
         else:
             return jsonify({"success": False})
-
-        # return redirect(url_for("index", supported=True), code=302)
     else:
         return "Method not supported."
 
@@ -165,7 +164,7 @@ def ticket_response():
     if request.method == "GET":
         return render_template('directives/RespondToTicket.html')
     elif request.method == "POST":
-        return "THINGS! #TODO"
+        return "THINGS! #BlamePara"
     else:
         return "Method not supported."
 
@@ -173,3 +172,33 @@ def ticket_response():
 @app.route('/c-emoji', methods=["GET"])
 def emoji():
     return render_template('directives/c-emoji.html')
+
+
+@app.route('/command/create')
+def create_command():
+    return render_template('directives/AddCommand.html')
+
+
+@app.route('/tab/dash')
+def dash():
+    return render_template('directives/tabs/Dashboard.html')
+
+
+@app.route('/tab/commands')
+def commands():
+    return render_template('directives/tabs/Commands.html')
+
+
+@app.route('/tab/botsettings')
+def bot_settings():
+    return render_template('directives/tabs/BotSettings.html')
+
+
+@app.route('/tab/support')
+def support():
+    return render_template('directives/tabs/Support.html')
+
+
+@app.route('/tab/usersettings')
+def user_settings():
+    return render_template('directives/tabs/UserSettings.html')

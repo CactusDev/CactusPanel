@@ -1,4 +1,4 @@
-index.directive('pad', function() {
+app.directive('pad', function() {
   return {
     restrict: 'E',
     scope: {
@@ -9,7 +9,7 @@ index.directive('pad', function() {
   };
 });
 
-index.directive("cEmoji", function() {
+app.directive("cEmoji", function() {
   return {
     restrict: 'E',
     scope: {
@@ -21,13 +21,46 @@ index.directive("cEmoji", function() {
   }
 });
 
-admin.directive('pad', function() {
+// --------------------------
+// TABS
+// --------------------------
+
+app.directive("dash", function() {
   return {
     restrict: 'E',
-    scope: {
-      loc: '@',
-      amt: '@'
-    },
-    template: "<div style='padding-{[ loc ]}: {[ amt ]}px;'></div>"
-  };
+    scope: {},
+    templateUrl: "/tab/dash"
+  }
+});
+
+app.directive("botSettings", function() {
+  return {
+    restrict: 'E',
+    scope: {},
+    templateUrl: "/tab/botsettings"
+  }
+});
+
+app.directive("commands", function() {
+  return {
+    restrict: 'E',
+    scope: {},
+    templateUrl: "/tab/commands"
+  }
+});
+
+app.directive("support", function() {
+  return {
+    restrict: 'E',
+    scope: {},
+    templateUrl: "/tab/support"
+  }
+});
+
+app.directive("userSettings", function() {
+  return {
+    restrict: 'E',
+    scope: {},
+    templateUrl: "/tab/usersettings"
+  }
 });
