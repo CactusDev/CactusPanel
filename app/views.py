@@ -33,7 +33,6 @@ def index():
 
     return render_template(
         "index.html",
-        title="CactusPanel",
         form=LoginForm(),
         username=session["username"],
         role="pro"
@@ -176,29 +175,47 @@ def emoji():
 
 @app.route('/command/create')
 def create_command():
-    return render_template('directives/AddCommand.html')
+    return render_template(
+        'directives/AddCommand.html',
+        username=session["username"],
+        role="pro")
 
 
 @app.route('/tab/dash')
 def dash():
-    return render_template('directives/tabs/Dashboard.html')
+    return render_template(
+        'directives/tabs/Dashboard.html',
+        username=session["username"],
+        role="pro")
 
 
 @app.route('/tab/commands')
 def commands():
-    return render_template('directives/tabs/Commands.html')
+    return render_template(
+        'directives/tabs/Commands.html',
+        username=session["username"],
+        role="pro")
 
 
 @app.route('/tab/botsettings')
 def bot_settings():
-    return render_template('directives/tabs/BotSettings.html')
+    return render_template(
+        'directives/tabs/BotSettings.html',
+        username=session["username"],
+        role="pro")
 
 
 @app.route('/tab/support')
 def support():
-    return render_template('directives/tabs/Support.html')
+    return render_template(
+        'directives/tabs/Support.html',
+        username=session["username"],
+        role="pro")
 
 
 @app.route('/tab/usersettings')
 def user_settings():
-    return render_template('directives/tabs/UserSettings.html')
+    return render_template(
+        'directives/tabs/UserSettings.html',
+        username=session["username"],
+        role="pro")
