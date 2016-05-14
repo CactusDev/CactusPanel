@@ -141,12 +141,12 @@ def create_ticket():
                         who=session["username"],
                         issue=data["issue"],
                         details=data["details"],
-                        ticket_id=ticket_id
+                        id=ticket_id
                         )
         db.session.add(new_ticker)
         db.session.commit()
 
-        ticket = Tickets.query.filter_by(ticket_id=ticket_id).first()
+        ticket = Tickets.query.filter_by(id=ticket_id).first()
 
         if ticket is not None:
             print(ticket)

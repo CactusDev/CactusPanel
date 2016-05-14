@@ -97,13 +97,12 @@ class Bot(db.Model):
 
 
 class Tickets(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(36), primary_key=True, index=True)
     who = db.Column(db.String(1000), index=True)
     issue = db.Column(db.String(1000), index=True)
     details = db.Column(db.String(10000))
     been_read = db.Column(db.Boolean, default=False, index=True)
     representative = db.Column(db.String(100), default="", index=True)
-    ticket_id = db.Column(db.String(36), unique=True, index=True)
 
     def __repr__(self):
         return "[{id}:{who}] - {issue}\n\t{details}\n\t{read} - {rep}".format(

@@ -92,4 +92,9 @@ ENV/
 
 # Ignore DB stuff
 app.db
+cb_central.sqlite
 db_repository/
+
+# Ignore Alembic stuff
+alembic/*
+!alembic/alembic_init.py
