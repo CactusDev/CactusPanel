@@ -93,3 +93,5 @@ ENV/
 # Database stuff
 db_repository/
 app.db
+cb_central.sqlite
+alembic/*
