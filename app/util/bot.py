@@ -1,4 +1,3 @@
 
-def is_in_channel(username):
-    # TODO
-    return "Join Chat"
+def force_join_chat(username):
+    print("STUFF AND THINGS WITH BANANAS " + username)

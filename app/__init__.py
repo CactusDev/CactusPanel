@@ -1,10 +1,13 @@
 from flask import Flask
 
-from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.login import LoginManager
-from flask.ext.socketio import SocketIO
-from flask.ext.wtf.csrf import CsrfProtect
-from flask.ext.mail import Mail
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager, request
+from flask_socketio import SocketIO
+from flask_wtf.csrf import CsrfProtect
+from flask_mail import Mail
+from flask_security import (Security, SQLAlchemyUserDatastore,
+                            UserMixin, RoleMixin, login_required,
+                            login_user, logout_user, current_user)
 
 
 app = Flask(__name__, instance_relative_config=True)
@@ -17,18 +20,23 @@ mail.init_app(app)
 
 db = SQLAlchemy(app)
 
+csrf_protect = CsrfProtect(app)
+
+socketio = SocketIO(app)
+
+from .models import User, Role
+
+user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+security = Security(app, user_datastore)
+
 lm = LoginManager()
 
 lm.init_app(app)
 lm.login_view = "login"
 
-csrf_protect = CsrfProtect(app)
-
-socketio = SocketIO(app)
-
-
 from . import views, models
-from .util import assets
-from .util.bot import is_in_channel
+from .util import assets, bot
 
-app.jinja_env.globals.update(bot_in_channel=is_in_channel)
+from . import views
+
+app.jinja_env.globals.update(forceJoinChat=bot.force_join_chat)

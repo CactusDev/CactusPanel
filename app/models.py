@@ -2,7 +2,8 @@ from app import app, db
 from passlib.context import CryptContext
 from itsdangerous import (TimedJSONWebSignatureSerializer
                           as Serializer, BadSignature, SignatureExpired)
-from flask.ext.login import UserMixin
+from flask.ext.security import (Security, SQLAlchemyUserDatastore,
+                                UserMixin, RoleMixin)
 
 pwd_context = CryptContext(
     schemes=["bcrypt", "pbkdf2_sha256", "des_crypt"],
@@ -10,15 +11,26 @@ pwd_context = CryptContext(
     all__vary_rounds=0.1
 )
 
+roles_users = db.Table('roles_users',
+                       db.Column('user_id',
+                                 db.Integer(),
+                                 db.ForeignKey('user.id')),
+                       db.Column('role_id',
+                                 db.Integer(),
+                                 db.ForeignKey('role.id'))
+                       )
+
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
+    password = db.Column(db.String(32))
     email = db.Column(db.String(120), index=True, unique=True)
-    hashed_password = db.Column(db.String(60))
-    oauth = db.Column(db.Boolean, default=False)
+    active = db.Column(db.Boolean())
+    confirmed_at = db.Column(db.DateTime())
+    roles = db.relationship('Role', secondary=roles_users,
+                            backref=db.backref('users', lazy='dynamic'))
     provider_id = db.Column(db.String(64), index=True, unique=True)
-    role = db.Column(db.String(64))
     # Creates a link to all Bot models created backref-ing this User model
     bots = db.relationship("Bot", backref="b_owner")
 
@@ -65,6 +77,12 @@ class User(UserMixin, db.Model):
         return '<User {}>'.format(self.username)
 
 
+class Role(db.Model, RoleMixin):
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(80), unique=True)
+    description = db.Column(db.String(255))
+
+
 class Bot(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True)
@@ -79,9 +97,19 @@ class Bot(db.Model):
 
 
 class Tickets(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(36), primary_key=True, index=True)
     who = db.Column(db.String(1000), index=True)
-    issue = db.Column(db.String(1000))
+    issue = db.Column(db.String(1000), index=True)
     details = db.Column(db.String(10000))
-    been_read = db.Column(db.Boolean, default=False)
-    representative = db.Column(db.String(100), default="")
+    been_read = db.Column(db.Boolean, default=False, index=True)
+    representative = db.Column(db.String(100), default="", index=True)
+
+    def __repr__(self):
+        return "[{id}:{who}] - {issue}\n\t{details}\n\t{read} - {rep}".format(
+            id=self.id,
+            who=self.id,
+            issue=self.issue,
+            details=self.details,
+            read=self.been_read,
+            rep=self.representative
+        )

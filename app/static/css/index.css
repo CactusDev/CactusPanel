@@ -24,3 +24,9 @@
 #widener {
   width: 100%;
 }
+
+#centerizer {
+  margin: auto;
+  padding-left: 50%;
+  text-align: center;
+}

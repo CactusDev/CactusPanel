@@ -54,7 +54,6 @@ class BeamSignIn(OAuthSignIn):
         return redirect(self.service.get_authorize_url(**params))
 
     def callback(self):
-        print(repr(request))
         if "code" not in request.args:
             return None, None, None
         oauth_session = self.service.get_auth_session(
@@ -69,4 +68,4 @@ class BeamSignIn(OAuthSignIn):
         )
         me = oauth_session.get("https://beam.pro/api/v1/users/current").json()
 
-        return me["id"], me["username"]
+        return me["id"], me["username"], me["email"]

@@ -1,0 +1,31 @@
+<div ng-app="IndexApp" ng-controller="IndexControl">
+  <md-content class="md-padding" layout="column">
+    <h1 class="md-display-5">Commands</h1>
+
+    <h3 class="md-head">Here's a list of your commands,
+{{ username }}</h3>
+    <div ng-controller="PopupControl">
+      <md-button ng-click="showAddCommand($event)" class="md-primary md-hue-1">Create comamnd</md-button>
+    </div>
+    <!-- Temp -->
+
+    <div class="row">
+      <div class="col-md-4" ng-repeat-start="command in commands">
+        <md-input-container class="cmd">
+          <label>Command name</label>
+          <input ng-model="command.name">
+        </md-input-container>
+
+        <md-input-container class="resp" label="Command response">
+          <label>Command response</label>
+          <input ng-model="command.response">
+        </md-input-container>
+
+        <md-button class="md-raised md-warn">Warn</md-button>
+      </div>
+
+      <div class="clearfix" ng-if="$index%3==2"></div>
+      <div ng-repeat-end=""></div>
+    </div>
+  </md-content>
+</div>

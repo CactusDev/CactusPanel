@@ -90,8 +90,11 @@ ENV/
 # Rope project settings
 .ropeproject
 
-# Database stuff
-db_repository/
+# Ignore DB stuff
 app.db
 cb_central.sqlite
+db_repository/
+
+# Ignore Alembic stuff
 alembic/*
+!alembic/alembic_init.py
