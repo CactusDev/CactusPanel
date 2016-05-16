@@ -29,8 +29,6 @@ def before_request():
 def index():
     """Handles calls to / and /index, return the panel"""
 
-    print("Index:CurrentUser:\t", current_user)
-
     return render_template(
         "index.html",
         form=LoginForm(),
