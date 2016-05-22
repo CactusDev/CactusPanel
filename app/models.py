@@ -103,6 +103,7 @@ class Tickets(db.Model):
     details = db.Column(db.String(10000))
     been_read = db.Column(db.Boolean, default=False, index=True)
     representative = db.Column(db.String(100), default="", index=True)
+    resolved = db.Column(db.Boolean, default=False, index=True)
 
     def __repr__(self):
         return "[{id}:{who}] - {issue}\n\t{details}\n\t{read} - {rep}".format(

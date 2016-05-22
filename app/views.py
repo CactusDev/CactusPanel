@@ -8,6 +8,7 @@ from . import lm, app, user_datastore, security, db
 from .forms import LoginForm, RegisterForm
 from .models import User, Tickets
 from .auth import OAuthSignIn
+from .util import tickets
 from datetime import datetime
 import json
 from uuid import uuid4
@@ -25,15 +26,17 @@ def before_request():
 
 
 @app.route("/")
+@app.route("/index")
 @login_required
 def index():
     """Handles calls to / and /index, return the panel"""
 
+    print("Index:CurrentUser:\t", current_user)
+
     return render_template(
         "index.html",
         form=LoginForm(),
-        username=session["username"],
-        role="pro"
+        username=session["username"]
     )
 
 
@@ -124,46 +127,6 @@ def logout():
 @login_required
 def admin():
     return render_template('admin.html')
-
-
-@app.route('/support/create', methods=["GET", "POST"])
-def create_ticket():
-    if request.method == "GET":
-        return render_template('directives/CreateSupportTicket.html')
-    elif request.method == "POST":
-        data = json.loads(request.data.decode("utf-8"))
-
-        ticket_id = str(uuid4())
-
-        new_ticker = Tickets(
-                        who=session["username"],
-                        issue=data["issue"],
-                        details=data["details"],
-                        id=ticket_id
-                        )
-        db.session.add(new_ticker)
-        db.session.commit()
-
-        ticket = Tickets.query.filter_by(id=ticket_id).first()
-
-        if ticket is not None:
-            print(ticket)
-
-            return jsonify({"success": True})
-        else:
-            return jsonify({"success": False})
-    else:
-        return "Method not supported."
-
-
-@app.route('/support/respond', methods=["GET", "POST"])
-def ticket_response():
-    if request.method == "GET":
-        return render_template('directives/RespondToTicket.html')
-    elif request.method == "POST":
-        return "THINGS! #BlamePara"
-    else:
-        return "Method not supported."
 
 
 @app.route('/c-emoji', methods=["GET"])
