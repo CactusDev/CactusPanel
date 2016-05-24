@@ -61,16 +61,26 @@ def ticket_list():
 
         args = []
         if "searchTerm" in data:
-            args = (
-                Tickets.details.like("%{}%".format(data["searchTerm"])),
-                Tickets.issue.like("%{}%".format(data["searchTerm"]))
-            )
-            if data["sortBy"] != {}:
-                args.append(**data["sortBy"])
+            searchTerm = data["searchTerm"]
+            print(searchTerm)
+            args = [
+                Tickets.details.contains(searchTerm),
+                Tickets.issue.contains(searchTerm),
+                Tickets.representative.contains(searchTerm),
+                Tickets.who.contains(searchTerm)
+            ]
 
-        results = db.session.query(Tickets).filter_by(
-            args
+        print(searchTerm)
+
+        results = db.session.query(Tickets).filter(
+            Tickets.details.contains(searchTerm),
+            Tickets.issue.contains(searchTerm),
+            Tickets.representative.contains(searchTerm),
+            Tickets.who.contains(searchTerm)
         ).limit(10)
+
+        for res in results:
+            print(res)
 
         to_return = json.dumps([
             {"user": res.who, "latest": res.issue} for res in results

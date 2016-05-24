@@ -3,7 +3,8 @@ from flask import (render_template, flash, redirect, url_for, g, jsonify,
 from flask.ext.login import request, login_required
 from flask.ext.security import (Security, SQLAlchemyUserDatastore,
                                 UserMixin, RoleMixin, roles_required,
-                                login_user, logout_user, current_user)
+                                login_user, logout_user, current_user,
+                                AnonymousUser)
 from . import lm, app, user_datastore, security, db
 from .forms import LoginForm, RegisterForm
 from .models import User, Tickets
@@ -31,13 +32,19 @@ def before_request():
 def index():
     """Handles calls to / and /index, return the panel"""
 
-    print("Index:CurrentUser:\t", current_user)
+    if "username" in session:
+        print("Index:CurrentUser:\t", current_user)
 
-    return render_template(
-        "index.html",
-        form=LoginForm(),
-        username=session["username"]
-    )
+        return render_template(
+            "index.html",
+            form=LoginForm(),
+            username=session["username"]
+        )
+    else:
+        # HACK: For whatever reason, Flask thinks users are logged in
+        #       and causes
+        logout_user()
+        return redirect(url_for("index"))
 
 
 @app.route("/authorize/<provider>")

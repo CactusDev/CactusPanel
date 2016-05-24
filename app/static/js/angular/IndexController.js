@@ -30,8 +30,7 @@ app.config(function($interpolateProvider, $mdThemingProvider) {
         type: 'POST',
         data: JSON.stringify({
             'sortBy': {
-                // 'who': '',
-
+                'who': 'auth',
             },
             'searchTerm': 'ruh'
         }),
