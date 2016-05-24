@@ -59,18 +59,7 @@ def ticket_list():
             if data["sortBy"]["who"] == "auth":
                 data["sortBy"]["who"] = session["username"]
 
-        args = []
-        if "searchTerm" in data:
-            searchTerm = data["searchTerm"]
-            print(searchTerm)
-            args = [
-                Tickets.details.contains(searchTerm),
-                Tickets.issue.contains(searchTerm),
-                Tickets.representative.contains(searchTerm),
-                Tickets.who.contains(searchTerm)
-            ]
-
-        print(searchTerm)
+        searchTerm = data["searchTerm"]
 
         results = db.session.query(Tickets).filter(
             Tickets.details.contains(searchTerm),
