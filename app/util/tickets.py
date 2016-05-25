@@ -1,5 +1,6 @@
 from flask import url_for, jsonify, render_template, session, Response
 from flask.ext.login import request, login_required
+from sqlalchemy import or_
 from ..models import Tickets
 from uuid import uuid4
 from .. import app, db
@@ -61,15 +62,12 @@ def ticket_list():
 
         searchTerm = data["searchTerm"]
 
-        results = db.session.query(Tickets).filter(
-            Tickets.details.contains(searchTerm),
+        results = Tickets.query.filter(or_(
             Tickets.issue.contains(searchTerm),
+            Tickets.details.contains(searchTerm),
             Tickets.representative.contains(searchTerm),
             Tickets.who.contains(searchTerm)
-        ).limit(10)
-
-        for res in results:
-            print(res)
+        )).limit(10)
 
         to_return = json.dumps([
             {"user": res.who, "latest": res.issue} for res in results
@@ -81,9 +79,8 @@ def ticket_list():
 
     elif request.method == "GET":
         results = db.session.query(Tickets).filter_by(
-                                                resolved=False,
-                                                who=session["username"]
-                                            ).limit(10)
+            resolved=False
+        ).limit(10)
 
         to_return = json.dumps([
             {"user": res.who, "latest": res.issue} for res in results

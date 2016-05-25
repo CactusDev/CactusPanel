@@ -25,14 +25,15 @@ app.config(function($interpolateProvider, $mdThemingProvider) {
         .accentPalette('light-blue', {
             'default': "A200"
     });
+    // Initial population of list, so just go by date submitted (which GET-ing)
+    //  /support/list returns
     $.ajax({
         url: '/support/list',
-        type: 'POST',
+        type: 'GET',
         data: JSON.stringify({
             'sortBy': {
                 'who': 'auth',
             },
-            'searchTerm': 'ruh'
         }),
         contentType: 'application/json'
     })

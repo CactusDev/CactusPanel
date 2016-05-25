@@ -30,3 +30,8 @@
   padding-left: 50%;
   text-align: center;
 }
+
+/* Angular workarounds */
+md-input-container .md-errors-spacer{
+    min-height: 0px !important;
+}

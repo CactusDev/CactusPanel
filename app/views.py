@@ -42,7 +42,7 @@ def index():
         )
     else:
         # HACK: For whatever reason, Flask thinks users are logged in
-        #       and causes
+        #       and causes a crash, so we're making sure that doesn't happen
         logout_user()
         return redirect(url_for("index"))
 

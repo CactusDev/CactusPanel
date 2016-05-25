@@ -1,3 +1,11 @@
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type)) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken)
+        }
+    }
+});
+
 app.controller('PopupControl', ['$scope', '$mdDialog', '$mdMedia', function($scope, $mdDialog, $mdMedia, $timeout) {
   $scope.status = '  ';
   $scope.didClose = false;
@@ -6,6 +14,24 @@ app.controller('PopupControl', ['$scope', '$mdDialog', '$mdMedia', function($sco
   $scope.addedCommand = false;
   $scope.addingCommand = false;
   $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
+  $scope.searchString = null;
+
+  $scope.retrieveTickets = function(e) {
+      $.ajax({
+          url: '/support/list',
+          type: 'POST',
+          data: JSON.stringify({
+              'sortBy': {
+                  'who': 'auth',
+              },
+              'searchTerm': 'ParadigmShift3d'
+          }),
+          contentType: 'application/json'
+      })
+      .done(function(request) {
+          console.log(request);
+      })
+  }
 
   $scope.showCreate = function(ev) {
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;

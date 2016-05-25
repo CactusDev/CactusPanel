@@ -3,8 +3,16 @@
     <h1 class="md-display-5">Support</h1>
     <div ng-cloak>
       <md-content>
-        <div ng-controller="PopupControl">
+        <div ng-controller="PopupControl" layout="row" layout-align="start center" flex>
           <md-button class="md-raised md-primary" ng-enabled="canSendSupportTicket" ng-click="showCreate($event)">Create Support Ticket</md-button>
+          <span flex></span>
+          <label>Search tickets</label>
+          <pad loc="right" amt="20"></pad>
+          <md-input-container>
+              <label>Search:</label>
+              <input type="text" ng-model="searchString" />
+          </md-input-container>
+          <pad loc="right" amt="50"></pad>
         </div>
 
         <md-list>
