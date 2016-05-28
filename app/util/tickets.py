@@ -56,21 +56,26 @@ def ticket_list():
     if request.method == "POST":
         data = json.loads(request.data.decode("utf-8"))
         # print(data)
-        if "who" in data["sortBy"]:
-            if data["sortBy"]["who"] == "auth":
-                data["sortBy"]["who"] = session["username"]
+        if "sortBy" in data:
+            if "who" in data["sortBy"]:
+                if data["sortBy"]["who"] == "auth":
+                    data["sortBy"]["who"] = session["username"]
 
-        searchTerm = data["searchTerm"]
+        search_term = data["searchString"]
 
         results = Tickets.query.filter(or_(
-            Tickets.issue.contains(searchTerm),
-            Tickets.details.contains(searchTerm),
-            Tickets.representative.contains(searchTerm),
-            Tickets.who.contains(searchTerm)
+            Tickets.issue.contains(search_term),
+            Tickets.details.contains(search_term),
+            Tickets.representative.contains(search_term),
+            Tickets.who.contains(search_term)
         )).limit(10)
 
         to_return = json.dumps([
-            {"user": res.who, "latest": res.issue} for res in results
+            {
+                "user": res.who,
+                "latest": res.issue,
+                "id": res.id
+             } for res in results
         ])
 
         print(to_return)
@@ -83,7 +88,11 @@ def ticket_list():
         ).limit(10)
 
         to_return = json.dumps([
-            {"user": res.who, "latest": res.issue} for res in results
+            {
+                "user": res.who,
+                "latest": res.issue,
+                "id": res.id
+             } for res in results
         ])
 
         print(to_return)

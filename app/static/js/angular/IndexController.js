@@ -29,11 +29,9 @@ app.config(function($interpolateProvider, $mdThemingProvider) {
     //  /support/list returns
     $.ajax({
         url: '/support/list',
-        type: 'GET',
+        type: 'POST',
         data: JSON.stringify({
-            'sortBy': {
-                'who': 'auth',
-            },
+            'searchString': 'ParadigmShift3d'
         }),
         contentType: 'application/json'
     })
@@ -47,7 +45,7 @@ app.controller('IndexControl', ['$scope', function($scope) {
 
     console.log(app.supportList);
 
-    $scope.stuff = app.supportList;
+    $scope.tickets = app.supportList;
 
     $scope.commands = [{
         name: "!hug",

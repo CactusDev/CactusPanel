@@ -6,17 +6,17 @@
         <div ng-controller="PopupControl" layout="row" layout-align="start center" flex>
           <md-button class="md-raised md-primary" ng-enabled="canSendSupportTicket" ng-click="showCreate($event)">Create Support Ticket</md-button>
           <span flex></span>
-          <label>Search tickets</label>
+          <label id="search">Search tickets</label>
           <pad loc="right" amt="20"></pad>
           <md-input-container>
               <label>Search:</label>
-              <input type="text" ng-model="searchString" />
+              <input type="text" ng-model="searchString" ng-keydown="searchSupport($event)" />
           </md-input-container>
           <pad loc="right" amt="50"></pad>
         </div>
 
         <md-list>
-          <md-list-item class="md-3-line " ng-repeat="item in stuff ">
+          <md-list-item class="md-3-line " ng-repeat="item in tickets track by tickets.id">
             <div class="md-list-item-text ">
               <h3>Representative: {[ item.user ]}</h3>
               <p>Latest response: {[ item.latest ]}</p>

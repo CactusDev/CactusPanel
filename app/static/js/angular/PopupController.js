@@ -16,21 +16,30 @@ app.controller('PopupControl', ['$scope', '$mdDialog', '$mdMedia', function($sco
   $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
   $scope.searchString = null;
 
-  $scope.retrieveTickets = function(e) {
-      $.ajax({
+  $scope.searchSupport = function(e) {
+      $scope.keyCode = e.keyCode;
+      console.log(e.keyCode);
+      if (e.keyCode == 13) {
+          var request = $scope.retrieveTickets();
+          request.done(function(data) {
+              console.log(data);
+              // NOTE: We need to concatenate the results, remove duplicates, update the tickets list, then display the new list
+          })
+      }
+  }
+
+  $scope.retrieveTickets = function(e, type, data) {
+      if (data == undefined || data == '') {
+          var type = 'GET';
+      }
+     var req = $.ajax({
           url: '/support/list',
-          type: 'POST',
-          data: JSON.stringify({
-              'sortBy': {
-                  'who': 'auth',
-              },
-              'searchTerm': 'ParadigmShift3d'
-          }),
+          type: type,
+          data: JSON.stringify(data),
           contentType: 'application/json'
-      })
-      .done(function(request) {
-          console.log(request);
-      })
+      });
+
+      return req;
   }
 
   $scope.showCreate = function(ev) {
