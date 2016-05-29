@@ -53,15 +53,17 @@ def ticket_response():
 @login_required
 @app.route("/support/list", methods=["GET", "POST"])
 def ticket_list():
+    print(request.method)
+
     if request.method == "POST":
-        data = json.loads(request.data.decode("utf-8"))
-        # print(data)
+        data = json.loads(request.data.decode("utf-8").lower())
+        print(data)
         if "sortBy" in data:
             if "who" in data["sortBy"]:
                 if data["sortBy"]["who"] == "auth":
                     data["sortBy"]["who"] = session["username"]
 
-        search_term = data["searchString"]
+        search_term = data["search_string"]
 
         results = Tickets.query.filter(or_(
             Tickets.issue.contains(search_term),
@@ -74,7 +76,8 @@ def ticket_list():
             {
                 "user": res.who,
                 "latest": res.issue,
-                "id": res.id
+                "id": res.id,
+                "details": res.details
              } for res in results
         ])
 
@@ -91,7 +94,8 @@ def ticket_list():
             {
                 "user": res.who,
                 "latest": res.issue,
-                "id": res.id
+                "id": res.id,
+                "details": res.details
              } for res in results
         ])
 

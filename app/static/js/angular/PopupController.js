@@ -1,26 +1,3 @@
-function isIn(object, array) {
-    for (var i = 0, len = array.length; i < len; i++) {
-        if (object.id == array[i].id) {
-            return true;
-            break;
-        }
-    }
-
-    // Made it this far, so it's NOT in the array
-    return false;
-};
-
-Array.prototype.unique = function () {
-    var output = new Array;
-    for (var i = 0, len = this.length; i < len; i++) {
-        if (!isIn(this[i], output)) {
-            output.push(this[i]);
-        }
-    }
-
-    return output;
-};
-
 $.ajaxSetup({
     beforeSend: function(xhr, settings) {
         if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type)) {
@@ -40,24 +17,34 @@ app.controller('PopupControl', ['$scope', '$mdDialog', '$mdMedia', function($sco
   $scope.searchString = null;
 
   $scope.searchSupport = function(e) {
-      $scope.keyCode = e.keyCode;
-      console.log(e.keyCode);
       if (e.keyCode == 13) {
-          var request = $scope.retrieveTickets();
+          if ($scope.searchString) {
+              var request = $scope.retrieveTickets(
+                  'POST',
+                  { search_string: $scope.searchString }
+              )
+          } else {
+              var request = $scope.retrieveTickets();
+          }
+
           request.done(function(data) {
-              $scope.tickets = $scope.tickets.concat(data);
-              $scope.tickets = $scope.tickets.unique();
+              var diff = _.differenceBy(data, $scope.tickets, (item, key, a) => item.id);
+              $scope.$apply(function() {
+                  for (ticket in diff) {
+                      $scope.tickets.push(diff[ticket]);
+                  }
+              });
               console.log($scope.tickets);
-              // NOTE:  concatenation & de-duplication works, need to get Angular to stop being poop and make it update visible tickets
           });
       }
   }
 
-  $scope.retrieveTickets = function(e, type, data) {
+  $scope.retrieveTickets = function(type, data) {
       if (data == undefined || data == '') {
           var type = 'GET';
       }
-     var req = $.ajax({
+
+      var req = $.ajax({
           url: '/support/list',
           type: type,
           data: JSON.stringify(data),

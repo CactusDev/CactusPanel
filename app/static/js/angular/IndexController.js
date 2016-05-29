@@ -29,10 +29,8 @@ app.config(function($interpolateProvider, $mdThemingProvider) {
     //  /support/list returns
     $.ajax({
         url: '/support/list',
-        type: 'POST',
-        data: JSON.stringify({
-            'searchString': 'ParadigmShift3d'
-        }),
+        type: 'GET',
+        data: JSON.stringify({}),
         contentType: 'application/json'
     })
     .done(function(request) {

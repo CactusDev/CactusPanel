@@ -24,6 +24,7 @@ bundles = {
     "dashboard_js": Bundle(
         "js/libs/jquery.min.js",
         "js/libs/socket.io.min.js",
+        "js/libs/lodash.min.js",
         "js/angular/IndexController.js",
         "js/angular/PopupController.js",
         "js/angular/directives.js",
