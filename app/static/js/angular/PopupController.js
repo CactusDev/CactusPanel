@@ -1,3 +1,26 @@
+function isIn(object, array) {
+    for (var i = 0, len = array.length; i < len; i++) {
+        if (object.id == array[i].id) {
+            return true;
+            break;
+        }
+    }
+
+    // Made it this far, so it's NOT in the array
+    return false;
+};
+
+Array.prototype.unique = function () {
+    var output = new Array;
+    for (var i = 0, len = this.length; i < len; i++) {
+        if (!isIn(this[i], output)) {
+            output.push(this[i]);
+        }
+    }
+
+    return output;
+};
+
 $.ajaxSetup({
     beforeSend: function(xhr, settings) {
         if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type)) {
@@ -22,9 +45,11 @@ app.controller('PopupControl', ['$scope', '$mdDialog', '$mdMedia', function($sco
       if (e.keyCode == 13) {
           var request = $scope.retrieveTickets();
           request.done(function(data) {
-              console.log(data);
-              // NOTE: We need to concatenate the results, remove duplicates, update the tickets list, then display the new list
-          })
+              $scope.tickets = $scope.tickets.concat(data);
+              $scope.tickets = $scope.tickets.unique();
+              console.log($scope.tickets);
+              // NOTE:  concatenation & de-duplication works, need to get Angular to stop being poop and make it update visible tickets
+          });
       }
   }
 
