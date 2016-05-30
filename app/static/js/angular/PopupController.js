@@ -33,11 +33,10 @@ app.controller('PopupControl', ['$scope', '$mdDialog', '$mdMedia', function($sco
                 console.log("data:");
                 console.log(data);
                 $scope.$apply(function() {
-                    $scope.tickets = [];
+                    $scope.data.tickets.length = 0;
 
-                    for (i = 0; i < data.length; i++) {
-                        $scope.tickets.push(data[i]);
-                    };
+                    $scope.data.tickets = data;
+
                 });
                 //   var diff = _.differenceBy(data, $scope.tickets, (item, key, a) => item.id);
                 //   $scope.$apply(function() {
@@ -46,7 +45,7 @@ app.controller('PopupControl', ['$scope', '$mdDialog', '$mdMedia', function($sco
                 //       }
                 //   });
                 console.log("$scope.tickets:")
-                console.log($scope.tickets);
+                console.log($scope.data.tickets);
             });
         }
     }

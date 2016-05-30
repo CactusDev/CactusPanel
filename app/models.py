@@ -97,7 +97,8 @@ class Bot(db.Model):
 
 
 class Tickets(db.Model):
-    id = db.Column(db.String(36), primary_key=True, index=True)
+    id = db.Column(db.Integer, primary_key=True, index=True)
+    uuid = db.Column(db.String(36), index=True)
     who = db.Column(db.String(1000), index=True)
     issue = db.Column(db.String(1000), index=True)
     details = db.Column(db.String(10000))

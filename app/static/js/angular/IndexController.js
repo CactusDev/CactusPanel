@@ -43,7 +43,8 @@ app.controller('IndexControl', ['$scope', function($scope) {
 
     console.log(app.supportList);
 
-    $scope.tickets = app.supportList;
+    $scope.data = {};
+    $scope.data.tickets = app.supportList;
 
     $scope.commands = [{
         name: "!hug",

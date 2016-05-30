@@ -18,16 +18,16 @@ def create_ticket():
 
         ticket_id = str(uuid4())
 
-        new_ticker = Tickets(
+        new_ticket = Tickets(
             who=session["username"],
             issue=data["issue"],
             details=data["details"],
-            id=ticket_id
+            uuid=ticket_id
         )
-        db.session.add(new_ticker)
+        db.session.add(new_ticket)
         db.session.commit()
 
-        ticket = Tickets.query.filter_by(id=ticket_id).first()
+        ticket = Tickets.query.filter_by(uuid=ticket_id).first()
 
         if ticket is not None:
             print(ticket)
@@ -76,7 +76,7 @@ def ticket_list():
             {
                 "user": res.who,
                 "latest": res.issue,
-                "id": res.id,
+                "id": res.uuid,
                 "details": res.details
              } for res in results
         ])
@@ -94,7 +94,7 @@ def ticket_list():
             {
                 "user": res.who,
                 "latest": res.issue,
-                "id": res.id,
+                "id": res.uuid,
                 "details": res.details
              } for res in results
         ])
