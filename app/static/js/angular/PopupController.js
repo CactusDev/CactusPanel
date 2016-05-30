@@ -30,12 +30,19 @@ app.controller('PopupControl', ['$scope', '$mdDialog', '$mdMedia', function($sco
           request.done(function(data) {
               console.log("data:");
               console.log(data);
-              var diff = _.differenceBy(data, $scope.tickets, (item, key, a) => item.id);
               $scope.$apply(function() {
-                  for (ticket in diff) {
-                      $scope.tickets.push(diff[ticket]);
+                  $scope.tickets = [];
+
+                  for (i = 0; i < data.length; i++) {
+                      $scope.tickets.push(data[i]);
                   }
               });
+            //   var diff = _.differenceBy(data, $scope.tickets, (item, key, a) => item.id);
+            //   $scope.$apply(function() {
+            //       for (ticket in diff) {
+            //           $scope.tickets.push(diff[ticket]);
+            //       }
+            //   });
               console.log("$scope.tickets:")
               console.log($scope.tickets);
           });
