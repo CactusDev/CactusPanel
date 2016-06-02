@@ -13,9 +13,7 @@ $('button#submit').click(function() {
             email: $("#email").val(),
         },
         type: 'POST',
-        success: function(data) {
-            console.log(data);
-        },
+        success: function(data) { },
         error: function(data) {
             console.error(data);
         }

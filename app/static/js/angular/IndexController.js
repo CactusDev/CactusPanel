@@ -40,9 +40,6 @@ app.config(function($interpolateProvider, $mdThemingProvider) {
 
 
 app.controller('IndexControl', ['$scope', function($scope) {
-
-    console.log(app.supportList);
-
     $scope.data = {};
     $scope.data.tickets = app.supportList;
 

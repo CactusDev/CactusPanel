@@ -35,8 +35,6 @@ lm.init_app(app)
 lm.login_view = "login"
 
 from . import views, models
-from .util import assets, bot
+from .util import assets
 
 from . import views
-
-app.jinja_env.globals.update(forceJoinChat=bot.force_join_chat)

@@ -30,8 +30,6 @@ app.controller('PopupControl', ['$scope', '$mdDialog', '$mdMedia', function($sco
             }
 
             request.done(function(data) {
-                console.log("data:");
-                console.log(data);
                 $scope.$apply(function() {
                     $scope.data.tickets.length = 0;
 
@@ -44,8 +42,6 @@ app.controller('PopupControl', ['$scope', '$mdDialog', '$mdMedia', function($sco
                 //           $scope.tickets.push(diff[ticket]);
                 //       }
                 //   });
-                console.log("$scope.tickets:")
-                console.log($scope.data.tickets);
             });
         }
     }
@@ -157,7 +153,6 @@ function DialogController($scope, $mdDialog) {
                 })
                 .done(function(request) {
                     request = JSON.stringify(request);
-                    console.log(request);
                     if (request.success) {
                         console.log("SUCCESS!")
                     }

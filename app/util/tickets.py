@@ -30,8 +30,6 @@ def create_ticket():
         ticket = Tickets.query.filter_by(uuid=ticket_id).first()
 
         if ticket is not None:
-            print(ticket)
-
             return jsonify({"success": True})
         else:
             return jsonify({"success": False})
@@ -53,11 +51,8 @@ def ticket_response():
 @login_required
 @app.route("/support/list", methods=["GET", "POST"])
 def ticket_list():
-    print(request.method)
-
     if request.method == "POST":
         data = json.loads(request.data.decode("utf-8").lower())
-        print(data)
         if "sortBy" in data:
             if "who" in data["sortBy"]:
                 if data["sortBy"]["who"] == "auth":
@@ -81,8 +76,6 @@ def ticket_list():
              } for res in results
         ])
 
-        print(to_return)
-
         return Response(to_return, mimetype="application/json")
 
     elif request.method == "GET":
@@ -99,5 +92,4 @@ def ticket_list():
              } for res in results
         ])
 
-        print(to_return)
         return Response(to_return, mimetype="application/json")
