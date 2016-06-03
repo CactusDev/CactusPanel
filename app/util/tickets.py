@@ -9,43 +9,54 @@ import time
 
 
 @login_required
-@app.route("/support/create", methods=["GET", "POST"])
-def create_ticket():
+@app.route("/support", methods=["GET", "POST"])
+def support_router():
     if request.method == "GET":
-        return render_template("directives/CreateSupportTicket.html")
+        pass
     elif request.method == "POST":
-        data = json.loads(request.data.decode("utf-8"))
-
-        ticket_id = str(uuid4())
-
-        new_ticket = Tickets(
-            who=session["username"],
-            issue=data["issue"],
-            details=data["details"],
-            uuid=ticket_id
-        )
-        db.session.add(new_ticket)
-        db.session.commit()
-
-        ticket = Tickets.query.filter_by(uuid=ticket_id).first()
-
-        if ticket is not None:
-            return jsonify({"success": True})
-        else:
-            return jsonify({"success": False})
-    else:
-        return "Method not supported."
+        pass
+    else:                          # Not GET/POST (somehow), method not allowed
+        pass
 
 
 @login_required
-@app.route("/support/respond", methods=["GET", "POST"])
-def ticket_response():
+@app.route("/support/create", methods=["GET"])
+def create_ticket_directive():
+    if request.method == "GET":
+        return render_template("directives/CreateSupportTicket.html")
+    else:
+        return "Method not allowed"
+
+
+@login_required
+@app.route("/support/respond", methods=["GET"])
+def respond_ticket_directive():
     if request.method == "GET":
         return render_template("directives/RespondToTicket.html")
-    elif request.method == "POST":
-        return "THINGS! #BlamePara"
     else:
-        return "Method not supported."
+        return "Method not allowed"
+
+
+def create_ticket():
+    data = json.loads(request.data.decode("utf-8"))
+
+    ticket_id = str(uuid4())
+
+    new_ticket = Tickets(
+        who=session["username"],
+        issue=data["issue"],
+        details=data["details"],
+        uuid=ticket_id
+    )
+    db.session.add(new_ticket)
+    db.session.commit()
+
+    ticket = Tickets.query.filter_by(uuid=ticket_id).first()
+
+    if ticket is not None:
+        return jsonify({"success": True})
+    else:
+        return jsonify({"success": False})
 
 
 @login_required

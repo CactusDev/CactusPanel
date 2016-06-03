@@ -25,15 +25,19 @@ app.config(function($interpolateProvider, $mdThemingProvider) {
         .accentPalette('light-blue', {
             'default': "A200"
     });
-    // Initial population of list, so just go by date submitted (which GET-ing)
-    //  /support/list returns
-    $.ajax({
-        url: '/support/list',
-        type: 'GET',
-        data: JSON.stringify({}),
-        contentType: 'application/json'
-    })
-    .done(function(request) {
+    // Initial population of list, so just go by date submitted, which GET-ing
+    //  /support returns when method is set to 'tickets:retrieve:newest'
+    var req = makeRequest(
+        createJSONPacket(               // data
+           'tickets:retrieve:newest',       // method
+           {},                              // params
+        ),
+        'GET',                          // type
+        '/support'                      // url
+    );
+    req.done(function(request) {
+        console.log('app.config(indexController:39)');
+        console.log(request);
         app.supportList = request;
     })
 });

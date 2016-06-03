@@ -1,7 +1,7 @@
 $.ajaxSetup({
     beforeSend: function(xhr, settings) {
         if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type)) {
-            xhr.setRequestHeader("X-CSRFToken", csrftoken)
+            xhr.setRequestHeader('X-CSRFToken', csrftoken)
         }
     }
 });
@@ -16,20 +16,45 @@ app.controller('PopupControl', ['$scope', '$mdDialog', '$mdMedia', function($sco
     $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
     $scope.searchString = null;
 
+    $scope.awaitJSON = [];
+
     $scope.searchSupport = function(e) {
         if (e.keyCode == 13) {
             if ($scope.searchString) {
-                var request = $scope.retrieveTickets(
+                var packet = createJSONPacket(
+                    'tickets:retrieve:search',
+                    {string: $scope.searchString},
+                );
+
+                $scope.awaitJSON.push(packet['id']);
+
+                var request = retrieveTickets(
+                    packet,
                     'POST',
-                    {
-                        search_string: $scope.searchString
-                    }
                 )
             } else {
-                var request = $scope.retrieveTickets();
+                var packet = createJSONPacket(
+                    'tickets:retrieve:newest',
+                    {},
+                )
+                $scope.awaitJSON.push(packet['id']);
+
+                var request = retrieveTickets(
+                    packet,
+                    'GET',
+                );
             }
 
             request.done(function(data) {
+                console.log('PopupControl:49');
+                console.log(data);
+                var indexID = $scope.awaitJSON.indexOf(data['id']);
+                if (indexID > -1) {
+                    $scope.awaitJSON.splice(indexID, 1);
+                } else {
+                    console.warn('NOTE: Unexepected ID', data['id'], 'returned by server!')
+                }
+
                 $scope.$apply(function() {
                     $scope.data.tickets.length = 0;
 
@@ -44,21 +69,6 @@ app.controller('PopupControl', ['$scope', '$mdDialog', '$mdMedia', function($sco
                 //   });
             });
         }
-    }
-
-    $scope.retrieveTickets = function(type, data) {
-        if (data == undefined || data == '') {
-            var type = 'GET';
-        }
-
-        var req = $.ajax({
-            url: '/support/list',
-            type: type,
-            data: JSON.stringify(data),
-            contentType: 'application/json'
-        });
-
-        return req;
     }
 
     $scope.showCreate = function(ev) {
@@ -138,25 +148,26 @@ function DialogController($scope, $mdDialog) {
             }
             if ($scope.issue == undefined || $scope.issue == '' ||
                 $scope.details == undefined || $scope.details == '') {
-                console.log("BIG BAD EXPLOSIONS!")
+                console.log('BIG BAD EXPLOSIONS!')
             }
             $scope.gotSupported = true;
 
-            $.ajax({
-                    url: '/support/create',
-                    type: 'POST',
-                    data: JSON.stringify({
-                        issue: $scope.issue,
-                        details: $scope.details,
-                    }),
-                    contentType: 'application/json'
-                })
-                .done(function(request) {
-                    request = JSON.stringify(request);
-                    if (request.success) {
-                        console.log("SUCCESS!")
-                    }
-                });
+            var req = makeRequest(
+                createJSONPacket(           // JSON-RPC packet
+                    'tickets:create',           // method
+                    {                           // data
+                        issue:      $scope.issue,
+                        details:    $scope.details,
+                    },
+                ),
+                'POST',                     // method
+                '/support'                  // url
+            );
+            req.done(function(request) {
+                request = JSON.stringify(request);
+                console.log('PopupControl:166');
+                console.log(request);
+            });
         }
     }
 }

@@ -9,3 +9,27 @@ socket.on('connect', function() {
 socket.on("reconnect_error", function() {
   console.log("Unable to connect to the live server. Trying again.");
 });
+
+function createJSONPacket(method, params, id) {
+    return {
+        jsonrpc: '2.0',
+        method: method,
+        params: params,
+        id: ((id != null) ? (Math.random() * (100 - 50) + 50) : id)
+    }
+}
+
+function makeRequest(data, type, url) {
+    if (type == undefined || type == '') {
+        var type = 'GET';
+    }
+
+    var req = $.ajax({
+        url: '/support',
+        type: type,
+        data: JSON.stringify(data),
+        contentType: 'application/json'
+    });
+
+    return req;
+}
