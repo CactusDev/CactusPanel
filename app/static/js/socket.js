@@ -15,7 +15,7 @@ function createJSONPacket(method, params, id) {
         jsonrpc: '2.0',
         method: method,
         params: params,
-        id: ((id != null) ? (Math.random() * (100 - 50) + 50) : id)
+        id: id
     }
 }
 

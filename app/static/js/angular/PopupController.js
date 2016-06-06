@@ -17,31 +17,38 @@ app.controller('PopupControl', ['$scope', '$mdDialog', '$mdMedia', function($sco
     $scope.searchString = null;
 
     $scope.awaitJSON = [];
+    $scope.requestID = 1;
 
     $scope.searchSupport = function(e) {
         if (e.keyCode == 13) {
             if ($scope.searchString) {
                 var packet = createJSONPacket(
                     'retrieve:search',
-                    {string: $scope.searchString}
+                    {string: $scope.searchString},
+                    $scope.requestID
                 );
+                $scope.requestID++;
 
                 $scope.awaitJSON.push(packet['id']);
 
-                var request = retrieveTickets(
-                    packet,
-                    'POST'
+                var request = makeRequest(
+                    packet,                 // data
+                    'POST',                 // method
+                    '/support'              // url
                 );
             } else {
                 var packet = createJSONPacket(
                     'retrieve:newest',
-                    {}
+                    {},
+                    $scope.requestID
                 );
+                $scope.requestID++;
                 $scope.awaitJSON.push(packet['id']);
 
-                var request = retrieveTickets(
-                    packet,
-                    'POST'
+                var request = makeRequest(
+                    packet,                 // data
+                    'POST',                 // method
+                    '/support'              // url
                 );
             }
 
@@ -58,7 +65,7 @@ app.controller('PopupControl', ['$scope', '$mdDialog', '$mdMedia', function($sco
                 $scope.$apply(function() {
                     $scope.data.tickets.length = 0;
 
-                    $scope.data.tickets = data;
+                    $scope.data.tickets = data["result"]["results"];
 
                 });
                 //   var diff = _.differenceBy(data, $scope.tickets, (item, key, a) => item.id);

@@ -30,7 +30,8 @@ app.config(function($interpolateProvider, $mdThemingProvider) {
     var req = makeRequest(
         createJSONPacket(               // data
            'retrieve:newest',               // method
-           {}                              // params
+           {},                              // params
+           0                                // id
         ),
         'POST',                         // type
         '/support'                      // url
@@ -42,7 +43,7 @@ app.config(function($interpolateProvider, $mdThemingProvider) {
             // It looks like we've got an error, deal with it
         } else if (request.hasOwnProperty("result")) {
             // Success!
-            app.supportList = request["result"]["results"]
+            app.supportList = request["result"]["results"];
         }
     })
 });

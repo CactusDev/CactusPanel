@@ -43,8 +43,10 @@ def support_router():
 
         response_packet = json_rpc.JSONRPCResult(
             response_id=data["id"] if "id" in data else None,
-            result={"results": return_data}
+            result={"results": return_data},
         ).packet
+
+        print(response_packet)
 
         return jsonify(response_packet)
 
@@ -109,8 +111,8 @@ def list_tickets(packet):
             if params["sortBy"]["who"] == "auth":
                 params["sortBy"]["who"] = session["username"]
 
-    if "search_string" in params:
-        search_term = params["search_string"].lower()
+    if packet["method"] == "retrieve:search":
+        search_term = params["string"].lower()
 
         results = Tickets.query.filter(or_(
             Tickets.issue.contains(search_term),
@@ -118,7 +120,7 @@ def list_tickets(packet):
             Tickets.representative.contains(search_term),
             Tickets.who.contains(search_term)
         )).limit(10)
-    else:
+    elif packet["method"] == "retrieve:newest":
         results = db.session.query(Tickets).filter_by(
             resolved=False
         ).limit(10)
