@@ -26,21 +26,21 @@
 
   <body ng-app="GlobalApp" ng-controller="TabController">
     <div id="content">
-        <md-content>
-          <md-tabs md-dynamic-height md-border-bottom ng-style="{backgroundColor: '43A047'}">
-            <md-tab label="Dashboard" md-on-select="dash()">
-                <pane ng-view template="/"></pane>
-            </md-tab>
+      <md-content>
+        <md-tabs md-dynamic-height md-border-bottom ng-style="{backgroundColor: '43A047'}">
+          <md-tab label="Dashboard" md-on-select="dash()">
+              <pane ng-view="Dash" template="/"></pane>
+          </md-tab>
 
-            <md-tab label="Commands" md-on-select="commands()">
-                <pane ng-view template="/dashboard/commands"></pane>
-            </md-tab>
+          <md-tab label="Commands" md-on-select="commands()">
+              <pane ng-view="Commands" template="/dashboard/commands"></pane>
+          </md-tab>
 
-            <md-tab label="Support" md-on-select="support()">
-                <pane ng-view template="/dashboard/support"></pane>
-            </md-tab>
-          </md-tabs>
-        </md-content>
+          <md-tab label="Support" md-on-select="support()">
+              <pane ng-view="Support" template="/dashboard/support"></pane>
+          </md-tab>
+        </md-tabs>
+      </md-content>
     </div>
 
   </body>

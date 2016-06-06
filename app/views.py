@@ -130,6 +130,12 @@ def logout():
     return redirect(url_for("index"))
 
 
+@app.route('/admin', methods=["GET"])
+@login_required
+def admin():
+    return render_template('admin.html')
+
+
 @app.route('/c-emoji', methods=["GET"])
 def emoji():
     return render_template('partials/c-emoji.html')
@@ -162,7 +168,7 @@ def commands():
 @app.route('/tab/botsettings')
 def bot_settings():
     return render_template(
-        'partials/tabs/BotSettings.html',
+        'directives/tabs/BotSettings.html',
         username=session["username"],
         role="pro")
 
