@@ -168,7 +168,7 @@ def commands():
 @app.route('/tab/botsettings')
 def bot_settings():
     return render_template(
-        'directives/tabs/BotSettings.html',
+        'partials/tabs/BotSettings.html',
         username=session["username"],
         role="pro")
 

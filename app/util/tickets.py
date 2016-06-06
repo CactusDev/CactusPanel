@@ -65,7 +65,7 @@ def support_router():
 @app.route("/support/create", methods=["GET"])
 def create_ticket_directive():
     if request.method == "GET":
-        return render_template("directives/CreateSupportTicket.html")
+        return render_template("partials/CreateSupportTicket.html")
     else:
         return "Method not allowed"
 
