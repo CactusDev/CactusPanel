@@ -130,60 +130,54 @@ def logout():
     return redirect(url_for("index"))
 
 
-@app.route('/admin', methods=["GET"])
-@login_required
-def admin():
-    return render_template('admin.html')
-
-
 @app.route('/c-emoji', methods=["GET"])
 def emoji():
-    return render_template('directives/c-emoji.html')
+    return render_template('partials/c-emoji.html')
 
 
-@app.route('/command/create')
-def create_command():
-    return render_template(
-        'directives/AddCommand.html',
-        username=session["username"],
-        role="pro")
-
-
-@app.route('/tab/dash')
-def dash():
-    return render_template(
-        'directives/tabs/Dashboard.html',
-        username=session["username"],
-        role="pro")
-
-
-@app.route('/tab/commands')
-def commands():
-    return render_template(
-        'directives/tabs/Commands.html',
-        username=session["username"],
-        role="pro")
-
-
-@app.route('/tab/botsettings')
-def bot_settings():
-    return render_template(
-        'directives/tabs/BotSettings.html',
-        username=session["username"],
-        role="pro")
-
-
-@app.route('/tab/support')
-def support():
-    return render_template(
-        'directives/tabs/Support.html',
-        username=session["username"],
-        role="pro")
-
-
-@app.route('/tab/usersettings')
-def user_settings():
-    return render_template(
-        'directives/tabs/UserSettings.html',
-        username=session["username"],
-        role="pro")
+# @app.route('/command/create')
+# def create_command():
+#     return render_template(
+#         'partials/AddCommand.html',
+#         username=session["username"],
+#         role="pro")
+#
+#
+# @app.route('/tab/dash')
+# def dash():
+#     return render_template(
+#         'partials/tabs/Dashboard.html',
+#         username=session["username"],
+#         role="pro")
+#
+#
+# @app.route('/tab/commands')
+# def commands():
+#     return render_template(
+#         'partials/tabs/Commands.html',
+#         username=session["username"],
+#         role="pro")
+#
+#
+# @app.route('/tab/botsettings')
+# def bot_settings():
+#     return render_template(
+#         'partials/tabs/BotSettings.html',
+#         username=session["username"],
+#         role="pro")
+#
+#
+# @app.route('/tab/support')
+# def support():
+#     return render_template(
+#         'partials/tabs/Support.html',
+#         username=session["username"],
+#         role="pro")
+#
+#
+# @app.route('/tab/usersettings')
+# def user_settings():
+#     return render_template(
+#         'partials/tabs/UserSettings.html',
+#         username=session["username"],
+#         role="pro")

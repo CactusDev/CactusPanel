@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    {{ JSGlue.include() }}
+
     <!-- Flask-y magicalness to include all of the dependencies -->
 
     {% assets "angular_material_js" %}
@@ -15,32 +17,31 @@
     <link rel="stylesheet" href="{{ ASSET_URL }}"> {% endassets %} {% assets "dashboard_js" %}
     <script type="text/javascript" src="{{ ASSET_URL }}"></script>
     {% endassets %}
-    <!-- Get the stylesheet -->
+
+    <script data-require="angular-ui-bootstrap@*" data-semver="0.10.0" src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.10.0.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.8/angular-ui-router.js"></script>
+  <!-- Get the stylesheet -->
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
   </head>
 
-  <body ng-app="IndexApp" ng-controller="IndexControl">
-
+  <body>
     <!-- Display a cool little spinner when the frontend disconnects -->
     <!-- from the backend server -->
 
-    <div ng-cloak ng-hide="connected" id="cover">
+    <!-- <div ng-cloak ng-hide="connected" id="cover">
       <md-progress-circular md-mode="indeterminate" class="md-hue-8" md-diameter="100px"></md-progress-circular>
-    </div>
+    </div> -->
 
     <!-- Main site content -->
 
-    <div ng-app="IndexApp" ng-controller="IndexControl" ng-cloak>
-      <md-content>
+    <div ng-app="GlobalApp" ng-controller="TabController" ng-cloak>
+      <!-- <md-content>
         <md-tabs md-dynamic-height md-border-bottom ng-style="{backgroundColor: '43A047'}">
-          <!-- Dashboard tab -->
 
           <md-tab label="Dashboard">
             <dash></dash>
           </md-tab>
-
-          <!-- Bot settings tab -->
 
           <md-tab label="Bot settings">
             <bot-settings>
@@ -51,19 +52,26 @@
             <commands></commands>
           </md-tab>
 
-          <!-- User settings tab -->
-
           <md-tab label="User Settings">
             <user-settings></user-settings>
           </md-tab>
-
-          <!-- Support tab -->
 
           <md-tab label="Support">
             <support></support>
           </md-tab>
         </md-tabs>
-      </md-content>
+      </md-content> -->
+
+      <div ui-view>
+        <tabset>
+          <tab
+              ng-repeat="t in tabs"
+              heading="{[ t.heading ]}"
+              select="go(t.route)"
+              active="t.active">
+          </tab>
+      </tabset>
+      </div>
     </div>
   </body>
 
