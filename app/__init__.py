@@ -8,7 +8,6 @@ from flask_mail import Mail
 from flask_security import (Security, SQLAlchemyUserDatastore,
                             UserMixin, RoleMixin, login_required,
                             login_user, logout_user, current_user)
-from flask_jsglue import JSGlue
 
 
 app = Flask(__name__, instance_relative_config=True)
@@ -24,8 +23,6 @@ db = SQLAlchemy(app)
 csrf_protect = CsrfProtect(app)
 
 socketio = SocketIO(app)
-
-jsglue = JSGlue(app)
 
 from .models import User, Role
 

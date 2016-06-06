@@ -1,5 +1,12 @@
-var app = angular.module("GlobalApp", ["ngMaterial", "ui.router", "ui.bootstrap"]);
-//
+var app = angular.module("GlobalApp", [
+  "ngMaterial",
+  "ngRoute"
+]);
+
+var socket = io.connect('http://' + document.domain + ':' + location.port);
+var shouldShow = true;
+
+var csrftoken = $('meta[name=csrf-token]').attr('content')
 
 $.ajaxSetup({
     beforeSend: function(xhr, settings) {
@@ -9,7 +16,7 @@ $.ajaxSetup({
     }
 });
 
-app.config(function($interpolateProvider, $mdThemingProvider, $stateProvider, $urlRouterProvider) {
+app.config(function($interpolateProvider, $mdThemingProvider, $routeProvider) {
   $interpolateProvider.startSymbol('{[');
   $interpolateProvider.endSymbol(']}');
 
@@ -22,12 +29,14 @@ app.config(function($interpolateProvider, $mdThemingProvider, $stateProvider, $u
           'default': "A200"
   });
 
-  $urlRouterProvider.otherwise("/dashboard");
-
-  $stateProvider
-    .state("dashboard", { abtract: true, url:"/dash", templateUrl: {{ render_template('partials/tabs/Dashboard.html') }} })
-    .state("dashboard.commands", { url: "/dash/commands", templateUrl: "{{ render_template('partials/tabs/Commands.html') }}" })
-    .state("dashboard.support", { url: "/dash/support", templateUrl: "{{ render_template('partials/tabs/Support.html') }}" })
+  $routeProvider.when("/", {
+    templateUrl: "/tab/dash"
+  }).when("/dashboard/commands", {
+    templateUrl: "/tab/commands"
+  }).when("/dashboard/support", {
+    templateUrl: "/tab/support",
+    controller: "SupportController"
+  }).otherwise({ redirectTo: "/" });
 
   var req = makeRequest(
       createJSONPacket(               // data
@@ -48,27 +57,7 @@ app.config(function($interpolateProvider, $mdThemingProvider, $stateProvider, $u
   });
 });
 
-app.controller("TabController", function($rootScope, $scope, $state) {
-
-  $scope.go = function(route) {
-    $state.go(route)
-  };
-
-  $scope.active = function(route) {
-    return $state.is(route)
-  };
-
-  $scope.tabs = [
-    { heading: "Commands", route: "dashboard.commands", active: false },
-    { heading: "Support", route: "dashboard.support", active: false },
-  ];
-
-  $scope.$on("$stateChangeSuccess", function() {
-    $scope.tabs.forEach(function(tab) {
-      tab.active = $scope.active(tab.route)
-    });
-  });
-
+app.controller("TabController", function($scope, $window) {
   // TODO: Move from here to it's own file for what it belongs to
 
   $scope.data = {};
@@ -91,4 +80,20 @@ app.controller("TabController", function($rootScope, $scope, $state) {
       $scope.connected = false;
       $scope.$apply();
   });
-})
+
+  $scope.dash = function() {
+    $window.location.href='#';
+  }
+
+  $scope.commands = function() {
+    $window.location.href='#dashboard/commands';
+  }
+
+  $scope.support = function() {
+    $window.location.href='#dashboard/support';
+  }
+});
+
+app.controller("SupportController", function($scope) {
+  $scope.stuff = "THINGS"
+});
