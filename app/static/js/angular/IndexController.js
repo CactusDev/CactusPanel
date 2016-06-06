@@ -37,7 +37,7 @@ app.config(function($interpolateProvider, $mdThemingProvider) {
         '/support'                      // url
     );
     req.done(function(request) {
-        console.log('app.config(indexController:39)');
+        console.log('app.config(TabControllerler:39)');
         console.log(request);
         if (request.hasOwnProperty("error")) {
             // It looks like we've got an error, deal with it
@@ -49,7 +49,7 @@ app.config(function($interpolateProvider, $mdThemingProvider) {
 });
 
 
-app.controller('IndexControl', ['$scope', function($scope) {
+app.controller('TabController', ['$scope', function($scope) {
     $scope.data = {};
     $scope.data.tickets = app.supportList;
 

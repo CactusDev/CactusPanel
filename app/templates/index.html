@@ -15,56 +15,34 @@
     <link rel="stylesheet" href="{{ ASSET_URL }}"> {% endassets %} {% assets "dashboard_js" %}
     <script type="text/javascript" src="{{ ASSET_URL }}"></script>
     {% endassets %}
-    <!-- Get the stylesheet -->
+
+    <script data-require="angular-ui-bootstrap@*" data-semver="0.10.0" src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.10.0.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.8/angular-ui-router.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-route.js"></script>
+  <!-- Get the stylesheet -->
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
   </head>
 
-  <body ng-app="IndexApp" ng-controller="IndexControl">
-
-    <!-- Display a cool little spinner when the frontend disconnects -->
-    <!-- from the backend server -->
-
-    <div ng-cloak ng-hide="connected" id="cover">
-      <md-progress-circular md-mode="indeterminate" class="md-hue-8" md-diameter="100px"></md-progress-circular>
-    </div>
-
-    <!-- Main site content -->
-
-    <div ng-app="IndexApp" ng-controller="IndexControl" ng-cloak>
+  <body ng-app="GlobalApp" ng-controller="TabController">
+    <div id="content">
       <md-content>
         <md-tabs md-dynamic-height md-border-bottom ng-style="{backgroundColor: '43A047'}">
-          <!-- Dashboard tab -->
-
-          <md-tab label="Dashboard">
-            <dash></dash>
+          <md-tab label="Dashboard" md-on-select="dash()">
+              <pane ng-view="Dash" template="/"></pane>
           </md-tab>
 
-          <!-- Bot settings tab -->
-
-          <md-tab label="Bot settings">
-            <bot-settings>
-              </bot_settings>
+          <md-tab label="Commands" md-on-select="commands()">
+              <pane ng-view="Commands" template="/dashboard/commands"></pane>
           </md-tab>
 
-          <md-tab label="Commands">
-            <commands></commands>
-          </md-tab>
-
-          <!-- User settings tab -->
-
-          <md-tab label="User Settings">
-            <user-settings></user-settings>
-          </md-tab>
-
-          <!-- Support tab -->
-
-          <md-tab label="Support">
-            <support></support>
+          <md-tab label="Support" md-on-select="support()">
+              <pane ng-view="Support" template="/dashboard/support"></pane>
           </md-tab>
         </md-tabs>
       </md-content>
     </div>
+
   </body>
 
 </html>
