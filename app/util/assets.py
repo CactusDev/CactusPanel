@@ -29,7 +29,6 @@ bundles = {
         "js/angular/PopupController.js",
         "js/angular/directives.js",
         "js/socket.js",
-        "js/diag.js",
         filters="jsmin",
         output="gen/dashboard.js")
 }
