@@ -1,22 +1,62 @@
 from flask import url_for, jsonify, render_template, session, Response
 from flask.ext.login import request, login_required
 from sqlalchemy import or_
+from functools import partial
 from ..models import Tickets
 from uuid import uuid4
-from .. import app, db
+from .. import app, db, csrf_protect
+from . import json_rpc
 import json
 import time
 
 
+@csrf_protect.exempt
 @login_required
-@app.route("/support", methods=["GET", "POST"])
+@app.route("/support", methods=["POST"])
 def support_router():
-    if request.method == "GET":
-        pass
-    elif request.method == "POST":
-        pass
+    if request.method == "POST":
+
+        # NOTE: This doesn't actually see args sent by HTTPie, gotta figure out
+        #       how to access those
+        data = request.data.decode("utf-8")
+
+        if data == "":
+            error_packet = json_rpc.JSONRPCError(
+                code=-32600,
+                message="Invalid Request",
+                data="No data was provided in POST request. POST must "
+                        "include JSON-RPC compliant JSON data",
+                response_id=None        # Required to be JSON-RPC compliant
+            ).packet
+
+            return jsonify(error_packet)
+
+        data = json.loads(data)
+
+        methods = {
+            "retrieve:newest": partial(list_tickets, data),
+            "retrieve:search": partial(list_tickets, data),
+            "create": partial(create_ticket, data)
+        }
+
+        return_data = json.loads(methods[data["method"]]())
+
+        response_packet = json_rpc.JSONRPCResult(
+            response_id=data["id"] if "id" in data else None,
+            result={"results": return_data}
+        ).packet
+
+        return jsonify(response_packet)
+
     else:                          # Not GET/POST (somehow), method not allowed
-        pass
+        error_packet = json_rpc.JSONRPCError(
+            code=405,
+            message="Method not allowed",
+            data="Method {} is not allowed on this endpoint".format(
+                request.method),
+            response_id=None            # Required to be JSON-RPC compliant
+        ).packet
+        return jsonify(error_packet)
 
 
 @login_required
@@ -37,15 +77,16 @@ def respond_ticket_directive():
         return "Method not allowed"
 
 
-def create_ticket():
-    data = json.loads(request.data.decode("utf-8"))
+def create_ticket(packet):
+
+    params = packet["params"]
 
     ticket_id = str(uuid4())
 
     new_ticket = Tickets(
         who=session["username"],
-        issue=data["issue"],
-        details=data["details"],
+        issue=params["issue"],
+        details=params["details"],
         uuid=ticket_id
     )
     db.session.add(new_ticket)
@@ -59,17 +100,17 @@ def create_ticket():
         return jsonify({"success": False})
 
 
-@login_required
-@app.route("/support/list", methods=["GET", "POST"])
-def ticket_list():
-    if request.method == "POST":
-        data = json.loads(request.data.decode("utf-8").lower())
-        if "sortBy" in data:
-            if "who" in data["sortBy"]:
-                if data["sortBy"]["who"] == "auth":
-                    data["sortBy"]["who"] = session["username"]
+def list_tickets(packet):
 
-        search_term = data["search_string"]
+    params = packet["params"]
+
+    if "sortBy" in params:
+        if "who" in params["sortBy"]:
+            if params["sortBy"]["who"] == "auth":
+                params["sortBy"]["who"] = session["username"]
+
+    if "search_string" in params:
+        search_term = params["search_string"].lower()
 
         results = Tickets.query.filter(or_(
             Tickets.issue.contains(search_term),
@@ -77,30 +118,18 @@ def ticket_list():
             Tickets.representative.contains(search_term),
             Tickets.who.contains(search_term)
         )).limit(10)
-
-        to_return = json.dumps([
-            {
-                "user": res.who,
-                "latest": res.issue,
-                "id": res.uuid,
-                "details": res.details
-             } for res in results
-        ])
-
-        return Response(to_return, mimetype="application/json")
-
-    elif request.method == "GET":
+    else:
         results = db.session.query(Tickets).filter_by(
             resolved=False
         ).limit(10)
 
-        to_return = json.dumps([
-            {
-                "user": res.who,
-                "latest": res.issue,
-                "id": res.uuid,
-                "details": res.details
-             } for res in results
-        ])
+    to_return = json.dumps([
+        {
+            "user": res.who,
+            "latest": res.issue,
+            "id": res.uuid,
+            "details": res.details
+        } for res in results
+    ])
 
-        return Response(to_return, mimetype="application/json")
+    return to_return

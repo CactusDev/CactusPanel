@@ -26,19 +26,24 @@ app.config(function($interpolateProvider, $mdThemingProvider) {
             'default': "A200"
     });
     // Initial population of list, so just go by date submitted, which GET-ing
-    //  /support returns when method is set to 'tickets:retrieve:newest'
+    //  /support returns when method is set to 'retrieve:newest'
     var req = makeRequest(
         createJSONPacket(               // data
-           'tickets:retrieve:newest',       // method
-           {},                              // params
+           'retrieve:newest',               // method
+           {}                              // params
         ),
-        'GET',                          // type
+        'POST',                         // type
         '/support'                      // url
     );
     req.done(function(request) {
         console.log('app.config(indexController:39)');
         console.log(request);
-        app.supportList = request;
+        if (request.hasOwnProperty("error")) {
+            // It looks like we've got an error, deal with it
+        } else if (request.hasOwnProperty("result")) {
+            // Success!
+            app.supportList = request["result"]["results"]
+        }
     })
 });
 

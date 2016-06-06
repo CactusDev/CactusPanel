@@ -22,26 +22,26 @@ app.controller('PopupControl', ['$scope', '$mdDialog', '$mdMedia', function($sco
         if (e.keyCode == 13) {
             if ($scope.searchString) {
                 var packet = createJSONPacket(
-                    'tickets:retrieve:search',
-                    {string: $scope.searchString},
+                    'retrieve:search',
+                    {string: $scope.searchString}
                 );
 
                 $scope.awaitJSON.push(packet['id']);
 
                 var request = retrieveTickets(
                     packet,
-                    'POST',
-                )
+                    'POST'
+                );
             } else {
                 var packet = createJSONPacket(
-                    'tickets:retrieve:newest',
-                    {},
-                )
+                    'retrieve:newest',
+                    {}
+                );
                 $scope.awaitJSON.push(packet['id']);
 
                 var request = retrieveTickets(
                     packet,
-                    'GET',
+                    'POST'
                 );
             }
 
@@ -154,11 +154,11 @@ function DialogController($scope, $mdDialog) {
 
             var req = makeRequest(
                 createJSONPacket(           // JSON-RPC packet
-                    'tickets:create',           // method
+                    'create',               // method
                     {                           // data
                         issue:      $scope.issue,
                         details:    $scope.details,
-                    },
+                    }
                 ),
                 'POST',                     // method
                 '/support'                  // url
