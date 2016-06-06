@@ -1,10 +1,18 @@
+"""
+A simple JSON-RPC packet creation module for Python 3
+Created by RPiAwesomneness for use with the CactusBot project
+"""
+
 import json
-from random import randint
 
 
 class JSONRPCException(Exception):
+    """
+    Custom exception used within JSONRPCResult and JSONRPCError
+    """
 
     def __init__(self, message):
+        super(JSONRPCException, self).__init__()
         self.message = message
 
     def __repr__(self):
@@ -16,23 +24,15 @@ class JSONRPCException(Exception):
             self.message)
 
 
-class JSONRPCBase:
-
-    # None by default, updated when Result or Error created
-    response_id = None
+class JSONRPCResult:
+    """
+    JSON-RPC Result object
+    """
+    response_id = 0
     packet = {
         "jsonrpc": "2.0",        # Default required key/value pair for JSON-RPC
         "id": response_id
     }
-
-    def __repr__(self):
-        return "<JSON-RPC object - {}>".format(self.id)
-
-
-class JSONRPCResult(JSONRPCBase):
-    """
-    JSON-RPC Result object
-    """
 
     def __init__(self, result, response_id=None):
         """
@@ -48,9 +48,9 @@ class JSONRPCResult(JSONRPCBase):
         self.packet["id"] = self.response_id
         self.type = "Result"
 
-        if type(result) == dict:
+        if isinstance(result, dict):
             self.data = result
-        elif type(result) == str:
+        elif isinstance(result, str):
             self.data = json.loads(result)
         else:
             raise JSONRPCException("Unexpected data type for result {}".format(
@@ -59,6 +59,23 @@ class JSONRPCResult(JSONRPCBase):
 
         # Made it passed the if statement successfully, let's create the packet
         self.packet["result"] = self.data
+
+    def return_packet(self):
+        """
+        Simple method to satisfy pylint
+        Just returns the JSON-RPC packet
+        """
+        return self.packet
+
+    def update_packet(self, **kwargs):
+        """
+        Allows you to update the packet's key/data pairs via a method
+        """
+        for arg in kwargs:
+            if arg in self.packet:
+                self.packet[arg] = kwargs[arg]
+            elif arg in self.packet["result"]:
+                self.packet["result"][arg] = kwargs[arg]
 
     def __repr__(self):
         return "JSON-RPC Result: {}".format(repr(self.data))
@@ -69,10 +86,15 @@ class JSONRPCResult(JSONRPCBase):
             id=self.response_id)
 
 
-class JSONRPCError(JSONRPCBase):
+class JSONRPCError:
     """
     JSON-RPC Error object
     """
+    response_id = 0
+    packet = {
+        "jsonrpc": "2.0",        # Default required key/value pair for JSON-RPC
+        "id": response_id
+    }
 
     def __init__(self, code, message, data=None, response_id=None):
         """
@@ -93,11 +115,12 @@ class JSONRPCError(JSONRPCBase):
         self.packet["id"] = self.response_id
         self.type = "Error"
 
-        if type(code) is not int or code is None:
+        if isinstance(code, int) is not True or code is None:
             raise JSONRPCException("code parameter for error MUST be type  \
                                    int!")
 
-        if type(message) is not None and type(message) is not str:
+        if isinstance(code, None) is not True and \
+                isinstance(message, str) is not True:
             raise JSONRPCException("message parameter for error MUST be type \
                                    str!")
 
@@ -107,16 +130,16 @@ class JSONRPCError(JSONRPCBase):
         self.packet["error"] = {
             "code": self.code,
             "message": self.message
-            }
+        }
 
-        if type(data) is dict:
+        if isinstance(data, dict):
             self.data = data
             self.packet["error"]["data"] = self.data
 
-        elif type(data) is str:
+        elif isinstance(data, str):
             try:
                 self.data = json.loads(data)
-            except json.decoder.JSONDecodeError as e:
+            except json.decoder.JSONDecodeError:
                 # We're going to assume that it's just returning a string, not
                 #   a JSON object
                 self.data = data
@@ -130,6 +153,23 @@ class JSONRPCError(JSONRPCBase):
             raise JSONRPCException("Unexpected data type for error {}".format(
                 str(type(data))
             ))
+
+    def return_packet(self):
+        """
+        Simple method to satisfy pylint
+        Just returns the JSON-RPC packet
+        """
+        return self.packet
+
+    def update_packet(self, **kwargs):
+        """
+        Allows you to update the packet's key/data pairs via a method
+        """
+        for arg in kwargs:
+            if arg in self.packet:
+                self.packet[arg] = kwargs[arg]
+            elif arg in self.packet["error"]:
+                self.packet["result"][arg] = kwargs[arg]
 
     def __repr__(self):
         return "JSON-RPC Error: {}".format(repr(self.data))
