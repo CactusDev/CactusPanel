@@ -2,6 +2,7 @@ from flask import url_for, jsonify, render_template, session, Response
 from flask.ext.login import request, login_required
 from sqlalchemy import or_
 from functools import partial
+from werkzeug import ImmutableMultiDict
 from ..models import Tickets
 from uuid import uuid4
 from .. import app, db, csrf_protect
@@ -14,13 +15,16 @@ import time
 @login_required
 @app.route("/support", methods=["POST"])
 def support_router():
+
     if request.method == "POST":
 
-        # NOTE: This doesn't actually see args sent by HTTPie, gotta figure out
-        #       how to access those
-        data = request.data.decode("utf-8")
+        if request.get_json() is not None:
+            # We'll go with what comes through JSON
+            data = request.get_json()
+        elif request.args != ImmutableMultiDict():
+            data = request.args
 
-        if data == "":
+        if data == "" and request.args == ImmutableMultiDict():
             error_packet = json_rpc.JSONRPCError(
                 code=-32600,
                 message="Invalid Request",
@@ -30,8 +34,6 @@ def support_router():
             ).packet
 
             return jsonify(error_packet)
-
-        data = json.loads(data)
 
         methods = {
             "retrieve:newest": partial(list_tickets, data),

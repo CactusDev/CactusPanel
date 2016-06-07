@@ -28,7 +28,8 @@ function makeRequest(data, type, url) {
         url: '/support',
         type: type,
         data: JSON.stringify(data),
-        contentType: 'application/json'
+        contentType: 'application/json',
+        dataType: 'json'
     });
 
     return req;

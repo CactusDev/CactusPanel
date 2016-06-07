@@ -119,8 +119,7 @@ class JSONRPCError:
             raise JSONRPCException("code parameter for error MUST be type  \
                                    int!")
 
-        if isinstance(code, None) is not True and \
-                isinstance(message, str) is not True:
+        if code is None and isinstance(message, str) is not True:
             raise JSONRPCException("message parameter for error MUST be type \
                                    str!")
 
