@@ -60,8 +60,6 @@ app.config(function($interpolateProvider, $mdThemingProvider, $routeProvider) {
 app.controller("TabController", function($scope, $window) {
   // TODO: Move from here to it's own file for what it belongs to
 
-  $scope.data = {};
-  $scope.data.tickets = app.supportList;
 
   $scope.commands = [{
       name: "!hug",
@@ -92,8 +90,4 @@ app.controller("TabController", function($scope, $window) {
   $scope.support = function() {
     $window.location.href='#dashboard/support';
   }
-});
-
-app.controller("SupportController", function($scope) {
-  $scope.stuff = "THINGS"
 });

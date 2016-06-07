@@ -22,15 +22,30 @@ bundles = {
         output="gen/angular-material.css"),
 
     "dashboard_js": Bundle(
+        "js/angular/GlobalController.js",
+        filters="jsmin",
+        output="gen/dashboard.js"),
+
+    "core_js": Bundle(
         "js/libs/jquery.min.js",
         "js/libs/socket.io.min.js",
         "js/libs/lodash.min.js",
-        "js/angular/GlobalController.js",
-        "js/angular/PopupController.js",
         "js/angular/directives.js",
         "js/socket.js",
         filters="jsmin",
-        output="gen/dashboard.js")
+        output="gen/core.js"),
+
+    "support_js": Bundle(
+        "js/angular/SupportController.js",
+        filters="jsmin",
+        output="gen/support.js"
+    ),
+
+    "commands_js": Bundle(
+        "js/angular/CommandsController.js",
+        filters="jsmin",
+        output="gen/commands.js"
+    )
 }
 
 assets.register(bundles)
