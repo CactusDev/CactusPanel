@@ -23,8 +23,10 @@ def support_router():
             data = request.get_json()
         elif request.args != ImmutableMultiDict():
             data = request.args
+        else:
+            data = request.data.decode("utf-8")
 
-        if data == "" and request.args == ImmutableMultiDict():
+        if data == "":
             error_packet = json_rpc.JSONRPCError(
                 code=-32600,
                 message="Invalid Request",

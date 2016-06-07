@@ -77,6 +77,8 @@ class JSONRPCResult:
             elif arg in self.packet["result"]:
                 self.packet["result"][arg] = kwargs[arg]
 
+    # TODO: add verify_packet function
+
     def __repr__(self):
         return "JSON-RPC Result: {}".format(repr(self.data))
 
@@ -170,6 +172,8 @@ class JSONRPCError:
             elif arg in self.packet["error"]:
                 self.packet["result"][arg] = kwargs[arg]
 
+    # TODO: add verify_packet function
+
     def __repr__(self):
         return "JSON-RPC Error: {}".format(repr(self.data))
 
@@ -177,3 +181,6 @@ class JSONRPCError:
         return "<JSON-RPC {type} object - {id}>".format(
             type=self.type,
             id=self.response_id)
+
+
+# TODO: Add reserved JSON-RPC pre-created error responses
