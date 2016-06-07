@@ -138,13 +138,13 @@ def admin():
 
 @app.route('/c-emoji', methods=["GET"])
 def emoji():
-    return render_template('directives/c-emoji.html')
+    return render_template('partials/c-emoji.html')
 
 
 @app.route('/command/create')
 def create_command():
     return render_template(
-        'directives/AddCommand.html',
+        'partials/AddCommand.html',
         username=session["username"],
         role="pro")
 
@@ -152,7 +152,7 @@ def create_command():
 @app.route('/tab/dash')
 def dash():
     return render_template(
-        'directives/tabs/Dashboard.html',
+        'partials/tabs/Dashboard.html',
         username=session["username"],
         role="pro")
 
@@ -160,7 +160,7 @@ def dash():
 @app.route('/tab/commands')
 def commands():
     return render_template(
-        'directives/tabs/Commands.html',
+        'partials/tabs/Commands.html',
         username=session["username"],
         role="pro")
 
@@ -168,7 +168,7 @@ def commands():
 @app.route('/tab/botsettings')
 def bot_settings():
     return render_template(
-        'directives/tabs/BotSettings.html',
+        'partials/tabs/BotSettings.html',
         username=session["username"],
         role="pro")
 
@@ -176,7 +176,7 @@ def bot_settings():
 @app.route('/tab/support')
 def support():
     return render_template(
-        'directives/tabs/Support.html',
+        'partials/tabs/Support.html',
         username=session["username"],
         role="pro")
 
@@ -184,6 +184,6 @@ def support():
 @app.route('/tab/usersettings')
 def user_settings():
     return render_template(
-        'directives/tabs/UserSettings.html',
+        'partials/tabs/UserSettings.html',
         username=session["username"],
         role="pro")

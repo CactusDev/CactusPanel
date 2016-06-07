@@ -1,4 +1,8 @@
-<div ng-app="IndexApp" ng-controller="IndexControl">
+{% assets "commands_js" %}
+<script type="text/javascript" src="{{ ASSET_URL }}"></script>
+{% endassets %}
+
+<div ng-app="GlobalApp" ng-controller="CommandsController">
   <md-content class="md-padding" layout="column">
     <h1 class="md-display-5">Commands</h1>
 

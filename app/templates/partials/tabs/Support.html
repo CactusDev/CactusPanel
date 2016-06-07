@@ -1,4 +1,8 @@
-<div ng-app="IndexApp" ng-controller="IndexControl">
+{% assets "support_js" %}
+<script type="text/javascript" src="{{ ASSET_URL }}"></script>
+{% endassets %}
+
+<div ng-app="GlobalApp" ng-controller="SupportController">
   <md-content class="md-padding">
     <h1 class="md-display-5">Support</h1>
     <div ng-cloak>
