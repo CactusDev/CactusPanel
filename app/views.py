@@ -24,6 +24,7 @@ def load_user(id):
 def before_request():
     """Set the Flask session object's user to Flask-Login's current_user"""
     g.user = current_user
+    # session["username"] = "foo"   # For offline debugging
 
 
 @app.route("/")

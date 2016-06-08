@@ -40,7 +40,8 @@ def support_router():
         methods = {
             "retrieve:newest": partial(list_tickets, data),
             "retrieve:search": partial(list_tickets, data),
-            "create": partial(create_ticket, data)
+            "create": partial(create_ticket, data),
+            "respond": partial(respond_to_ticket, data)
         }
 
         return_data = json.loads(methods[data["method"]]())
@@ -139,3 +140,8 @@ def list_tickets(packet):
     ])
 
     return to_return
+
+
+def respond_to_ticket(packet):
+
+    params = packet["params"]
