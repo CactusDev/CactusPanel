@@ -267,3 +267,8 @@ VERIFY.append((TEST, JSONRPCTypes.REQUEST, False))
 # Begin running test cases
 for TEST in VERIFY:
     run_test(TEST[0], TEST[1], should_pass=TEST[2])
+
+# Will return JSON-RPC Error packet for code -32700
+print(json_rpc.generate_error_packet(-32700))
+# Will return JSON-RPC Error packet for "Invalid Request"
+print(json_rpc.generate_error_packet("Invalid Request"))

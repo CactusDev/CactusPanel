@@ -10,6 +10,15 @@ from json import JSONDecodeError
 import enum
 
 
+JSON_RPC_PREDEFINED_ERRORS = {
+    "-32700": "Parse error",
+    "-32600": "Invalid Request",
+    "-32601": "Method not found",
+    "-32602": "Invalid params",
+    "-32603": "Internal error"
+}
+
+
 class JSONRPCTypes(enum.IntEnum):
     """
     Enum-type class to provide easy identification of packet typ
@@ -28,7 +37,6 @@ def _verify_error_contents(packet):
         - Returns True, None if passes verification
     """
     errors = []
-    failed = False
     j_rpc_predefined = {
         "-32700": "Parse error",
         "-32600": "Invalid Request",
@@ -40,14 +48,12 @@ def _verify_error_contents(packet):
     for key in ("code", "message"):
         if key not in packet:
             errors.append(key)
-            failed = True
 
     # We need to have both "code" and "message" keys
     if "code" in packet and "message" in packet:
         if not isinstance(packet["code"], int):
             errors.append("Error key 'code' type is required to be type int,"
                           " got type {}".format(type(packet["code"])))
-            failed = True
 
         if str(packet["code"]) in j_rpc_predefined:
             # It's matching one of the reservered codes
@@ -56,15 +62,13 @@ def _verify_error_contents(packet):
                               " but key 'message' value '{}' does not match"
                               " required message.".format(packet["code"],
                                                           packet["message"]))
-                failed = True
         else:
             # It's not in the predefined values dict, but it's reserved
             if packet["code"] in range(-32768, -32000):
                 errors.append("Key 'code' value '{}' is a JSON-RPC reserved"
                               " code and MAY NOT be used for a response"
                               " code.".format(packet["code"]))
-                failed = True
-    if failed:
+    if len(errors) > 0:
         # It failed, so return list of "Missing required key 'KEY'"
         #   for each 1 length strings (keys) OR
         #   just the error string if length > 1
@@ -84,11 +88,9 @@ def _verify_response_contents(packet):
         - Returns True, None if passes verification
     """
     errors = []
-    failed = False
 
     if "id" not in packet:
         errors.append("Missing required key 'id'")
-        failed = True
 
     if "error" in packet:
         # At this point it should be a error, so no "result" key allowed
@@ -96,20 +98,17 @@ def _verify_response_contents(packet):
             errors.append("Mutually exclusive keys 'error' and 'result' in"
                           " packet. Either 'error' or 'result' may exist in a"
                           " packet, NOT both.")
-            failed = True
 
         success, ret_errs = _verify_error_contents(packet["error"])
 
         if not success:
             errors.extend(ret_errs)
-            failed = True
 
     elif "result" not in packet and "error" not in packet:
         errors.append("Missing one of either required keys 'result'"
                       " or 'error'. One MUST exist.")
-        failed = True
 
-    if failed:
+    if len(errors) > 0:
         # It failed, so return list of "Missing required key 'KEY'"
         #   for each 1 length strings (keys) OR
         #   just the error string if length > 1
@@ -127,33 +126,28 @@ def _verify_notif_contents(packet):
         - Returns True, None if passes verification
     """
     errors = []
-    failed = False
 
     # Key "id" not allowed in a JSON-RPC notification
     if "id" in packet:
         errors.append("Key 'id' is not allowed in a JSON-RPC notification")
-        failed = True
 
     # Method isn't in the packet, required key
     if "method" not in packet:
         errors.append("method")
-        failed = True
 
     # We don't want to run this code if either of these keys are missing
     # Only run it if failed == False
-    if not failed:
+    if not len(errors) > 0:
         if not isinstance(packet["method"], str):
             errors.append("Key 'method' is not required type str")
-            failed = True
 
         # If it exists, "params" must be list or dict
         if packet.get("params", None) is not None and \
            not isinstance(packet, (dict, list)):
             errors.append("Key 'params' is not required structured type "
                           "(list/dict)")
-            failed = True
 
-    if failed:
+    if len(errors) > 0:
         # It failed, so return list of "Missing required key 'KEY'"
         #   for each 1 length strings (keys) OR
         #   just the error string if length > 1
@@ -173,38 +167,32 @@ def _verify_request_contents(packet):
         - Returns True, None if passes verification
     """
     errors = []
-    failed = False
 
     for key in ("method", "id"):
         if key not in packet:
             errors.append(key)
-            failed = True
 
     # We don't want to run this code if either of these keys are missing
     # Only run it if failed == False
-    if not failed:
+    if not len(errors) > 0:
         if not isinstance(packet["method"], str):
             errors.append("Key 'method' is not required type str")
-            failed = True
 
         if not isinstance(packet["id"], (str, int, type(None))):
             errors.append("Key 'id' is not required type str, int, or None")
-            failed = True
 
         if packet.get("params", None) is not None and \
            not isinstance(packet["params"], (dict, list)):
             errors.append("Key 'params' is not required structured type "
                           "(list/dict)")
-            failed = True
 
         # Methods starting with 'rpc.' are reserved for internal JSON-RPC use
         if str(packet["method"]).startswith("rpc."):
             errors.append("'method' value '{}' starts with reserved for"
                           " internal JSON-RPC use value"
                           " 'rpc.'".format(packet["method"]))
-            failed = True
 
-    if failed:
+    if len(errors) > 0:
         # It failed, so return list of "Missing required key 'KEY'"
         #   for each 1 length strings (keys) OR
         #   just the error string if length > 1
@@ -288,22 +276,16 @@ def verify_packet(packet, j_type):
 
     # Errors to return to the user
     errors = []
-    # Innocent until proven guilty!
-    failed = False
 
     # Check for 'jsonrpc': '2.0' required key/value pair
     if "jsonrpc" not in data:
         # Required key 'jsonrpc' doesn't exist, so fail
         errors.append("Missing required key 'jsonrpc'")
-        # Failed the validation
-        failed = True
     elif data["jsonrpc"] != "2.0":
         # 'jsonrpc' key DOES exist, but doesn't have correct value
         errors.append("'jsonrpc' key has incorrect value {}".format(
             data["jsonrpc"])
                      )
-        # Failed the validation
-        failed = True
 
     if j_type == JSONRPCTypes.ERROR:
         print("Type:\t ERROR")
@@ -328,9 +310,8 @@ def verify_packet(packet, j_type):
 
     if not success:
         errors.extend(data)
-        failed = True
 
-    if failed:
+    if len(errors) > 0:
         # Packet failed validation somewhere, return False and a list of
         #   failures
         return False, errors
@@ -360,6 +341,11 @@ class JSONRPCException(Exception):
 class JSONRPCResult:
     """
     JSON-RPC Result object
+
+    Arguments:
+        'id':       REQUIRED, otherwise it will be set to None/NULL
+        'result':   Required when creating a JSON-RPC Result object
+                        MUST be type dict or str (JSON encoded)
     """
     response_id = 0
     packet = {
@@ -371,11 +357,6 @@ class JSONRPCResult:
         """
         Create a JSON-RPC Result object
         Returns nothing on success, otherwise JSONRPCException is raised
-
-        Arguments:
-            'id':       REQUIRED, otherwise it will be set to None/NULL
-            'result':   Required when creating a JSON-RPC Result object
-                            MUST be type dict or str (JSON encoded)
         """
         self.response_id = response_id
         self.packet["id"] = self.response_id
@@ -426,6 +407,15 @@ class JSONRPCResult:
 class JSONRPCError:
     """
     JSON-RPC Error object
+    Arguments:
+        'id':       REQUIRED, otherwise it will be set to None/NULL
+        'code':     Required when creating a JSON-RPC Error object
+                        MUST be type int, indicates error type
+        'message':  Required when creating a JSON-RPC Error object
+                        MUST be type str, short description of the error
+        'data':     Required when creating a JSON-RPC Error object
+                        type str or dict, contains additional information
+                        about the error
     """
     response_id = 0
     packet = {
@@ -437,16 +427,6 @@ class JSONRPCError:
         """
         Create a JSON-RPC Error object
         Returns nothing on success, otherwise JSONRPCException is raised
-
-        Arguments:
-            'id':       REQUIRED, otherwise it will be set to None/NULL
-            'code':     Required when creating a JSON-RPC Error object
-                            MUST be type int, indicates error type
-            'message':  Required when creating a JSON-RPC Error object
-                            MUST be type str, short description of the error
-            'data':     Required when creating a JSON-RPC Error object
-                            type str or dict, contains additional information
-                            about the error
         """
         self.response_id = response_id
         self.packet["id"] = self.response_id
@@ -516,5 +496,28 @@ class JSONRPCError:
             id=self.response_id)
 
 
-# TODO Add reserved JSON-RPC codes/pre-created error responses
-# TODO Removed failed and rely on length of errors list
+def generate_error_packet(code, response_id=None):
+    """
+    Generate a JSON-RPC predefined error packet from a JSON-RPC predefined
+    error code
+
+    Returns None if code doesn't match any JSON-RPC predefined codes
+
+    Parameters:
+        - 'code':           REQUIRED - JSON-RPC predefined error code for the
+                                        error to create
+                                        Can be code (int), or message (str)
+        - 'response_id':    ID of message you're responding to, default None
+    """
+    if isinstance(code, str):
+        for error in JSON_RPC_PREDEFINED_ERRORS:
+            if code == JSON_RPC_PREDEFINED_ERRORS[error]:
+                return JSONRPCError(int(error),
+                                    code,
+                                    response_id=response_id
+                                   ).packet
+    elif isinstance(code, int):
+        return JSONRPCError(code,
+                            JSON_RPC_PREDEFINED_ERRORS[str(code)],
+                            response_id=response_id
+                           ).packet
