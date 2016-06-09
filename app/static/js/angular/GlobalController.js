@@ -24,5 +24,5 @@ app.config(function($interpolateProvider) {
 // });
 
 app.controller("GlobalController", function($scope) {
-  $scope.stuff = "tato2";
+  var vm = this;
 });
