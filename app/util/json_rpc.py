@@ -14,53 +14,106 @@ class JSONRPCTypes(enum.IntEnum):
     """
     Enum-type class to provide easy identification of packet typ
     """
-    RESULT = 0
+    REQUEST = 0
     ERROR = 1
     NOTIF = 2
+    RESPONSE = 3
 
 
 def _verify_error_contents(packet):
     """
-    Verify the contents of a result packet
+    Verify the contents of an error object
         - Returns False, list of errors if verification fails
                             OR
         - Returns True, None if passes verification
     """
-    for key in ("error", "id"):
-        if key not in packet:
-            return False, JSONRPCException("Packet missing required "
-                                           "key {}".format(key))
-
-    # At this point, all required keys are present
-    if not isinstance(packet["code"], int):
-        return False, JSONRPCException("Error key 'code' type is required to"
-                                       " be type int, got type {}".format(
-                                           type(packet["code"])))
-
-    # Check if packet["code"] is a JSON-RPC reserved code & if so,
-    #   does packet["message"] match?
-
-    # Success, execution to this point means the packet has passed
-    return True, packet
-
-
-def _verify_result_contents(packet):
-    """
-    Verify the contents of a result packet
-        - Returns False, list of errors if verification fails
-                            OR
-        - Returns True, None if passes verification
-    """
-    err_return = []
+    errors = []
     failed = False
+    j_rpc_predefined = {
+        "-32700": "Parse error",
+        "-32600": "Invalid Request",
+        "-32601": "Method not found",
+        "-32602": "Invalid params",
+        "-32603": "Internal error"
+    }
 
-    for key in ("result", "id"):
+    for key in ("code", "message"):
         if key not in packet:
-            err_return.append("Missing required key '{}'".format(key))
+            errors.append(key)
             failed = True
 
+    # We need to have both "code" and "message" keys
+    if "code" in packet and "message" in packet:
+        if not isinstance(packet["code"], int):
+            errors.append("Error key 'code' type is required to be type int,"
+                          " got type {}".format(type(packet["code"])))
+            failed = True
+
+        if str(packet["code"]) in j_rpc_predefined:
+            # It's matching one of the reservered codes
+            if packet["message"] != j_rpc_predefined[str(packet["code"])]:
+                errors.append("Key 'code' value '{}' is a JSON-RPC predefined,"
+                              " but key 'message' value '{}' does not match"
+                              " required message.".format(packet["code"],
+                                                          packet["message"]))
+                failed = True
+        else:
+            # It's not in the predefined values dict, but it's reserved
+            if packet["code"] in range(-32768, -32000):
+                errors.append("Key 'code' value '{}' is a JSON-RPC reserved"
+                              " code and MAY NOT be used for a response"
+                              " code.".format(packet["code"]))
+                failed = True
     if failed:
-        return False, err_return
+        # It failed, so return list of "Missing required key 'KEY'"
+        #   for each 1 length strings (keys) OR
+        #   just the error string if length > 1
+        return False, ["Missing required key '{}' in error object".format(err)
+                       if len(err.split()) == 1 else err
+                       for err in errors]
+    else:
+        # Success, execution to this point means the packet has passed
+        return True, None
+
+
+def _verify_response_contents(packet):
+    """
+    Verify the contents of a result packet
+        - Returns False, list of errors if verification fails
+                            OR
+        - Returns True, None if passes verification
+    """
+    errors = []
+    failed = False
+
+    if "id" not in packet:
+        errors.append("Missing required key 'id'")
+        failed = True
+
+    if "error" in packet:
+        # At this point it should be a error, so no "result" key allowed
+        if "result" in packet:
+            errors.append("Mutually exclusive keys 'error' and 'result' in"
+                          " packet. Either 'error' or 'result' may exist in a"
+                          " packet, NOT both.")
+            failed = True
+
+        success, ret_errs = _verify_error_contents(packet["error"])
+
+        if not success:
+            errors.extend(ret_errs)
+            failed = True
+
+    elif "result" not in packet and "error" not in packet:
+        errors.append("Missing one of either required keys 'result'"
+                      " or 'error'. One MUST exist.")
+        failed = True
+
+    if failed:
+        # It failed, so return list of "Missing required key 'KEY'"
+        #   for each 1 length strings (keys) OR
+        #   just the error string if length > 1
+        return False, errors
     else:
         # Success, execution to this point means the packet has passed
         return True, None
@@ -73,16 +126,97 @@ def _verify_notif_contents(packet):
                             OR
         - Returns True, None if passes verification
     """
-    for key in ("tuple", "of", "required", "keys"):
+    errors = []
+    failed = False
+
+    # Key "id" not allowed in a JSON-RPC notification
+    if "id" in packet:
+        errors.append("Key 'id' is not allowed in a JSON-RPC notification")
+        failed = True
+
+    # Method isn't in the packet, required key
+    if "method" not in packet:
+        errors.append("method")
+        failed = True
+
+    # We don't want to run this code if either of these keys are missing
+    # Only run it if failed == False
+    if not failed:
+        if not isinstance(packet["method"], str):
+            errors.append("Key 'method' is not required type str")
+            failed = True
+
+        # If it exists, "params" must be list or dict
+        if packet.get("params", None) is not None and \
+           not isinstance(packet, (dict, list)):
+            errors.append("Key 'params' is not required structured type "
+                          "(list/dict)")
+            failed = True
+
+    if failed:
+        # It failed, so return list of "Missing required key 'KEY'"
+        #   for each 1 length strings (keys) OR
+        #   just the error string if length > 1
+        return False, ["Missing required key '{}'".format(err)
+                       if len(err.split()) == 1 else err
+                       for err in errors]
+    else:
+        # Success, execution to this point means the packet has passed
+        return True, None
+
+
+def _verify_request_contents(packet):
+    """
+    Verify the contents of a request packet
+        - Returns False, list of errors if verification fails
+                            OR
+        - Returns True, None if passes verification
+    """
+    errors = []
+    failed = False
+
+    for key in ("method", "id"):
         if key not in packet:
-            return False, JSONRPCException("Packet missing required "
-                                           "key {}".format(key))
+            errors.append(key)
+            failed = True
 
-    # Success, execution to this point means the packet has passed
-    return True, packet
+    # We don't want to run this code if either of these keys are missing
+    # Only run it if failed == False
+    if not failed:
+        if not isinstance(packet["method"], str):
+            errors.append("Key 'method' is not required type str")
+            failed = True
+
+        if not isinstance(packet["id"], (str, int, type(None))):
+            errors.append("Key 'id' is not required type str, int, or None")
+            failed = True
+
+        if packet.get("params", None) is not None and \
+           not isinstance(packet["params"], (dict, list)):
+            errors.append("Key 'params' is not required structured type "
+                          "(list/dict)")
+            failed = True
+
+        # Methods starting with 'rpc.' are reserved for internal JSON-RPC use
+        if str(packet["method"]).startswith("rpc."):
+            errors.append("'method' value '{}' starts with reserved for"
+                          " internal JSON-RPC use value"
+                          " 'rpc.'".format(packet["method"]))
+            failed = True
+
+    if failed:
+        # It failed, so return list of "Missing required key 'KEY'"
+        #   for each 1 length strings (keys) OR
+        #   just the error string if length > 1
+        return False, ["Missing required key '{}'".format(err)
+                       if len(err.split()) == 1 else err
+                       for err in errors]
+    else:
+        # Success, execution to this point means the packet has passed
+        return True, None
 
 
-def _check_json(packet):
+def _check_valid_json(packet):
     """
     Checks if data is a string or a dictionary and then returns:
         - True and the JSON in dict form if it's valid JSON (True, dict)
@@ -114,7 +248,7 @@ def _check_json(packet):
         # SHUT UP. BEING SUPER META IS WAY COOLER
 
         # Recursively called with decoded string, will return success/fail
-        return _check_json(decoded)
+        return _check_valid_json(decoded)
 
     else:
         # It's something else, so fail since we can't check it
@@ -135,17 +269,18 @@ def verify_packet(packet, j_type):
             "id": 13,
             "result": "Success! It's working!"
         }
-        json_rpc.verify_packet(foo, JSONRPCTypes.RESULT)    # Will return True
+        json_rpc.verify_packet(foo, JSONRPCTypes.RESPONSE)   # Will return True
     """
     # Check initially, if it's not a string, there's not point in continuing
     #   any further, save time/CPU cycles
     if j_type not in (JSONRPCTypes.ERROR,
                       JSONRPCTypes.NOTIF,
-                      JSONRPCTypes.RESULT):
+                      JSONRPCTypes.RESPONSE,
+                      JSONRPCTypes.REQUEST):
         return False, JSONRPCException("Incorrect type {}. Expected "
                                        "JSONRPCTypes object".format(j_type))
 
-    success, data = _check_json(packet)
+    success, data = _check_valid_json(packet)
 
     if not success:
         # It's either not a string or not a dict, so we can't work with it
@@ -174,22 +309,26 @@ def verify_packet(packet, j_type):
         print("Type:\t ERROR")
         # Begin checking if it's a correct error packet
         success, data = _verify_error_contents(data)
-    elif j_type == JSONRPCTypes.RESULT:
-        print("Type:\t RESULT")
-        # Begin checking if it's a correct result packet
-        success, data = _verify_result_contents(data)
+    elif j_type == JSONRPCTypes.RESPONSE:
+        print("Type:\t RESPONSE")
+        # Begin checking if it's a correct response packet
+        success, data = _verify_response_contents(data)
     elif j_type == JSONRPCTypes.NOTIF:
         print("Type:\t NOTIF")
         # Begin checking if it's a correct notification packet
         success, data = _verify_notif_contents(data)
+    elif j_type == JSONRPCTypes.REQUEST:
+        print("Type:\t REQUEST")
+        # Begin checking if it's a correct notification packet
+        success, data = _verify_request_contents(data)
     else:
         # It's not "error" or "result", so return error
         return False, "type {} is unknown: it must be either error, result, " \
             "or notification"
 
     if not success:
-        failed = True
         errors.extend(data)
+        failed = True
 
     if failed:
         # Packet failed validation somewhere, return False and a list of
@@ -206,7 +345,7 @@ class JSONRPCException(Exception):
     """
 
     def __init__(self, message):
-        super(JSONRPCException, self).__init__()
+        super().__init__()
         self.message = message
 
     def __repr__(self):
@@ -377,4 +516,5 @@ class JSONRPCError:
             id=self.response_id)
 
 
-# Add reserved JSON-RPC codes/pre-created error responses
+# TODO Add reserved JSON-RPC codes/pre-created error responses
+# TODO Removed failed and rely on length of errors list
