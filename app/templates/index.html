@@ -1,52 +1,26 @@
-<html lang="en">
+<html>
+<head>
+  <title>Cactus panel - CactusDev</title>
 
-  <head>
-    <title>CactusBot Control Panel</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+  <!-- None of that's found O_O oh... -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/libs/angular.min.js')}}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/libs/angular-route.min.js')}}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/angular/GlobalController.js')}}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/libs/angular-material.min.js') }}"></script>
+  <!--
+  <script type="text/javascript" src="/app/static/js/libs/angular-aria.min.js"></script>
+  <script type="text/javascript" src="/app/static/js/libs/angular-messages.min.js"></script>
+  <script type="text/javascript" src="/app/static/js/libs/jquery.min.js"></script>
+   -->
 
-    <!-- Flask-y magicalness to include all of the dependencies -->
+</head>
 
-    {% assets "angular_material_js" %}
-    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
-    {% endassets %} {% assets "angular_material_css" %}
-    <link rel="stylesheet" href="{{ ASSET_URL }}"> {% endassets %} {% assets "dashboard_js" %}
-    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
-    {% endassets %} {% assets "core_js" %}
-    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
-    {% endassets %} {% assets "dashboard_js" %}
-    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
-    {% endassets %}
-    
-    <script data-require="angular-ui-bootstrap@*" data-semver="0.10.0" src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.10.0.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.8/angular-ui-router.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-route.js"></script>
-  <!-- Get the stylesheet -->
-
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
-  </head>
-
-  <body ng-app="GlobalApp" ng-controller="TabController">
-    <div id="content">
-      <md-content>
-        <md-tabs md-dynamic-height md-border-bottom ng-style="{backgroundColor: '43A047'}">
-          <md-tab label="Dashboard" md-on-select="dash()">
-              <pane ng-view="Dash" template="/"></pane>
-          </md-tab>
-
-          <md-tab label="Commands" md-on-select="commands()">
-              <pane ng-view="Commands" template="/dashboard/commands"></pane>
-          </md-tab>
-
-          <md-tab label="Support" md-on-select="support()">
-              <pane ng-view="Support" template="/dashboard/support"></pane>
-          </md-tab>
-        </md-tabs>
-      </md-content>
-    </div>
-
-  </body>
-
+<body>
+  <div ng-app="GlobalApp" ng-controller="GlobalController">
+    {[ vm.stuff ]} <!-- Testing stuff -->
+  </div>
+</body>
 </html>

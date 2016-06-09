@@ -1,4 +1,5 @@
-from app import app, socketio
+""" Main code for running the web server """
 
-if __name__ == "__main__":
-    socketio.run(app, port=app.config["PORT"], host=app.config["HOST"])
+from app import app
+
+app.run(debug=True)
