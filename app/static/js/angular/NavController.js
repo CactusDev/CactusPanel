@@ -36,11 +36,6 @@ app.controller('NavController', function ($scope, $timeout, $mdSidenav, $log) {
       $mdSidenav(navID).toggle()
     }, 200);
   }
-  function buildToggler(navID) {
-    return function() {
-      $mdSidenav(navID).toggle()
-    }
-  }
 
   nav.close = function () {
     $mdSidenav('left').close()
