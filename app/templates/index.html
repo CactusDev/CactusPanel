@@ -1,24 +1,64 @@
 <html>
-<head>
-  <title>Cactus panel - CactusDev</title>
 
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <head>
+    <title>Cactus panel - CactusDev</title>
 
-  <script type="text/javascript" src="{{ url_for('static', filename='js/libs/angular.min.js')}}"></script>
-  <script type="text/javascript" src="{{ url_for('static', filename='js/libs/angular-route.min.js')}}"></script>
-  <script type="text/javascript" src="{{ url_for('static', filename='js/angular/GlobalController.js')}}"></script>
-  <script type="text/javascript" src="{{ url_for('static', filename='js/libs/angular-material.min.js') }}"></script>
-  <!--
-  <script type="text/javascript" src="/app/static/js/libs/angular-aria.min.js"></script>
-  <script type="text/javascript" src="/app/static/js/libs/angular-messages.min.js"></script>
-  <script type="text/javascript" src="/app/static/js/libs/jquery.min.js"></script>
-   -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-</head>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/libs/angular.min.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/libs/angular-material.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/libs/angular-route.min.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/libs/angular-aria.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/libs/angular-messages.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/libs/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/libs/ng-animate.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/libs/svg-assets.js') }}"></script>
 
-<body>
-  <div ng-app="GlobalApp" ng-controller="GlobalController as vm">
-  </div>
-</body>
+    <link rel="stylesheet" type="text/css" href="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.1.0-rc.5/angular-material.css">
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/angular/GlobalController.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/angular/NavController.js')}}"></script>
+  </head>
+
+  <!-- <body ng-app="GlobalApp">
+    <div ng-controller="NavController as nav" layout="column" ng-cloak>
+    </div>
+  </body> -->
+
+  <body>
+    <div ng-app="GlobalApp" ng-controller="NavController as nav" layout="column" ng-cloak>
+      <section layout="row" flex>
+        <md-sidenav
+            class="md-sidenav-left"
+            md-component-id="left"
+            md-is-locked-open="$mdMedia('gt-md')"
+            md-disable-backdrop
+            md-whiteframe="4">
+          <md-toolbar class="md-theme-indigo">
+            <h1 class="md-toolbar-tools">Navigation</h1>
+          </md-toolbar>
+          <md-content layout-padding>
+            <md-button ng-click="nav.close()" class="md-primary" hide-gt-md>
+              Close
+            </md-button>
+            <p hide show-gt-md>
+              navigation things
+            </p>
+          </md-content>
+        </md-sidenav>
+        <md-content flex layout-padding>
+          <div layout="column" layout-fill layout-align="top center">
+            <div>
+              <md-button ng-click="nav.toggle()"
+                class="md-primary" hide-gt-md>
+                Toggle
+              </md-button>
+            </div>
+          </div>
+          <div flex></div>
+        </md-content>
+      </section>
+    </div>
+  </body>
 </html>
