@@ -1,6 +1,21 @@
 app.controller('NavController', function ($scope, $timeout, $mdSidenav, $log) {
   var nav = this;
 
+  nav.locations = [
+    {
+      "name": "Dashboard",
+      "partial": "/dashboard"
+    },
+    {
+      "name": "Commands",
+      "partial": "/commands"
+    },
+    {
+      "name": "Quotes",
+      "partial": "/quotes"
+    }
+  ]
+
   nav.toggle = buildDelayedToggler('left');
 
   function debounce(func, wait, context) {

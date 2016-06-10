@@ -34,28 +34,17 @@
             md-component-id="left"
             md-is-locked-open="$mdMedia('gt-md')"
             md-disable-backdrop
-            md-whiteframe="4">
+            md-whiteframe="4" show-gt-md>
           <md-toolbar class="md-theme-indigo">
             <h1 class="md-toolbar-tools">Navigation</h1>
           </md-toolbar>
           <md-content layout-padding>
-            <md-button ng-click="nav.close()" class="md-primary" hide-gt-md>
-              Close
+            <md-button ng-repeat="loc in nav.locations" class="md-primary" show-gt-md>
+              {[ loc.name ]}
             </md-button>
-            <p hide show-gt-md>
-              navigation things
-            </p>
           </md-content>
         </md-sidenav>
         <md-content flex layout-padding>
-          <div layout="column" layout-fill layout-align="top center">
-            <div>
-              <md-button ng-click="nav.toggle()"
-                class="md-primary" hide-gt-md>
-                Toggle
-              </md-button>
-            </div>
-          </div>
           <div flex></div>
         </md-content>
       </section>
