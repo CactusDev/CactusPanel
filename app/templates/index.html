@@ -16,38 +16,40 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/libs/svg-assets.js') }}"></script>
 
     <link rel="stylesheet" type="text/css" href="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.1.0-rc.5/angular-material.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/Global.css') }}">
 
     <script type="text/javascript" src="{{ url_for('static', filename='js/angular/GlobalController.js')}}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/angular/NavController.js')}}"></script>
   </head>
 
-  <!-- <body ng-app="GlobalApp">
-    <div ng-controller="NavController as nav" layout="column" ng-cloak>
-    </div>
-  </body> -->
-
   <body>
-    <div ng-app="GlobalApp" ng-controller="NavController as nav" layout="column" ng-cloak>
-      <section layout="row" flex>
-        <md-sidenav
-            class="md-sidenav-left"
-            md-component-id="left"
-            md-is-locked-open="$mdMedia('gt-md')"
-            md-disable-backdrop
-            md-whiteframe="4" show-gt-md>
-          <md-toolbar class="md-theme-indigo">
-            <h1 class="md-toolbar-tools">Navigation</h1>
-          </md-toolbar>
-          <md-content layout-padding>
-            <md-button ng-repeat="loc in nav.locations" style="width: 90%" class="md-primary" show-gt-md>
-              {[ loc.name ]}
-            </md-button>
+    <div ng-app="GlobalApp" ng-controller="NavController as nav" ng-cloak>
+      <div layout="row" id="desktop">
+        <div flex>
+          <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="true" md-disable-backdrop md-whiteframe="4">
+            <md-toolbar class="md-theme-green">
+              <h1 class="md-toolbar-tools">Navigation</h1>
+            </md-toolbar>
+            <md-content>
+              <md-button ng-repeat="loc in nav.locations" style="width: 90%" class="md-primary" show-gt-md>
+                {[ loc.name ]}
+              </md-button>
+            </md-content>
+          </md-sidenav>
+        </div>
+        <div flex>
+          <md-content flex layout-padding>
+            Testing :mappa
           </md-content>
-        </md-sidenav>
-        <md-content flex layout-padding>
-          <div flex></div>
-        </md-content>
-      </section>
+        </div>
+      </div>
+
+      <div layout-sm="column" id="mobile">
+        <div flex>
+          Mobile Mode :sunglasses: // TODO
+        </div>
+      </div>
     </div>
   </body>
+
 </html>
