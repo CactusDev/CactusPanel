@@ -6,14 +6,25 @@
   display: block;
 }
 
-@media (max-width: 960px) {
+#userInfoButton {
+  position: fixed;
+  bottom: 0;
+}
+
+#userInfo {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}
+
+/*@media (max-width: 960px) {
   #desktop {
     display: none;
   }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 961px) {
   #mobile {
     display: none;
   }
-}
+}*/

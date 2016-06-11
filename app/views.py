@@ -8,7 +8,10 @@ from flask import render_template
 @app.route("/index")
 def index():
     """ Index page view """
-    return render_template("index.html")
+    return render_template(
+        "index.html",
+        username="innectic"
+        )
 
 
 @app.route("/<name>")

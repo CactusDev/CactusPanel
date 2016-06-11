@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
   <head>
     <title>Cactus panel - CactusDev</title>
@@ -34,21 +35,41 @@
               <md-button ng-repeat="loc in nav.locations" style="width: 90%" class="md-primary" show-gt-md>
                 {[ loc.name ]}
               </md-button>
+              <!-- User info -->
+              <div>
+                <md-button id="userInfoButton" style="width: 90%" ng-click="nav.showUserInfo()" class="md-primary">
+                  {{ username }}
+                </md-button>
+              </div>
+
             </md-content>
           </md-sidenav>
         </div>
         <div flex>
           <md-content flex layout-padding>
-            Testing :mappa
+            Content here
           </md-content>
         </div>
       </div>
 
-      <div layout-sm="column" id="mobile">
+      <!-- <div layout="row" id="mobile">
         <div flex>
-          Mobile Mode :sunglasses: // TODO
+            <md-content ng-cloak class="md-padding">
+              <div flex="10%" style="height: 93%">
+                <md-sidenav class="md-sidenav-left" md-component-id="left" md-disable-backdrop md-whiteframe="4">
+                  <md-toolbar class="md-theme-green">
+                    <h1 class="md-toolbar-tools">Navigation</h1>
+                  </md-toolbar>
+                  <md-content>
+                    <md-button ng-repeat="loc in nav.locations" style="width: 90%" class="md-primary" show-gt-md>
+                      {[ loc.name ]}
+                    </md-button>
+                  </md-content>
+                </md-sidenav>
+              </div>
+          </md-content>
         </div>
-      </div>
+      </div> -->
     </div>
   </body>
 

@@ -1,5 +1,6 @@
 app.controller('NavController', function ($scope, $timeout, $mdSidenav, $log) {
   var nav = this;
+  showInfo = false;
 
   nav.locations = [
     {
@@ -37,7 +38,11 @@ app.controller('NavController', function ($scope, $timeout, $mdSidenav, $log) {
     }, 200);
   }
 
-  nav.close = function () {
+  nav.close = function(event) {
     $mdSidenav('left').close()
   };
+
+  nav.showUserInfo = function() {
+    nav.showInfo = !nav.showInfo;
+  }
 })
