@@ -24,21 +24,18 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/angular/NavController.js')}}"></script>
   </head>
 
-  <body>
-    <div ng-app="GlobalApp" ng-controller="NavController as nav" ng-cloak>
-      <div layout="row" id="desktop">
-        <div flex>
+  <body ng-app="GlobalApp">
+    <div  ng-controller="NavController as nav" ng-cloak>
+      <div layout="row" layout-align="start center" id="desktop">
+        <div layout="row" flex="30">
           <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="true" md-disable-backdrop md-whiteframe="4">
             <md-toolbar class="md-theme-green">
               <h1 class="md-toolbar-tools">Navigation</h1>
             </md-toolbar>
             <md-content>
-              <div ng-controller="gl as GlobalController">
                 <md-button ng-repeat="loc in nav.locations" ng-click="gl.changeView(loc.partial)" style="width: 90%" class="md-primary" show-gt-md>
                   {[ loc.name ]}
                 </md-button>
-              </div>
-              <!-- User info -->
               <div>
                 <md-button id="userInfoButton" style="width: 90%" ng-click="nav.showUserInfo()" class="md-primary">
                   {{ username }}
@@ -47,12 +44,14 @@
 
             </md-content>
           </md-sidenav>
-        </div>
-        <div flex>
-          <md-content flex layout-padding>
+
+          <md-content flex="60" layout-padding>
+            Potato
           </md-content>
         </div>
       </div>
+
+      <!-- TODO: Mobile mode -->
 
       <!-- <div layout="row" id="mobile">
         <div flex>
