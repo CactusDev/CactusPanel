@@ -14,7 +14,16 @@ def index():
         )
 
 
-@app.route("/<name>")
-def dashboard(username):
-    #POTATO
-    pass
+@app.route("/commands")
+def commands_route():
+    return render_template("partials/Commands.html")
+
+
+@app.route("/quotes")
+def quotes_route():
+    return render_template("partials/Commands.html")
+
+
+@app.route("/dash")
+def dashboard_route():
+    return render_template("partials/Dashboard.html")

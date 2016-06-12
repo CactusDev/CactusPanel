@@ -5,7 +5,7 @@ app.controller('NavController', function ($scope, $timeout, $mdSidenav, $log) {
   nav.locations = [
     {
       "name": "Dashboard",
-      "partial": "/dashboard"
+      "partial": "/"
     },
     {
       "name": "Commands",

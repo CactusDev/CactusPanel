@@ -1,6 +1,6 @@
-var app = angular.module("GlobalApp", ["ngMaterial"])
-// , $routeProvider
-app.config(function($interpolateProvider, $mdThemingProvider) {
+var app = angular.module("GlobalApp", ["ngMaterial", "ngRoute"])
+
+app.config(function($interpolateProvider, $mdThemingProvider, $routeProvider, $locationProvider) {
   $interpolateProvider.startSymbol('{[');
   $interpolateProvider.endSymbol(']}');
 
@@ -12,8 +12,22 @@ app.config(function($interpolateProvider, $mdThemingProvider) {
       .accentPalette('light-blue', {
           'default': "A200"
   });
+  
+  $locationProvider.hashPrefix('');
+
+  $routeProvider.when("/", {
+    templateUrl: "partial/dash"
+  }).when("/commands", {
+    templateUrl: "partial/commands"
+  }).when("/quotes", {
+    templateUrl: "partials/quotes"
+  }).otherwise({ redirectTo: "/" });
 });
 
-app.controller("GlobalController", function($scope) {
-  var vm = this;
+app.controller("GlobalController", function($scope, $location) {
+  var gl = this;
+
+  gl.changeView = function(route) {
+    $location.path(route)
+  }
 });

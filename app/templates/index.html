@@ -14,6 +14,7 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/libs/angular-messages.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/libs/jquery.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/libs/ng-animate.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/libs/ng-views.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/libs/svg-assets.js') }}"></script>
 
     <link rel="stylesheet" type="text/css" href="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.1.0-rc.5/angular-material.css">
@@ -32,9 +33,11 @@
               <h1 class="md-toolbar-tools">Navigation</h1>
             </md-toolbar>
             <md-content>
-              <md-button ng-repeat="loc in nav.locations" style="width: 90%" class="md-primary" show-gt-md>
-                {[ loc.name ]}
-              </md-button>
+              <div ng-controller="gl as GlobalController">
+                <md-button ng-repeat="loc in nav.locations" ng-click="gl.changeView(loc.partial)" style="width: 90%" class="md-primary" show-gt-md>
+                  {[ loc.name ]}
+                </md-button>
+              </div>
               <!-- User info -->
               <div>
                 <md-button id="userInfoButton" style="width: 90%" ng-click="nav.showUserInfo()" class="md-primary">
@@ -47,7 +50,6 @@
         </div>
         <div flex>
           <md-content flex layout-padding>
-            Content here
           </md-content>
         </div>
       </div>
