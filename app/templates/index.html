@@ -2,7 +2,7 @@
 <html lang="en">
 
   <head>
-    <title>Cactus panel - CactusDev</title>
+    <title>Dashboard - CactusDev</title>
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -25,9 +25,9 @@
   </head>
 
   <body ng-app="GlobalApp">
-    <div  ng-controller="NavController as nav" ng-cloak>
-      <div layout="row" layout-align="start center" id="desktop">
-        <div layout="row" flex="30">
+    <div ng-controller="NavController as nav" ng-cloak>
+      <div layout="row" id="desktop">
+        <div layout="row" flex>
           <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="true" md-disable-backdrop md-whiteframe="4">
             <md-toolbar class="md-theme-green">
               <h1 class="md-toolbar-tools">Navigation</h1>
@@ -41,15 +41,15 @@
                   {{ username }}
                 </md-button>
               </div>
-
             </md-content>
           </md-sidenav>
 
-          <md-content flex="60" layout-padding>
-            Potato
+          <md-content flex layout-padding>
+            <div layout="column" layout-fill layout-align="top center">
+              Potato
+            </div>
           </md-content>
         </div>
-      </div>
 
       <!-- TODO: Mobile mode -->
 
