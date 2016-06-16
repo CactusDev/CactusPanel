@@ -25,11 +25,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from remodel.models import Model
 import remodel.helpers
 import remodel.connection
 import rethinkdb as rethink
 from rethinkdb.errors import ReqlDriverError
+from app.rethink_models import *
 
 try:
     conn = rethink.connect("localhost", 28015)
@@ -43,87 +43,6 @@ if not rethink.db_list().contains("cactus").run(conn):
     print("Database successfully created!")
 
 remodel.connection.pool.configure(db="cactus")
-
-
-class User(Model):
-    """
-    A remodel table model
-    """
-    def get_id(self):
-        """
-        Returns a string of the User object's ID
-        """
-        return str(self['id'])
-
-
-class Roles(Model):
-    """
-    A remodel table model
-    """
-    pass
-
-
-class Channels(Model):
-    """
-    A remodel table model
-    """
-    pass
-
-
-class Configuration(Model):
-    """
-    A remodel table model
-    """
-    pass
-
-
-class Commands(Model):
-    """
-    A remodel table model
-    """
-    pass
-
-
-class Messages(Model):
-    """
-    A remodel table model
-    """
-    pass
-
-
-class Executions(Model):
-    """
-    A remodel table model
-    """
-    pass
-
-
-class Quotes(Model):
-    """
-    A remodel table model
-    """
-    pass
-
-
-class UserRole(Model):
-    """
-    A remodel table model
-    """
-    pass
-
-
-class Tickets(Model):
-    """
-    A remodel table model
-    """
-    pass
-
-
-class TicketResponse(Model):
-    """
-    A remodel table model
-    """
-    pass
 
 remodel.helpers.create_tables()
 remodel.helpers.create_indexes()

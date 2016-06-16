@@ -1,23 +1,26 @@
 from flask import (render_template, flash, redirect, url_for, g, jsonify,
                    session)
-from flask.ext.login import request, login_required
-from flask.ext.security import (Security, SQLAlchemyUserDatastore,
-                                UserMixin, RoleMixin, roles_required,
-                                login_user, logout_user, current_user,
-                                AnonymousUser)
-from . import lm, app, user_datastore, security, db
+from flask_login import (request, login_required, current_user, login_user,
+                         logout_user)
+from . import app, lm
 from .forms import LoginForm, RegisterForm
 from .models import User, Tickets
 from .auth import OAuthSignIn
 from .util import tickets
-from datetime import datetime
 import json
 from uuid import uuid4
+import remodel.connection
+from rethinkdb.errors import ReqlDriverError
+from .rethink_models import *
+import rethinkdb as rethink
+import sys
+
+remodel.connection.pool.configure(db=app.config["RDB_DB"])
 
 
 @lm.user_loader
-def load_user(id):
-    return User.query.get(int(id))
+def load_user(user_id):
+    return User.get(id=user_id)
 
 
 @app.before_request
@@ -72,12 +75,13 @@ def oauth_callback(provider):
     if user_id is None:
         flash("OAuth Authentication failed :( Please try again later!")
         return redirect(url_for("index"))
-    user = User.query.filter_by(provider_id="{}${}".format(provider,
-                                                           user_id)).first()
+
+    user = User.get(provider_id="{}${}".format(provider, user_id))
+    print(user)
     if not user:
         # User doesn't exist yet, so we'll create it, then redirect to index
         registered, e = register()
-        if register:
+        if registered:
             return redirect(url_for("index"))
         else:
             # TODO: Make this redirect to an error page
@@ -89,35 +93,45 @@ def oauth_callback(provider):
         return redirect(url_for("index"))
 
 
+@app.route("/register")
+def reg():
+    session["user_id"] = "24228"
+    session["username"] = "ParadigmShift3d"
+    session["email"] = "paradigmshift3d@gmail.com"
+    session["provider"] = "beam"
+    foo, e = register()
+
+
 def register():
-    try:
-        user_role = user_datastore.find_or_create_role("user")
-        user = user_datastore.create_user(
-            username=session["username"],
-            password="",  # None, because it's required for
-                          # Flask-Login's auth key setup
-            email=session["email"],
-            confirmed_at=datetime.now(),
-            roles=[user_role, ],
-            provider_id="{pid}${uid}".format(pid=session["provider"],
-                                             uid=session["user_id"]),
-            active=True     # Mark them as active so they're logged in
-            )
+    # try:
+    user_role = UserRole.get_or_create(name="user")
+    current_time = rethink.now()
+    new_user = User.create(
+        userName=session["username"],
+        password="",    # None, because it's required for
+                        # Flask-Login's auth key setup,
+        email=session["email"],
+        confirmed_at=current_time,
+        roles=[user_role[0]["name"]],
+        provider_id="{pid}${uid}".format(pid=session["provider"],
+                                         uid=session["user_id"]),
+        active=True
+    )
 
-        user = User.query.filter_by(
-            provider_id="{}${}".format(session["provider"],
-                                       session["user_id"])
-            ).first()
+    new_user.save()
 
-        db.session.commit()
+    user = User.get(provider_id="{}${}".format(
+        session["provider"],
+        session["user_id"]
+    ))
 
-        if user is not None:
-            login_user(user, True)
-            return True, None
-        else:
-            return False, None
-    except Exception as e:
-        return False, e
+    if user is not None:
+        login_user(user, True)
+        return True, None
+    else:
+        return False, None
+    # except Exception as e:
+    #     return False, e
 
 
 @app.route("/login")

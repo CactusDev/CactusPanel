@@ -2,7 +2,7 @@ from app import app, db
 from passlib.context import CryptContext
 from itsdangerous import (TimedJSONWebSignatureSerializer
                           as Serializer, BadSignature, SignatureExpired)
-from flask.ext.security import (Security, SQLAlchemyUserDatastore,
+from flask_security import (Security, SQLAlchemyUserDatastore,
                                 UserMixin, RoleMixin)
 
 pwd_context = CryptContext(

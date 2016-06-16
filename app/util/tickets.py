@@ -1,5 +1,5 @@
 from flask import url_for, jsonify, render_template, session, Response
-from flask.ext.login import request, login_required
+from flask_login import request, login_required
 from sqlalchemy import or_
 from functools import partial
 from werkzeug import ImmutableMultiDict
