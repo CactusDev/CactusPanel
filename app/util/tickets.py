@@ -3,12 +3,13 @@ from flask_login import request, login_required
 from sqlalchemy import or_
 from functools import partial
 from werkzeug import ImmutableMultiDict
-from ..models import Tickets
+from ..rethink_models import Tickets
 from uuid import uuid4
-from .. import app, db, csrf_protect
+from .. import app, csrf_protect
 from . import json_rpc
 import json
 import time
+import rethinkdb as rethink
 
 
 @csrf_protect.exempt
@@ -90,16 +91,17 @@ def create_ticket(packet):
 
     ticket_id = str(uuid4())
 
-    new_ticket = Tickets(
+    new_ticket = Tickets.create(
         who=session["username"],
         issue=params["issue"],
         details=params["details"],
         uuid=ticket_id
     )
-    db.session.add(new_ticket)
-    db.session.commit()
+    new_ticket.save()
 
-    ticket = Tickets.query.filter_by(uuid=ticket_id).first()
+    ticket = Tickets.get(uuid=ticket_id)
+
+    # ticket = Tickets.query.filter_by(uuid=ticket_id).first()
 
     if ticket is not None:
         return jsonify({"success": True})
@@ -110,6 +112,9 @@ def create_ticket(packet):
 def list_tickets(packet):
 
     params = packet["params"]
+    rdb_conn = rethink.connect(host=app.config["RDB_HOST"],
+                               port=app.config["RDB_PORT"],
+                               db=app.config["RDB_DB"])
 
     if "sortBy" in params:
         if "who" in params["sortBy"]:
@@ -119,23 +124,29 @@ def list_tickets(packet):
     if packet["method"] == "retrieve:search":
         search_term = params["string"].lower()
 
-        results = Tickets.query.filter(or_(
-            Tickets.issue.contains(search_term),
-            Tickets.details.contains(search_term),
-            Tickets.representative.contains(search_term),
-            Tickets.who.contains(search_term)
-        )).limit(10)
+        results = rethink.table("tickets").filter(
+            lambda user:
+                user["issue"].match("(?i){}".format(search_term))
+        ).run(rdb_conn)
+
+        # results = Tickets.query.filter(or_(
+        #     Tickets.issue.contains(search_term),
+        #     Tickets.details.contains(search_term),
+        #     Tickets.representative.contains(search_term),
+        #     Tickets.who.contains(search_term)
+        # )).limit(10)
     elif packet["method"] == "retrieve:newest":
-        results = db.session.query(Tickets).filter_by(
-            resolved=False
-        ).limit(10)
+        Tickets()
+        results = rethink.table("tickets").filter(
+            rethink.row["resolved"] == False
+        ).limit(10).run(rdb_conn)
 
     to_return = json.dumps([
         {
-            "user": res.who,
-            "latest": res.issue,
-            "id": res.uuid,
-            "details": res.details
+            "user": res["who"],
+            "latest": res["issue"],
+            "id": res["uuid"],
+            "details": res["details"]
         } for res in results
     ])
 

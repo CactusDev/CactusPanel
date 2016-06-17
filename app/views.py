@@ -4,7 +4,6 @@ from flask_login import (request, login_required, current_user, login_user,
                          logout_user)
 from . import app, lm
 from .forms import LoginForm, RegisterForm
-from .models import User, Tickets
 from .auth import OAuthSignIn
 from .util import tickets
 import json
@@ -14,6 +13,7 @@ from rethinkdb.errors import ReqlDriverError
 from .rethink_models import *
 import rethinkdb as rethink
 import sys
+import rethinkdb as rethink
 
 remodel.connection.pool.configure(db=app.config["RDB_DB"])
 
@@ -26,6 +26,9 @@ def load_user(user_id):
 @app.before_request
 def before_request():
     """Set the Flask session object's user to Flask-Login's current_user"""
+    g.rdb_conn = rethink.connect(host=app.config["RDB_HOST"],
+                                 port=app.config["RDB_PORT"],
+                                 db=app.config["RDB_DB"])
     g.user = current_user
     # session["username"] = "foo"   # For offline debugging
 

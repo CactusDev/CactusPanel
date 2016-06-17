@@ -3,7 +3,6 @@ var app = angular.module("GlobalApp", [
   "ngRoute"
 ]);
 
-var socket = io.connect('http://' + document.domain + ':' + location.port);
 var shouldShow = true;
 
 var csrftoken = $('meta[name=csrf-token]').attr('content')
@@ -68,16 +67,6 @@ app.controller("TabController", function($scope, $window) {
       name: "!nerdfive",
       response: "%name% nerdfives %args%!"
   }];
-
-  socket.on('connect', function() {
-      $scope.connected = true;
-      $scope.$apply();
-  });
-
-  socket.on('disconnect', function() {
-      $scope.connected = false;
-      $scope.$apply();
-  });
 
   $scope.dash = function() {
     $window.location.href='#';
