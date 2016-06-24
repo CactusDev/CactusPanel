@@ -30,7 +30,44 @@ def before_request():
                                  port=app.config["RDB_PORT"],
                                  db=app.config["RDB_DB"])
     g.user = current_user
-    # session["username"] = "foo"   # For offline debugging
+    # session["username"] = "OfflineyMcDevacus"   # For offline debugging
+
+
+# Error pages
+
+@app.errorhandler(400)
+def bad_req(e):
+    return render_template("errors/error.html", error=e)
+
+
+@app.errorhandler(401)
+def bad_req(e):
+    return render_template("errors/error.html", error=e)
+
+
+@app.errorhandler(403)
+def bad_req(e):
+    return render_template("errors/error.html", error=e)
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("errors/error.html", error=e)
+
+
+@app.errorhandler(500)
+def internal_error(e):
+    return render_template("errors/error.html", error=e)
+
+
+@app.errorhandler(501)
+def not_implemented(e):
+    return render_template("errors/error.html", error=e)
+
+
+@app.errorhandler(503)
+def timeout(e):
+    return render_template("errors/error.html", error=e)
 
 
 @app.route("/")
@@ -50,6 +87,7 @@ def index():
         #       and causes a crash, so we're making sure that doesn't happen
         logout_user()
         return redirect(url_for("index"))
+
 
 @app.route("/authorize/<provider>")
 def oauth_authorize(provider):
@@ -84,8 +122,7 @@ def oauth_callback(provider):
         if registered:
             return redirect(url_for("index"))
         else:
-            # TODO: Make this redirect to an error page
-            return jsonify({"error": 3, "data": e.args})
+            return render_template("errors/error.html", error=e.args)
 
     else:
         # User exists, so login and redirect to index
