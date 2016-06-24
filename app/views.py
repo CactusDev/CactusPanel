@@ -85,7 +85,7 @@ def oauth_callback(provider):
             return redirect(url_for("index"))
         else:
             # TODO: Make this redirect to an error page
-            return jsonify({"error": 3, "data": jsonify(e.args)})
+            return jsonify({"error": 3, "data": e.args})
 
     else:
         # User exists, so login and redirect to index
