@@ -41,12 +41,12 @@ def bad_req(e):
 
 
 @app.errorhandler(401)
-def bad_req(e):
+def not_authorized(e):
     return render_template("errors/error.html", error=e)
 
 
 @app.errorhandler(403)
-def bad_req(e):
+def forbidden(e):
     return render_template("errors/error.html", error=e)
 
 
