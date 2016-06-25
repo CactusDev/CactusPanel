@@ -1,77 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
-    <title>Dashboard - CactusDev</title>
+    <head>
+        <title>Dashboard - CactusDev</title>
 
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <script type="text/javascript" src="{{ url_for('static', filename='js/libs/angular.min.js')}}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/libs/angular-material.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/libs/angular-route.min.js')}}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/libs/angular-aria.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/libs/angular-messages.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/libs/jquery.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/libs/ng-animate.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/libs/ng-views.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/libs/svg-assets.js') }}"></script>
+        <link rel="stylesheet" href="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.1.0-rc.5/angular-material.css" />
+        <link rel="stylesheet" href="https://material.angularjs.org/1.1.0-rc.5/docs.css" />
 
-    <link rel="stylesheet" type="text/css" href="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.1.0-rc.5/angular-material.css">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/Global.css') }}">
-
-    <script type="text/javascript" src="{{ url_for('static', filename='js/angular/GlobalController.js')}}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/angular/NavController.js')}}"></script>
-  </head>
-
-  <body ng-app="GlobalApp">
-    <div ng-controller="NavController as nav" ng-cloak>
-      <div layout="row" id="desktop">
-        <div layout="row" flex>
-          <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="true" md-disable-backdrop md-whiteframe="4">
-            <md-toolbar class="md-theme-green">
-              <h1 class="md-toolbar-tools">Navigation</h1>
-            </md-toolbar>
-            <md-content>
-                <md-button ng-repeat="loc in nav.locations" ng-click="gl.changeView(loc.partial)" style="width: 90%" class="md-primary" show-gt-md>
-                  {[ loc.name ]}
-                </md-button>
-              <div>
-                <md-button id="userInfoButton" style="width: 90%" ng-click="nav.showUserInfo()" class="md-primary">
-                  {{ username }}
-                </md-button>
-              </div>
-            </md-content>
-          </md-sidenav>
-
-          <md-content flex layout-padding>
-            <div layout="column" layout-fill layout-align="top center">
-              Potato
-            </div>
-          </md-content>
-        </div>
-
-      <!-- TODO: Mobile mode -->
-
-      <!-- <div layout="row" id="mobile">
-        <div flex>
-            <md-content ng-cloak class="md-padding">
-              <div flex="10%" style="height: 93%">
-                <md-sidenav class="md-sidenav-left" md-component-id="left" md-disable-backdrop md-whiteframe="4">
-                  <md-toolbar class="md-theme-green">
-                    <h1 class="md-toolbar-tools">Navigation</h1>
-                  </md-toolbar>
-                  <md-content>
-                    <md-button ng-repeat="loc in nav.locations" style="width: 90%" class="md-primary" show-gt-md>
-                      {[ loc.name ]}
-                    </md-button>
-                  </md-content>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.js"></script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.min.js"></script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+        <script type="text/javascript" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/t-114/svg-assets-cache.js"></script>
+        <script type="text/javascript" src="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.1.0-rc.5/angular-material.js"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/angular/App.js') }}"></script>
+    </head>
+    <body ng-app="GlobalApp">
+        <div ng-controller="AppCtrl" layout="column" ng-cloak="">
+            <section layout="row" flex="">
+                <md-sidenav md-is-locked-open="$mdMedia('gt-md')" md-disable-backdrop="" md-whiteframe="4">
+                    <md-toolbar class="md-theme-indigo">
+                        <h1 class="md-toolbar-tools">Sidenav Left</h1>
+                    </md-toolbar>
+                    <md-content layout-padding="">
+                        <p>
+                            test
+                        </p>
+                    </md-content>
                 </md-sidenav>
-              </div>
-          </md-content>
+                <md-content flex="" layout-padding="">
+                    <div layout="column" layout-fill="" layout-align="top">
+                        <p>
+                            Testfoobar
+                        </p>
+                    </div>
+                </md-content>
+            </section>
         </div>
-      </div> -->
-    </div>
-  </body>
-
+    </body>
 </html>
