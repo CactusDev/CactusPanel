@@ -80,6 +80,7 @@ def index():
 
         return render_template(
             "index.html",
+            form=LoginForm(),
             username=session["username"]
         )
     else:
@@ -128,6 +129,37 @@ def oauth_callback(provider):
         # User exists, so login and redirect to index
         login_user(user, True)
         return redirect(url_for("index"))
+
+
+def register():
+    try:
+        user_role = user_datastore.find_or_create_role("user")
+        user = user_datastore.create_user(
+            username=session["username"],
+            password="",  # None, because it's required for
+                          # Flask-Login's auth key setup
+            email=session["email"],
+            confirmed_at=datetime.now(),
+            roles=[user_role, ],
+            provider_id="{pid}${uid}".format(pid=session["provider"],
+                                             uid=session["user_id"]),
+            active=True     # Mark them as active so they're logged in
+            )
+
+        user = User.query.filter_by(
+            provider_id="{}${}".format(session["provider"],
+                                       session["user_id"])
+            ).first()
+
+        db.session.commit()
+
+        if user is not None:
+            login_user(user, True)
+            return True, None
+        else:
+            return False, None
+    except Exception as e:
+        return False, e
 
 
 @app.route("/login")

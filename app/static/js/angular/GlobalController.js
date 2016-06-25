@@ -1,4 +1,7 @@
-var app = angular.module("GlobalApp", ["ngMaterial", "ngRoute"])
+var app = angular.module("GlobalApp", [
+  "ngMaterial",
+  "ngRoute"
+]);
 
 app.config(function($interpolateProvider, $mdThemingProvider, $routeProvider, $locationProvider) {
   $interpolateProvider.startSymbol('{[');
@@ -22,6 +25,24 @@ app.config(function($interpolateProvider, $mdThemingProvider, $routeProvider, $l
   }).when("/quotes", {
     templateUrl: "partials/quotes"
   }).otherwise({ redirectTo: "/" });
+
+  var req = makeRequest(
+      createJSONPacket(               // data
+         'retrieve:newest',               // method
+         {},                              // params
+         0                                // id
+      ),
+      'POST',                         // type
+      '/support'                      // url
+  );
+  req.done(function(request) {
+      if (request.hasOwnProperty("error")) {
+          // It looks like we've got an error, deal with it
+      } else if (request.hasOwnProperty("result")) {
+          // Success!
+          app.supportList = request["result"]["results"];
+      }
+  });
 });
 
 app.controller("GlobalController", function($scope, $location) {

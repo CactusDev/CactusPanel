@@ -72,6 +72,24 @@ def support_router():
         return jsonify(error_packet)
 
 
+@login_required
+@app.route("/support/create", methods=["GET"])
+def create_ticket_directive():
+    if request.method == "GET":
+        return render_template("partials/CreateSupportTicket.html")
+    else:
+        return "Method not allowed"
+
+
+@login_required
+@app.route("/support/respond", methods=["GET"])
+def respond_ticket_directive():
+    if request.method == "GET":
+        return render_template("directives/RespondToTicket.html")
+    else:
+        return "Method not allowed"
+
+
 def create_ticket(packet):
     """
     Creates and returns a new ticket
@@ -139,3 +157,8 @@ def list_tickets(packet):
     ])
 
     return to_return
+
+
+def respond_to_ticket(packet):
+
+    params = packet["params"]
