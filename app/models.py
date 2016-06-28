@@ -4,19 +4,12 @@ RethinkDB models for remodel
 
 from remodel.models import Model
 
-roles_users = db.Table('roles_users',
-                       db.Column('user_id',
-                                 db.Integer(),
-                                 db.ForeignKey('user.id')),
-                       db.Column('role_id',
-                                 db.Integer(),
-                                 db.ForeignKey('role.id'))
-                       )
 
 class User(Model):
     """
     A remodel table model
     """
+    has_many = ("Tickets", "TicketResponse")
 
     def get_id(self):
         """
@@ -50,9 +43,6 @@ class Roles(Model):
     """
     pass
 
-    def gen_auth_token(self, expiration=600):
-        s = Serializer(app.config['SECRET_KEY'], expires_in=expiration)
-        return s.dumps({'id': self.id})
 
 class Channels(Model):
     """
@@ -63,16 +53,13 @@ class Channels(Model):
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
+
 class Configuration(Model):
     """
     A remodel table model
     """
     pass
 
-class Role(db.Model, RoleMixin):
-    id = db.Column(db.Integer(), primary_key=True)
-    name = db.Column(db.String(80), unique=True)
-    description = db.Column(db.String(255))
 
 class Commands(Model):
     """
@@ -80,10 +67,6 @@ class Commands(Model):
     """
     pass
 
-class Bot(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), index=True)
-    owner = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 class Messages(Model):
     """
@@ -117,11 +100,11 @@ class Tickets(Model):
     """
     A remodel table model
     """
-    pass
+    belongs_to = ('User',)
 
 
 class TicketResponse(Model):
     """
     A remodel table model
     """
-    pass
+    belongs_to = ('User',)

@@ -4,17 +4,16 @@ Provides ticket endpoints and controls for Cactus-CP
 
 import json
 from functools import partial
-from uuid import uuid4
 import rethinkdb as rethink
 import jrpc_helper as jrpc
 from flask import jsonify, session
 from flask_login import request, login_required
 from werkzeug import ImmutableMultiDict
-from ..models import Tickets
-from .. import app, csrf_protect
+from ..models import Tickets, User, TicketResponse
+from .. import app, csrf
 
 
-@csrf_protect.exempt
+@csrf.exempt
 @login_required
 @app.route("/support", methods=["POST"])
 def support_router():
@@ -47,10 +46,13 @@ def support_router():
             "retrieve:newest": partial(list_tickets, data),
             "retrieve:search": partial(list_tickets, data),
             "create": partial(create_ticket, data),
-            # "respond": partial(respond_to_ticket, data)
+            "respond": partial(respond_to_ticket, data)
         }
 
-        return_data = json.loads(methods[data["method"]]())
+        return_data = methods[data["method"]]()
+
+        if return_data is not None:
+            return_data = json.loads(return_data)
 
         response_packet = jrpc.JSONRPCResult(
             response_id=data["id"] if "id" in data else None,
@@ -95,19 +97,18 @@ def create_ticket(packet):
     Creates and returns a new ticket
     """
 
-    params = packet["params"]
+    params = packet.get("params", None)
 
-    ticket_id = str(uuid4())
+    user = User.get(userName=session.get("username", None))
 
     new_ticket = Tickets.create(
-        who=session["username"],
+        who=user,
         issue=params["issue"],
         details=params["details"],
-        uuid=ticket_id
     )
     new_ticket.save()
 
-    ticket = Tickets.get(uuid=ticket_id)
+    ticket = Tickets.get(id=ticket_id)
 
     return True if ticket is not None else False
 
@@ -137,13 +138,12 @@ def list_tickets(packet):
             (lambda user:
              user["details"].match("(?i){}".format(search_term))) |
             (lambda user:
-             user["representative"].match("(?i){}".format(search_term))) |
+             user["rep_id"].match("(?i){}".format(search_term))) |
             (lambda user:
              user["who"].match("(?i){}".format(search_term)))
         ).limit(10).run(rdb_conn)
 
     elif packet["method"] == "retrieve:newest":
-        Tickets()
         results = rethink.table("tickets").filter(
             {"resolved": False}).limit(10).run(rdb_conn)
 
@@ -151,7 +151,6 @@ def list_tickets(packet):
         {
             "user": res["who"],
             "latest": res["issue"],
-            "id": res["uuid"],
             "details": res["details"]
         } for res in results
     ])
@@ -160,5 +159,50 @@ def list_tickets(packet):
 
 
 def respond_to_ticket(packet):
+    """
+    Handles responses to support tickets
+    """
+    params = packet.get("params", None)
 
-    params = packet["params"]
+    if params is not None and all(key in params for key in [
+        "response",
+        "ticket_id",
+        "user_id",
+        "flags"
+    ]):
+        try:
+            ticket_id = str(params.get("ticket_id", None))
+            response = str(params.get("response", None))
+            user_id = str(params.get("user_id", None))
+            flags = int(params.get("flags", None))
+        except ValueError as error:
+            # Looks like we've got an incorrect type
+            print(error)
+
+        ticket = Tickets.get(id=ticket_id)
+        user = User.get(id=user_id)
+
+        if ticket is not None and user is not None:
+            new_response = TicketResponse.create(
+                who=user["id"],
+                response=response,
+                ticket=ticket["id"],
+                flags=flags
+            )
+            new_response.save()
+
+            to_return = TicketResponse.get(response=response,
+                                           ticket=ticket["id"],
+                                           who=user["id"])
+
+            if to_return is not None:
+                return json.dumps({
+                    "flags": to_return["flags"],
+                    "id": to_return["id"],
+                    "ticket": to_return["ticket"],
+                    "response": to_return["response"],
+                    "who": to_return["who"]
+                    })
+
+        else:
+            return None

@@ -17,26 +17,10 @@ app = Flask(__name__, instance_relative_config=True)
 app.config.from_object("config")
 app.config.from_pyfile("config.py", True)
 
-mail = Mail(app)
-mail.init_app(app)
-
-db = SQLAlchemy(app)
-
-csrf_protect = CsrfProtect(app)
-
-socketio = SocketIO(app)
-
-from .models import User, Role
-
-user_datastore = SQLAlchemyUserDatastore(db, User, Role)
-security = Security(app, user_datastore)
+csrf = CsrfProtect(app)
 
 lm = LoginManager()
-
 lm.init_app(app)
 lm.login_view = "login"
-
-from . import views, models
-from .util import assets
 
 from . import views

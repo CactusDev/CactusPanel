@@ -15,7 +15,7 @@ app.config(function($interpolateProvider, $mdThemingProvider, $routeProvider, $l
       .accentPalette('light-blue', {
           'default': "A200"
   });
-  
+
   $locationProvider.hashPrefix('');
 
   $routeProvider.when("/", {

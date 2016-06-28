@@ -12,6 +12,7 @@ from uuid import uuid4
 import remodel.connection
 from rethinkdb.errors import ReqlDriverError
 from .models import *
+from .util.tickets import *
 import rethinkdb as rethink
 import sys
 
