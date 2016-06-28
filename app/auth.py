@@ -1,6 +1,10 @@
 from rauth import OAuth2Service
-from flask import current_app, url_for, request, redirect
+from flask import current_app, url_for, request, redirect, session
+from flask_login import login_user
+import rethinkdb as rethink
 import json
+
+from .models import *
 
 
 def register():

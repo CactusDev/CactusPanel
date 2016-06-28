@@ -1,0 +1,81 @@
+body {
+    overflow: hidden;
+}
+body, html {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.above {
+  text-align: center;
+  font-family: Ubuntu sans-serif;
+  font-size: 2em;
+  color: white;
+}
+
+a {
+  color: white;
+}
+
+.container {
+    max-width: 600px;
+    height: 600px;
+    margin: 0 auto;
+}
+svg {
+    max-width: 100%;
+}
+.tongue {
+    animation: tongueAnimation ease 2s;
+    animation-iteration-count: infinite;
+}
+.tail {
+    animation: tailAnimation ease 7s;
+    animation-iteration-count: infinite;
+}
+.wink {
+    animation: winkAnimation ease 2s;
+    animation-iteration-count: infinite;
+    transform-origin: 50% 50%;
+}
+@keyframes tongueAnimation {
+    0% {
+        transform: translateY(-55%);
+    }
+    15% {
+        transform: translateY(20%);
+    }
+    25% {
+        transform: translateY(-55%);
+    }
+    100% {
+        transform: translateY(-55%);
+    }
+}
+@keyframes tailAnimation {
+    0% {
+        transform-origin: right bottom;
+    }
+    30% {
+        transform: rotateY(30deg);
+        transform: skewX(-5deg);
+        transform: skewY(-5deg);
+        transform-origin: right bottom;
+    }
+    50% {
+        transform: rotateX(35deg);
+        transform: skewX(-10deg);
+        transform: skewY(-10deg);
+        transform-origin: right bottom;
+    }
+}
+@keyframes winkAnimation {
+    0%, 30%, 80%, 100% {
+        transform: scaleY(1);
+    }
+    50% {
+        transform: scaleY(.2);
+    }
+}
