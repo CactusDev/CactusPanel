@@ -1,0 +1,30 @@
+<html>
+<head>
+  <title>CactusBot - Create a bot</title>
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="stylesheet" href="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.1.0-rc.5/angular-material.css" />
+  <link rel="stylesheet" href="https://material.angularjs.org/1.1.0-rc.5/docs.css" />
+
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.min.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+  <script type="text/javascript" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/t-114/svg-assets-cache.js"></script>
+  <script type="text/javascript" src="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.1.0-rc.5/angular-material.js"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/angular/GlobalController.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/angular/Create.js') }}"></script>
+</head>
+
+<body ng-app="GlobalApp">
+  <div ng-controller="CreateController">
+    {% if (shouldShow == True) %}
+      {[ showCreate($event) ]}
+      {% set shouldShow = False %}
+    {% endif %}
+  </div>
+</body>
+</html>

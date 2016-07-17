@@ -3,6 +3,16 @@ var app = angular.module("GlobalApp", [
   "ngRoute"
 ]);
 
+var csrftoken = $('meta[name=csrf-token]').attr('content')
+
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type)) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken)
+        }
+    }
+});
+
 app.config(function($interpolateProvider, $mdThemingProvider, $routeProvider, $locationProvider) {
   $interpolateProvider.startSymbol('{[');
   $interpolateProvider.endSymbol(']}');
@@ -25,30 +35,7 @@ app.config(function($interpolateProvider, $mdThemingProvider, $routeProvider, $l
   }).when("/quotes", {
     templateUrl: "partials/quotes"
   }).otherwise({ redirectTo: "/" });
-
-  var req = makeRequest(
-      createJSONPacket(               // data
-         'retrieve:newest',               // method
-         {},                              // params
-         0                                // id
-      ),
-      'POST',                         // type
-      '/support'                      // url
-  );
-  req.done(function(request) {
-      if (request.hasOwnProperty("error")) {
-          // It looks like we've got an error, deal with it
-      } else if (request.hasOwnProperty("result")) {
-          // Success!
-          app.supportList = request["result"]["results"];
-      }
-  });
 });
 
 app.controller("GlobalController", function($scope, $location) {
-  var gl = this;
-
-  gl.changeView = function(route) {
-    $location.path(route)
-  }
 });

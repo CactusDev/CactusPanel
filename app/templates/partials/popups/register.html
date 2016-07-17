@@ -1,0 +1,44 @@
+<md-dialog aria-label="Create a Bot" ng-cloak>
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Create a Bot</h2>
+            <span flex></span>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <h4 class="md-display-1">Do you want a custom name?</h4>
+            <md-switch class="md-primary" md-no-ink aria-label="Do you want a custom bot?" ng-model="customAccount">
+                Do you want a custom bot?
+            </md-switch>
+            <div ng-show="customAccount">
+                <md-input-container aria-label="Username" style="width: 100%;">
+                    <label>Bot Username</label>
+                    <input name="username" ng-model="username">
+                </md-input-container>
+
+                <md-input-container aria-label="Password" style="width: 100%;">
+                    <label>Bot Password</label>
+                    <input type="password" name="password" ng-model="password">
+                </md-input-container>
+            </div>
+            <h6 class="md-subhead">If you don't want a custom account, we'll use the CactusBot one!</h6>
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <span flex></span>
+        <md-button ng-click="submit()" style="margin-right:20px;">
+            Send
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>
+
+<script>
+    // CSRF protection bro
+    $SCRIPT_ROOT = {
+        {
+            request.script_root | tojson | safe
+        }
+    };
+</script>

@@ -12,7 +12,6 @@ from uuid import uuid4
 import remodel.connection
 from rethinkdb.errors import ReqlDriverError
 from .models import *
-from .util.tickets import *
 import rethinkdb as rethink
 import sys
 
@@ -31,44 +30,7 @@ def before_request():
                                  port=app.config["RDB_PORT"],
                                  db=app.config["RDB_DB"])
     g.user = current_user
-    # session["username"] = "OfflineyMcDevacus"   # For offline debugging
-
-
-# Error pages
-
-@app.errorhandler(400)
-def bad_req(e):
-    return render_template("errors/error.html", error=e)
-
-
-@app.errorhandler(401)
-def not_authorized(e):
-    return render_template("errors/error.html", error=e)
-
-
-@app.errorhandler(403)
-def forbidden(e):
-    return render_template("errors/error.html", error=e)
-
-
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template("errors/error.html", error=e)
-
-
-@app.errorhandler(500)
-def internal_error(e):
-    return render_template("errors/error.html", error=e)
-
-
-@app.errorhandler(501)
-def not_implemented(e):
-    return render_template("errors/error.html", error=e)
-
-
-@app.errorhandler(503)
-def timeout(e):
-    return render_template("errors/error.html", error=e)
+    # session["username"] = "foo"   # For offline debugging
 
 
 @app.route("/")
@@ -81,7 +43,6 @@ def index():
 
         return render_template(
             "index.html",
-            form=LoginForm(),
             username=session["username"]
         )
     else:
@@ -89,7 +50,6 @@ def index():
         #       and causes a crash, so we're making sure that doesn't happen
         logout_user()
         return redirect(url_for("index"))
-
 
 @app.route("/authorize/<provider>")
 def oauth_authorize(provider):
@@ -122,45 +82,15 @@ def oauth_callback(provider):
         # User doesn't exist yet, so we'll create it, then redirect to index
         registered, e = register()
         if registered:
-            return redirect(url_for("index"))
+            return redirect(url_for("create"))
         else:
-            return render_template("errors/error.html", error=e.args)
+            # TODO: Make this redirect to an error page
+            return jsonify({"error": 3, "data": e.args})
 
     else:
         # User exists, so login and redirect to index
         login_user(user, True)
         return redirect(url_for("index"))
-
-
-def register():
-    try:
-        user_role = user_datastore.find_or_create_role("user")
-        user = user_datastore.create_user(
-            username=session["username"],
-            password="",  # None, because it's required for
-                          # Flask-Login's auth key setup
-            email=session["email"],
-            confirmed_at=datetime.now(),
-            roles=[user_role, ],
-            provider_id="{pid}${uid}".format(pid=session["provider"],
-                                             uid=session["user_id"]),
-            active=True     # Mark them as active so they're logged in
-            )
-
-        user = User.query.filter_by(
-            provider_id="{}${}".format(session["provider"],
-                                       session["user_id"])
-            ).first()
-
-        db.session.commit()
-
-        if user is not None:
-            login_user(user, True)
-            return True, None
-        else:
-            return False, None
-    except Exception as e:
-        return False, e
 
 
 @app.route("/login")
@@ -187,3 +117,24 @@ def quotes_route():
 @app.route("/dash")
 def dashboard_route():
     return render_template("partials/Dashboard.html")
+
+
+@app.route("/create")
+def create():
+    return render_template("create.html", shouldShow=True)
+
+
+@app.route("/create/popup")
+def create_popup():
+    return render_template("partials/popups/register.html")
+
+
+@app.route('/create/bot', methods=["POST"])
+def create_ticket():
+    if request.method == "POST":
+        print("rstogpngonfpeiwgnfpeiognfipegnfoipegnwfepiognfpieognfpeoign")
+        print(json.loads(request.data.decode("utf-8")))
+        return request.data.decode("utf-8")
+        # return redirect(url_for("index", supported=True), code=302)
+    else:
+        return "Method not supported."
