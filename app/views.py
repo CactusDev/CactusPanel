@@ -33,6 +33,43 @@ def before_request():
     # session["username"] = "foo"   # For offline debugging
 
 
+# Error pages
+
+@app.errorhandler(400)
+def bad_req(e):
+    return render_template("errors/error.html", error=e)
+
+
+@app.errorhandler(401)
+def not_authorized(e):
+    return render_template("errors/error.html", error=e)
+
+
+@app.errorhandler(403)
+def forbidden(e):
+    return render_template("errors/error.html", error=e)
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("errors/error.html", error=e)
+
+
+@app.errorhandler(500)
+def internal_error(e):
+    return render_template("errors/error.html", error=e)
+
+
+@app.errorhandler(501)
+def not_implemented(e):
+    return render_template("errors/error.html", error=e)
+
+
+@app.errorhandler(503)
+def timeout(e):
+    return render_template("errors/error.html", error=e)
+
+
 @app.route("/")
 @app.route("/index")
 @login_required
@@ -50,6 +87,7 @@ def index():
         #       and causes a crash, so we're making sure that doesn't happen
         logout_user()
         return redirect(url_for("index"))
+
 
 @app.route("/authorize/<provider>")
 def oauth_authorize(provider):
