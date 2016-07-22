@@ -7,8 +7,8 @@
         </div>
     </md-toolbar>
     <md-dialog-content>
-        <div class="md-dialog-content">
-            <h4 class="md-display-1">Do you want a custom name?</h4>
+        <div class="md-dialog-content" ng-show="initial">
+            <h4 class="md-display-1">Initial Setup</h4>
             <md-switch class="md-primary" md-no-ink aria-label="Do you want a custom bot?" ng-model="customAccount">
                 Do you want a custom bot name?
             </md-switch>
@@ -16,15 +16,34 @@
                 <h4 class="md-title">The following is steps to get a custom account for the bot:</h5>
                 <h5 class="md-subhead">1: Log into Beam using the account you want to use.</h5>
                 <h5 class="md-subhead">2: Press the "Login" button below.</h5>
-                <md-button style="display: table; width: 50%; margin: 0 auto;" class="md-raised md-primary">Login</md-button>
+                <md-button
+                style="display: table; width: 50%; margin: 0 auto;"
+                class="md-raised md-primary"
+                ng-click="joining = true">Login</md-button>
             </div>
             <h6 class="md-subhead">If you don't want a custom account, we'll use the CactusBot one!</h6>
-        </div>
+          </div>
+
+          <div class="md-dialog-content" ng-show="joining">
+              <div style="display: table; width: 50%; margin: 0 auto;">
+                <h4 class="md-title">Attempting to join your channel...</h4>
+                <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+                {[ slowProceed(2) ]}  <!-- Temp -->
+              </div>
+          </div>
+
+          <div class="md-dialog-content" ng-show="setup">
+
+          </div>
     </md-dialog-content>
     <md-dialog-actions layout="row">
         <span flex></span>
-        <md-button ng-click="submit()" style="margin-right:20px;">
-            Send
+        <md-button ng-show="!customAccount" ng-click="joining = true" style="margin-right:20px;">
+            Next
+        </md-button>
+
+        <md-button ng-show="!setup" ng-click="cancel()" style="margin-right:20px;">
+            Skip setup
         </md-button>
     </md-dialog-actions>
 </md-dialog>

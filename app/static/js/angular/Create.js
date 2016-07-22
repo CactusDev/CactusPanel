@@ -24,13 +24,21 @@ app.controller("CreateController", function($scope, $mdMedia, $mdDialog) {
   };
 });
 
-function RegisterController($scope, $mdDialog) {
+function RegisterController($scope, $mdDialog, $timeout) {
+  $scope.initial = true;
+  $scope.customAccount = false;
+  $scope.joining = false;
+  $scope.setup = false;
+
+  $scope.slowProceed = function(time) {
+    $timeout($scope.setup = true, slide);
+  };
+
   $scope.cancel = function() {
     $mdDialog.cancel();
   };
 
   $scope.submit = function() {
-    console.log("rtnhrtnrsentorsitenrsoietn")
     $.ajax({
         url: '/create/bot',
         type: 'POST',
@@ -41,7 +49,6 @@ function RegisterController($scope, $mdDialog) {
         contentType: 'application/json'
       })
       .done(function(request) {
-        console.log("rtnhrtnrsentorsitenrsoietn")
         console.log(JSON.stringify(request));
       });
 
