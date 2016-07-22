@@ -10,18 +10,13 @@
         <div class="md-dialog-content">
             <h4 class="md-display-1">Do you want a custom name?</h4>
             <md-switch class="md-primary" md-no-ink aria-label="Do you want a custom bot?" ng-model="customAccount">
-                Do you want a custom bot?
+                Do you want a custom bot name?
             </md-switch>
             <div ng-show="customAccount">
-                <md-input-container aria-label="Username" style="width: 100%;">
-                    <label>Bot Username</label>
-                    <input name="username" ng-model="username">
-                </md-input-container>
-
-                <md-input-container aria-label="Password" style="width: 100%;">
-                    <label>Bot Password</label>
-                    <input type="password" name="password" ng-model="password">
-                </md-input-container>
+                <h4 class="md-title">The following is steps to get a custom account for the bot:</h5>
+                <h5 class="md-subhead">1: Log into Beam using the account you want to use.</h5>
+                <h5 class="md-subhead">2: Press the "Login" button below.</h5>
+                <md-button style="display: table; width: 50%; margin: 0 auto;" class="md-raised md-primary">Login</md-button>
             </div>
             <h6 class="md-subhead">If you don't want a custom account, we'll use the CactusBot one!</h6>
         </div>
