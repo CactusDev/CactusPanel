@@ -30,5 +30,6 @@ app.controller('AppCtrl', function ($scope, $mdSidenav) {
     "Commands",
     "Quotes",
     "Goals",
+    "Bot Messages"
     ];
 });

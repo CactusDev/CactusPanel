@@ -120,11 +120,11 @@ def oauth_callback(provider):
     session["email"] = user.get("email", None)
     session["provider"] = provider
 
-    if me.get("id", None) is None or me.get("username", None) is None:
+    if user.get("id", None) is None or user.get("username", None) is None:
         flash("OAuth Authentication failed :( Please try again later!")
         return redirect(url_for("index"))
 
-    user = User.get(provider_id="{}${}".format(provider, me.get("id", None)))
+    user = User.get(provider_id="{}${}".format(provider, user.get("id", None)))
 
     if not user:
         # User doesn't exist yet, so we'll create it, then redirect to index
@@ -181,6 +181,13 @@ def goals_route():
     """Goals route."""
 
     return render_template("partials/Goals.html")
+
+
+@app.route("/goals")
+def messages_route():
+    """Goals route."""
+
+    return render_template("partials/Messages.html")
 
 
 @app.route("/create")

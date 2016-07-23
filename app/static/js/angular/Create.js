@@ -35,10 +35,8 @@ app.controller("RegisterController", function ($scope, $mdDialog, $timeout) {
 
   $scope.states = [
     "CactusBot",
-    "CactusBotAlpha",
-    "CactusBotBeta",
-    "Temmie"
-  ] 
+    "CactusBotAlpha"
+  ]
 
   $scope.login = function(from) {
     $scope.initial = false;

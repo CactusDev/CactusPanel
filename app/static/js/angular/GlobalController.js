@@ -15,7 +15,7 @@ $.ajaxSetup({
     }
 });
 
-app.config(function($interpolateProvider, $mdThemingProvider, $routeProvider, $locationProvider) {
+app.config(function($interpolateProvider, $mdThemingProvider) {
   $interpolateProvider.startSymbol('{[');
   $interpolateProvider.endSymbol(']}');
 
@@ -27,17 +27,7 @@ app.config(function($interpolateProvider, $mdThemingProvider, $routeProvider, $l
       .accentPalette('light-blue', {
           'default': "A200"
   });
-
-  $locationProvider.hashPrefix('');
-
-  $routeProvider.when("/", {
-    templateUrl: "partial/dash"
-  }).when("/commands", {
-    templateUrl: "partial/commands"
-  }).when("/quotes", {
-    templateUrl: "partials/quotes"
-  }).otherwise({ redirectTo: "/" });
 });
 
-app.controller("GlobalController", function($scope, $location) {
+app.controller("GlobalController", function($scope) {
 });
