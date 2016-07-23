@@ -94,7 +94,11 @@ ENV/
 app.db
 cb_central.sqlite
 db_repository/
+rethinkdb_data/
 
 # Ignore Alembic stuff
 alembic/*
 !alembic/alembic_init.py
+
+# Other
+node_modules/

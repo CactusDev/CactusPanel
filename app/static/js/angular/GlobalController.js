@@ -1,4 +1,19 @@
-var app = angular.module("GlobalApp", ["ngMaterial", "ngRoute"])
+var app = angular.module("GlobalApp", [
+  "ngMaterial",
+  "ngRoute",
+  "ngAnimate",
+  "ngMessages"
+]);
+
+var csrftoken = $('meta[name=csrf-token]').attr('content')
+
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type)) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken)
+        }
+    }
+});
 
 app.config(function($interpolateProvider, $mdThemingProvider, $routeProvider, $locationProvider) {
   $interpolateProvider.startSymbol('{[');
@@ -12,7 +27,7 @@ app.config(function($interpolateProvider, $mdThemingProvider, $routeProvider, $l
       .accentPalette('light-blue', {
           'default': "A200"
   });
-  
+
   $locationProvider.hashPrefix('');
 
   $routeProvider.when("/", {
@@ -25,9 +40,4 @@ app.config(function($interpolateProvider, $mdThemingProvider, $routeProvider, $l
 });
 
 app.controller("GlobalController", function($scope, $location) {
-  var gl = this;
-
-  gl.changeView = function(route) {
-    $location.path(route)
-  }
 });

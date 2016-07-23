@@ -1,9 +1,17 @@
+"""Authentication."""
+
 from rauth import OAuth2Service
-from flask import current_app, url_for, request, redirect
+from flask import current_app, url_for, request, redirect, session
+from flask_login import login_user
+import rethinkdb as rethink
 import json
+
+from .models import *
 
 
 def register():
+    """Register a user."""
+
     try:
         user_role = UserRole.get_or_create(name="user")
         current_time = rethink.now()
@@ -36,6 +44,8 @@ def register():
 
 
 class OAuthSignIn(object):
+    """Sign in using OAuth."""
+
     providers = None
 
     def __init__(self, provider_name):
@@ -45,17 +55,25 @@ class OAuthSignIn(object):
         self.consumer_secret = credentials['CLIENT_SECRET']
 
     def authorize(self):
+        """Authorize the user."""
+
         pass
 
     def callback(self):
+        """Create a callback."""
+
         pass
 
     def get_callback_url(self):
+        """Get a callback."""
+
         return url_for('oauth_callback', provider=self.provider_name,
                        _external=True)
 
     @classmethod
     def get_provider(self, provider_name):
+        """Return the provider."""
+
         if self.providers is None:
             self.providers = {}
             for provider_class in self.__subclasses__():
@@ -65,6 +83,7 @@ class OAuthSignIn(object):
 
 
 class BeamSignIn(OAuthSignIn):
+    """Sign in for Beam."""
 
     def __init__(self):
         super(BeamSignIn, self).__init__("beam")
@@ -78,6 +97,8 @@ class BeamSignIn(OAuthSignIn):
         # self.callback_url = self.
 
     def authorize(self):
+        """Authorize a user."""
+
         params = {
             "redirect_uri": self.get_callback_url(),
             "response_type": "code",
@@ -86,6 +107,8 @@ class BeamSignIn(OAuthSignIn):
         return redirect(self.service.get_authorize_url(**params))
 
     def callback(self):
+        """Create a callback."""
+
         if "code" not in request.args:
             return None, None, None
         oauth_session = self.service.get_auth_session(
@@ -98,6 +121,6 @@ class BeamSignIn(OAuthSignIn):
             },
             decoder=lambda b: json.loads(b.decode('utf-8'))
         )
-        me = oauth_session.get("https://beam.pro/api/v1/users/current").json()
 
-        return me
+        return oauth_session.get(
+            "https://beam.pro/api/v1/users/current").json()
