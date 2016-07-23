@@ -1,17 +1,20 @@
-<md-dialog aria-label="Create a Bot" ng-cloak>
+<md-dialog ng-app="GlobalApp" ng-controller="RegisterController" aria-label="Create a Bot" ng-cloak>
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
     <md-toolbar>
         <div class="md-toolbar-tools">
-            <h2>Create a Bot</h2>
+            <h2>{[ state ]}</h2>
             <span flex></span>
         </div>
     </md-toolbar>
     <md-dialog-content>
         <div class="md-dialog-content" ng-show="initial">
             <h4 class="md-display-1">Initial Setup</h4>
-            <md-switch class="md-primary" md-no-ink aria-label="Do you want a custom bot?" ng-model="customAccount">
-                Do you want a custom bot name?
+            <md-switch class="md-primary"
+            md-no-ink aria-label="Do you want a custom bot?"
+            ng-model="customAccount">
+                Custom Account
             </md-switch>
+
             <div ng-show="customAccount">
                 <h4 class="md-title">The following is steps to get a custom account for the bot:</h5>
                 <h5 class="md-subhead">1: Log into Beam using the account you want to use.</h5>
@@ -19,31 +22,58 @@
                 <md-button
                 style="display: table; width: 50%; margin: 0 auto;"
                 class="md-raised md-primary"
-                ng-click="joining = true">Login</md-button>
+                ng-click="login('cactus')">Login</md-button>
             </div>
-            <h6 class="md-subhead">If you don't want a custom account, we'll use the CactusBot one!</h6>
+            <h6 class="md-subhead">If you don't want a custom account, you can choose one of ours!</h6>
+            <md-button
+            style="display: table; width: 50%; margin: 0 auto;"
+            class="md-raised md-primary"
+            ng-click="no()">No thanks!</md-button>
+          </div>
+
+          <div class="md-dialog-content" ng-show="choose" layout="column">
+            <h5 class="md-headline">Here's a list of our accounts that you can use.</h5>
+            <h5 class="md-subhead" layout="row" layout-align="center center">Select one, and click next.</h5>
+
+            <div layout="row" layout-align="center center">
+              <md-input-container style="margin-right: 10px;">
+                <label>Account</label>
+                <md-select ng-model="account">
+                  <md-option value="CactusBot">CactusBot</md-option>
+                  <md-option value="Stanley">Stanley</md-option>
+                </md-select>
+              </md-input-container>
+            </div>
+
+            <md-button
+            style="display: table; width: 50%; margin: 0 auto;"
+            class="md-raised md-primary"
+            ng-click="login('select')">Next</md-button>
           </div>
 
           <div class="md-dialog-content" ng-show="joining">
-              <div style="display: table; width: 50%; margin: 0 auto;">
-                <h4 class="md-title">Attempting to join your channel...</h4>
-                <md-progress-circular md-mode="indeterminate"></md-progress-circular>
-                {[ slowProceed(2) ]}  <!-- Temp -->
+              <div style="display: table; width: table; margin: 0 auto;">
+                Attempting to join your channel...
+                <md-progress-linear md-mode="indeterminate"></md-progress-linear>
               </div>
           </div>
 
-          <div class="md-dialog-content" ng-show="setup">
+          <div class="md-dialog-content" ng-show="thanks" layout="column">
+            <div layout="row" layout-align="center center">
+              <img class="check-element fadeInFast" style="width: 25px; height: 25px;" ng-src="{{ url_for('static', filename='images/green-heart.png') }}" />
+              <br />
+              <img class="check-element fadeInMedium" style="width: 25px; height: 25px;" ng-src="{{ url_for('static', filename='images/rocket.png') }}" />
+              <br />
+              <img class="check-element fadeInSlow" style="width: 25px; height: 25px;" ng-src="{{ url_for('static', filename='images/tada.png') }}" />
+            </div>
 
+            <h6 class="md-headline">Thank you for choosing CactusBot.</h6>
           </div>
     </md-dialog-content>
     <md-dialog-actions layout="row">
         <span flex></span>
-        <md-button ng-show="!customAccount" ng-click="joining = true" style="margin-right:20px;">
-            Next
-        </md-button>
-
-        <md-button ng-show="!setup" ng-click="cancel()" style="margin-right:20px;">
-            Skip setup
+        <md-button ng-show="thanks" ng-click="exit()" style="margin-right:20px;">
+          Exit
         </md-button>
     </md-dialog-actions>
 </md-dialog>

@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.1.0-rc.5/angular-material.css" />
         <link rel="stylesheet" href="https://material.angularjs.org/1.1.0-rc.5/docs.css" />
 
-        <script type="text/javascript" src="{{ url_for('static', filename='js/libs/jquery.min.js') }}"></script>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.js"></script>
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.min.js"></script>
@@ -29,23 +29,26 @@
                 md-is-locked-open="$mdMedia('gt-sm')"
                 md-disable-backdrop=""
                 md-whiteframe="4"
-                md-component-id="left"
-                md-swipe-left="close()"
-                md-swipe-right="open()">
+                md-component-id="left">
                   <md-toolbar class="md-theme-indigo">
                         <h1 class="md-toolbar-tools">Navigation</h1>
                     </md-toolbar>
                     <md-content layout-padding="">
                       <div ng-repeat="location in locations">
-                        <md-button class="md-raised" style="width: 95%;">{[ location.name ]}</md-button>
+                        <md-button class="md-raised"
+                        ng-click="setState(location)"
+                        style="width: 95%;">
+                        {[ location ]}
+                      </md-button>
                       </div>
                     </md-content>
                 </md-sidenav>
                 <md-content flex="" layout-padding="">
                     <div layout="column" layout-fill="" layout-align="top">
-                        <p>
-                            Content
-                        </p>
+                      <div ng-show="state == 'Dashboard'" ng-include="'{{ url_for('dashboard_route') }}'"></div>
+                      <div ng-show="state == 'Commands'" ng-include="'{{ url_for('commands_route') }}'"></div>
+                      <div ng-show="state == 'Quotes'" ng-include="'{{ url_for('quotes_route') }}'"></div>
+                      <div ng-show="state == 'Goals'" ng-include="'{{ url_for('goals_route') }}'"></div>
                     </div>
                 </md-content>
             </section>

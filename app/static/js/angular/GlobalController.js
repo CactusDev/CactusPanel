@@ -1,6 +1,8 @@
 var app = angular.module("GlobalApp", [
   "ngMaterial",
-  "ngRoute"
+  "ngRoute",
+  "ngAnimate",
+  "ngMessages"
 ]);
 
 var csrftoken = $('meta[name=csrf-token]').attr('content')

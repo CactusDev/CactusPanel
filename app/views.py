@@ -1,4 +1,4 @@
-""" All the views for the site """
+"""All the views for the site."""
 
 from flask import (render_template, flash, redirect, url_for, g, jsonify,
                    session)
@@ -20,61 +20,68 @@ remodel.connection.pool.configure(db=app.config["RDB_DB"])
 
 @lm.user_loader
 def load_user(user_id):
+    """Load a user, and return it."""
     return User.get(id=user_id)
 
 
 @app.before_request
 def before_request():
-    """Set the Flask session object's user to Flask-Login's current_user"""
+    """Set the Flask session object's user to Flask-Login's current_user."""
     g.rdb_conn = rethink.connect(host=app.config["RDB_HOST"],
                                  port=app.config["RDB_PORT"],
                                  db=app.config["RDB_DB"])
     g.user = current_user
-    # session["username"] = "foo"   # For offline debugging
+    # session["username"] = "DevyMcDevacus"   # For offline debugging
 
 
 # Error pages
-
 @app.errorhandler(400)
-def bad_req(e):
-    return render_template("errors/error.html", error=e)
+def bad_req(error):
+    """Error."""
+    return render_template("errors/error.html", error=error)
 
 
 @app.errorhandler(401)
-def not_authorized(e):
-    return render_template("errors/error.html", error=e)
+def not_authorized(error):
+    """Error."""
+    return render_template("errors/error.html", error=error)
 
 
 @app.errorhandler(403)
-def forbidden(e):
-    return render_template("errors/error.html", error=e)
+def forbidden(error):
+    """Error."""
+    return render_template("errors/error.html", error=error)
 
 
 @app.errorhandler(404)
-def page_not_found(e):
-    return render_template("errors/error.html", error=e)
+def page_not_found(error):
+    """Error."""
+    return render_template("errors/error.html", error=error)
 
 
 @app.errorhandler(500)
-def internal_error(e):
-    return render_template("errors/error.html", error=e)
+def internal_error(error):
+    """Error."""
+    return render_template("errors/error.html", error=error)
 
 
 @app.errorhandler(501)
-def not_implemented(e):
-    return render_template("errors/error.html", error=e)
+def not_implemented(error):
+    """Error."""
+    return render_template("errors/error.html", error=error)
 
 
 @app.errorhandler(503)
-def timeout(e):
-    return render_template("errors/error.html", error=e)
+def timeout(error):
+    """Error."""
+    return render_template("errors/error.html", error=error)
 
 
 @app.route("/")
 @app.route("/index")
 @login_required
 def index():
-    """ Index page view """
+    """Main page."""
     if "username" in session:
         print("Index:CurrentUser:\t", current_user)
 
@@ -91,6 +98,7 @@ def index():
 
 @app.route("/authorize/<provider>")
 def oauth_authorize(provider):
+    """Authorize using oauth from the provided provider."""
     if not current_user.is_anonymous:
         return redirect(url_for("index"))
 
@@ -100,14 +108,16 @@ def oauth_authorize(provider):
 
 @app.route("/callback/<provider>")
 def oauth_callback(provider):
+    """Callback for the provided provider."""
     if not current_user.is_anonymous:
         return redirect(url_for("index"))
 
     oauth = OAuthSignIn.get_provider(provider)
-    me = oauth.callback()
-    session["user_id"] = me.get("id", None)
-    session["username"] = me.get("username", None)
-    session["email"] = me.get("email", None)
+    user = oauth.callback()
+
+    session["user_id"] = user.get("id", None)
+    session["username"] = user.get("username", None)
+    session["email"] = user.get("email", None)
     session["provider"] = provider
 
     if me.get("id", None) is None or me.get("username", None) is None:
@@ -115,14 +125,13 @@ def oauth_callback(provider):
         return redirect(url_for("index"))
 
     user = User.get(provider_id="{}${}".format(provider, me.get("id", None)))
-    print(user)
+
     if not user:
         # User doesn't exist yet, so we'll create it, then redirect to index
         registered, e = register()
         if registered:
             return redirect(url_for("create"))
         else:
-            # TODO: Make this redirect to an error page
             return jsonify({"error": 3, "data": e.args})
 
     else:
@@ -133,46 +142,64 @@ def oauth_callback(provider):
 
 @app.route("/login")
 def login():
+    """Login route."""
+
     return oauth_authorize("beam")
 
 
 @app.route("/logout", methods=["GET"])
 def logout():
+    """Logout route."""
+
     logout_user()
     return redirect(url_for("index"))
 
 
 @app.route("/commands")
 def commands_route():
+    """Commands route."""
+
     return render_template("partials/Commands.html")
 
 
 @app.route("/quotes")
 def quotes_route():
-    return render_template("partials/Commands.html")
+    """Quotes route."""
+
+    return render_template("partials/Quotes.html")
 
 
 @app.route("/dash")
 def dashboard_route():
+    """Dashboard route."""
+
     return render_template("partials/Dashboard.html")
+
+
+@app.route("/goals")
+def goals_route():
+    """Goals route."""
+
+    return render_template("partials/Goals.html")
 
 
 @app.route("/create")
 def create():
+    """Create route."""
     return render_template("create.html", shouldShow=True)
 
 
 @app.route("/create/popup")
 def create_popup():
+    """Popout route."""
     return render_template("partials/popups/register.html")
 
 
 @app.route('/create/bot', methods=["POST"])
 def create_ticket():
+    """Create a bot."""
     if request.method == "POST":
-        print("rstogpngonfpeiwgnfpeiognfipegnfoipegnwfepiognfpieognfpeoign")
         print(json.loads(request.data.decode("utf-8")))
         return request.data.decode("utf-8")
-        # return redirect(url_for("index", supported=True), code=302)
     else:
         return "Method not supported."

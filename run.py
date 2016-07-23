@@ -1,4 +1,4 @@
-""" Main code for running the web server """
+"""Main code for running the web server."""
 
 from app import app
 

@@ -1,6 +1,7 @@
 
 app.controller('AppCtrl', function ($scope, $mdSidenav) {
   $scope.navOpen = false;
+  $scope.state = "Dashboard";
 
   $scope.close = function() {
     $mdSidenav('left').close();
@@ -8,6 +9,10 @@ app.controller('AppCtrl', function ($scope, $mdSidenav) {
 
   $scope.open = function() {
     $mdSidenav('left').open();
+  }
+
+  $scope.setState = function(newState) {
+    $scope.state = newState;
   }
 
   $scope.toggle = function() {
@@ -20,17 +25,10 @@ app.controller('AppCtrl', function ($scope, $mdSidenav) {
     $scope.navOpen = !$scope.navOpen;
   }
 
-  $scope.locations = [{
-      name: "Dashboard",
-      partial: "/"
-    }, {
-      name: "Commands",
-      partial: "/commands"
-    }, {
-      name: "Quotes",
-      partial: "/quotes"
-    }, {
-      name: "Goals",
-      partial: "/goals"
-    }];
+  $scope.locations = [
+    "Dashboard",
+    "Commands",
+    "Quotes",
+    "Goals",
+    ];
 });

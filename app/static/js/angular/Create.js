@@ -6,11 +6,13 @@ app.controller("CreateController", function($scope, $mdMedia, $mdDialog) {
 
     if (shouldShow) {
       $mdDialog.show({
-        controller: RegisterController,
+        controller: RegisterControllerr,
+        bindToController: true,
+        controllerAs: '$ctrl',
         templateUrl: '/create/popup',
         parent: angular.element(document.body),
         targetEvent: ev,
-        clickOutsideToClose: true,
+        clickOutsideToClose: false,
         fullscreen: useFullScreen
       });
       $scope.$watch(function() {
@@ -24,18 +26,46 @@ app.controller("CreateController", function($scope, $mdMedia, $mdDialog) {
   };
 });
 
-function RegisterController($scope, $mdDialog, $timeout) {
+app.controller("RegisterController", function ($scope, $mdDialog, $timeout) {
   $scope.initial = true;
   $scope.customAccount = false;
   $scope.joining = false;
-  $scope.setup = false;
+  $scope.thanks = false;
+  $scope.state = "Create a Bot"
 
-  $scope.slowProceed = function(time) {
-    $timeout($scope.setup = true, slide);
+  $scope.states = [
+    "CactusBot",
+    "CactusBotAlpha",
+    "CactusBotBeta",
+    "Temmie"
+  ] 
+
+  $scope.login = function(from) {
+    $scope.initial = false;
+    $scope.joining = true;
+    $scope.state = "Joining your Channel"
+
+    if (from == "cactus") {
+
+    } else if (from == "select") {
+      $scope.choose = false;
+    }
+
+    $timeout(function () {
+      $scope.thanks = true;
+      $scope.joining = false;
+      $scope.state = "Thank you!"
+    }, 2000);
   };
 
-  $scope.cancel = function() {
+  $scope.no = function() {
+    $scope.choose = true
+    $scope.initial = false
+  }
+
+  $scope.exit = function() {
     $mdDialog.cancel();
+    document.location = 'index';
   };
 
   $scope.submit = function() {
@@ -53,5 +83,7 @@ function RegisterController($scope, $mdDialog, $timeout) {
       });
 
       $mdDialog.cancel();
-  }
-}
+  };
+});
+
+function RegisterControllerr($scope, $mdDialog, $timeout) {}
