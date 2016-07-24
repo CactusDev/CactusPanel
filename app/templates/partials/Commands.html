@@ -13,32 +13,29 @@
     <md-content ng-cloak>
         <div layout="row" layout-align="center center">
             <div style="width: 85%">
-                <md-list>
-                    <md-list-item class="md-3-line" style="box-shadow: 1px 1px 1px #888888; margin-bottom: 1%;" ng-repeat="command in commands">
-                        <div class="md-list-item-text">
-                            <md-input-container class="md-block" flex-gt-sm>
-                                <label>Command</label>
-                                <input ng-model="command.command">
-                            </md-input-container>
+                <md-card
+                style="box-shadow: 1px 1px 1px #888888; margin-bottom: 1%;"
+                ng-repeat="command in commands">
+                  <md-card-content>
+                    <md-input-container class="md-block">
+                        <label>Command</label>
+                        <input ng-model="command.command">
+                    </md-input-container>
 
-                            <md-input-container class="md-block" flex-gt-sm>
-                                <label>Response</label>
-                                <input ng-model="command.response">
-                            </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Response</label>
+                        <input ng-model="command.response">
+                    </md-input-container>
+                  </md-card-content>
+                  <md-card-actions layout="row" layout-align="center center">
+                    <md-button class="md-secondary" ng-click="">Save</md-button>
+                    <md-button class="md-secondary" ng-click="">Remove</md-button>
+                    <md-switch class="md-secondary" ng-model="command.enabled">
+                      Enabled
+                    </md-switch>
+                  </md-card-actions>
+                </md-card>
 
-                            <md-switch class="md-secondary" ng-model="command.enabled">
-                              Enabled
-                            </md-switch>
-                        </div>
-
-                        <div layout="column" layout-align="center center">
-                            <md-button class="md-secondary" ng-click="">Save</md-button>
-                            <md-button class="md-secondary" ng-click="">Remove</md-button>
-                        </div>
-
-                        <md-divider ng-if="!$last"></md-divider>
-                    </md-list-item>
-                </md-list>
             </div>
         </div>
     </md-content>

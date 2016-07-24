@@ -190,6 +190,13 @@ def messages_route():
     return render_template("partials/Messages.html")
 
 
+@app.route("/repeats")
+def repeat_route():
+    """Repeat route."""
+
+    return render_template("partials/Repeats.html")
+
+
 @app.route("/create")
 def create():
     """Create route."""

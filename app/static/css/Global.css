@@ -16,3 +16,7 @@
   bottom: 0;
   right: 0;
 }
+
+#disable-md-clickable .md-ripple-container {
+    display: none;
+}
