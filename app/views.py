@@ -183,9 +183,9 @@ def goals_route():
     return render_template("partials/Goals.html")
 
 
-@app.route("/goals")
+@app.route("/messages")
 def messages_route():
-    """Goals route."""
+    """Messages route."""
 
     return render_template("partials/Messages.html")
 
@@ -216,3 +216,8 @@ def create_ticket():
 @app.route("/ticket/respond")
 def respond_ticket():
     return render_template("partials/popups/RespondTicket.html")
+
+
+@app.route("/goal/new")
+def create_goal():
+    return render_template("partials/popups/CreateGoal.html")
