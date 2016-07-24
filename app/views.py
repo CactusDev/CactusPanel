@@ -202,11 +202,17 @@ def create_popup():
     return render_template("partials/popups/register.html")
 
 
-@app.route('/create/bot', methods=["POST"])
+@app.route("/support")
+def support_route():
+    return render_template("partials/Support.html")
+
+
+@app.route("/ticket/new", methods=["POST"])
 def create_ticket():
-    """Create a bot."""
-    if request.method == "POST":
-        print(json.loads(request.data.decode("utf-8")))
-        return request.data.decode("utf-8")
-    else:
-        return "Method not supported."
+    """Create a ticket."""
+    return render_template("partials/popups/CreateTicket.html")
+
+
+@app.route("/ticket/respond")
+def respond_ticket():
+    return render_template("partials/popups/RespondTicket.html")

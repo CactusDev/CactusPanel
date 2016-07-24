@@ -20,7 +20,8 @@
         <script type="text/javascript" src="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.1.0-rc.5/angular-material.js"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='js/angular/GlobalController.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='js/angular/App.js') }}"></script>
-    </head>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/angular/TicketController.js') }}"></script>
+  </head>
 
     <body ng-app="GlobalApp">
         <div ng-controller="AppCtrl" layout="column" ng-cloak="" style="height: 100%;">
@@ -29,8 +30,9 @@
                 md-is-locked-open="$mdMedia('gt-sm')"
                 md-disable-backdrop=""
                 md-whiteframe="4"
-                md-component-id="left">
-                  <md-toolbar class="md-theme-indigo">
+                md-component-id="left"
+                md-padding>
+                  <md-toolbar class="md-theme-indigo" style="box-shadow: 3px 3px 3px #888888">
                         <h1 class="md-toolbar-tools">Navigation</h1>
                     </md-toolbar>
                     <md-content layout-padding="">
@@ -50,6 +52,7 @@
                       <div ng-show="state == 'Quotes'" ng-include="'{{ url_for('quotes_route') }}'"></div>
                       <div ng-show="state == 'Goals'" ng-include="'{{ url_for('goals_route') }}'"></div>
                       <div ng-show="state == 'Bot Messages'" ng-include="'{{ url_for('messages_route') }}'"></div>
+                      <div ng-show="state == 'Support'" ng-include="'{{ url_for('support_route') }}'"></div>
                     </div>
                 </md-content>
             </section>
