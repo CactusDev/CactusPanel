@@ -99,3 +99,6 @@ rethinkdb_data/
 # Ignore Alembic stuff
 alembic/*
 !alembic/alembic_init.py
+
+# Other
+node_modules/

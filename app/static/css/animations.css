@@ -1,0 +1,54 @@
+/* fadeIn was taken from animate.css */
+/* See it here: https://github.com/daneden/animate.css */
+
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.fadeInFast {
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+
+  animation-duration: 1s;
+  -webkit-animation-duration: 1s;
+}
+
+.fadeInMedium {
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+
+  animation-duration: 1.5s;
+  -webkit-animation-duration: 1.5s;
+}
+
+.fadeInSlow {
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+
+  animation-duration: 2s;
+  -webkit-animation-duration: 2s;
+}
+
+.bounceIn {
+  -webkit-animation-name: bounceIn;
+  animation-name: bounceIn;
+
+  animation-duration: 1s;
+  -webkit-animation-duration: 1s;
+}

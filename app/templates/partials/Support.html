@@ -1,0 +1,30 @@
+<div ng-app="GlobalApp" ng-controller="TicketController">
+    <md-toolbar class="md-theme-light" style="box-shadow: 3px 3px 3px #888888">
+        <h2 class="md-toolbar-tools">
+    <span>Support</span>
+  </h2>
+    </md-toolbar>
+    <div flex ng-cloak>
+        <div layout="row" layout-align="center center" style="padding-top: 1%">
+            <md-button class="md-raised md-primary" style="width: 50%">Create a Ticket</md-button>
+        </div>
+    </div>
+    <div style="padding-bottom: 1%"></div>
+    <md-content>
+        <div layout="row" layout-align="center center">
+            <div style="width: 85%">
+                <md-list>
+                    <md-list-item class="md-3-line" style="box-shadow: 1px 1px 1px #888888; margin-bottom: 1%;" ng-repeat="ticket in tickets">
+                        <div class="md-list-item-text">
+                            <h3>Title: {[ ticket.title ]}</h3>
+                            <h4>Representative: {[ ticket.rep ]}</h4>
+                            <p>Last message: {[ ticket.last ]}</p>
+                        </div>
+                        <md-button class="md-secondary" ng-click="showRespond($event)">Respond</md-button>
+                        <md-divider ng-if="!$last"></md-divider>
+                    </md-list-item>
+                </md-list>
+            </div>
+        </div>
+    </md-content>
+</div>
