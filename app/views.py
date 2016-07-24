@@ -222,9 +222,23 @@ def create_ticket():
 
 @app.route("/ticket/respond")
 def respond_ticket():
+    """Respond to a ticket."""
     return render_template("partials/popups/RespondTicket.html")
 
 
 @app.route("/goal/new")
 def create_goal():
+    """Create a goal."""
     return render_template("partials/popups/CreateGoal.html")
+
+
+@app.route("/command/new")
+def make_command():
+    """Create a command."""
+    return render_template("partials/popups/CreateCommand.html")
+
+
+@app.route("/command/remove")
+def remove_command():
+    """Remove a command."""
+    return render_template("partials/popups/DeleteCommand.html")
