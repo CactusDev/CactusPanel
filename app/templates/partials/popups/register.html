@@ -9,9 +9,23 @@
     <md-dialog-content>
         <div class="md-dialog-content" ng-show="initial">
             <h4 class="md-display-1">Initial Setup</h4>
-            <md-switch class="md-primary" md-no-ink aria-label="Do you want a custom bot?" ng-model="customAccount">
-                Custom Account
-            </md-switch>
+            <h4 class="md-subhead">Do you want a custom bot, or do you just want to use one of ours?</h4>
+            <div layout="row" layout-align="center">
+                <md-switch
+                    class="md-primary"
+                    md-no-ink aria-label="Do you want a custom bot?"
+                    ng-model="customAccount"
+                    ng-click="cbAccount = false">
+                    Custom Account
+                </md-switch>
+                <md-switch
+                    class="md-primary"
+                    md-no-ink aria-label="Do you want a CactusBot account?"
+                    ng-model="cbAccount"
+                    ng-click="customAccount = false">
+                    CactusBot Account
+                </md-switch>
+            </div>
 
             <div ng-show="customAccount">
                 <h4 class="md-title">The following is steps to get a custom account for the bot:</h5>
@@ -22,31 +36,26 @@
                 class="md-raised md-primary"
                 ng-click="login('cactus')">Login</md-button>
             </div>
-            <h6 class="md-subhead">If you don't want a custom account, you can choose one of ours!</h6>
-            <md-button
-            style="display: table; width: 50%; margin: 0 auto;"
-            class="md-raised md-primary"
-            ng-click="no()">No thanks!</md-button>
-          </div>
 
-          <div class="md-dialog-content" ng-show="choose" layout="column">
-            <h5 class="md-headline">Here's a list of our accounts that you can use.</h5>
-            <h5 class="md-subhead" layout="row" layout-align="center center">Select one, and click next.</h5>
+              <div class="md-dialog-content" ng-show="cbAccount" layout="column">
+                <h5 class="md-headline">Here's a list of our accounts that you can use.</h5>
+                <h5 class="md-subhead" layout="row" layout-align="center center">Select one, and click next.</h5>
 
-            <div layout="row" layout-align="center center">
-              <md-input-container style="margin-right: 10px;">
-                <label>Account</label>
-                <md-select ng-model="account">
-                  <md-option value="CactusBot">CactusBot</md-option>
-                  <md-option value="Stanley">Stanley</md-option>
-                </md-select>
-              </md-input-container>
-            </div>
+                <div layout="row" layout-align="center center">
+                  <md-input-container style="margin-right: 10px;">
+                    <label>Account</label>
+                    <md-select ng-model="account">
+                      <md-option value="CactusBot">CactusBot</md-option>
+                      <md-option value="Stanley">Stanley</md-option>
+                    </md-select>
+                  </md-input-container>
+                </div>
 
-            <md-button
-            style="display: table; width: 50%; margin: 0 auto;"
-            class="md-raised md-primary"
-            ng-click="login('select')">Next</md-button>
+                <md-button
+                style="display: table; width: 50%; margin: 0 auto;"
+                class="md-raised md-primary"
+                ng-click="login('select')">Next</md-button>
+              </div>
           </div>
 
           <div class="md-dialog-content" ng-show="joining">

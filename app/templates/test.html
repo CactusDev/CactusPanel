@@ -1,0 +1,9 @@
+<script>
+    parent = window.opener;
+
+    if (parent) {
+        parent.foo = "bar";
+        // parent.location.reload();
+    }
+    window.close();
+</script>

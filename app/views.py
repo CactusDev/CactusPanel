@@ -79,7 +79,6 @@ def timeout(error):
 
 @app.route("/")
 @app.route("/index")
-@login_required
 def index():
     """Main page."""
     if "username" in session:
@@ -109,35 +108,38 @@ def oauth_authorize(provider):
 @app.route("/callback/<provider>")
 def oauth_callback(provider):
     """Callback for the provided provider."""
-    if not current_user.is_anonymous:
-        return redirect(url_for("index"))
 
-    oauth = OAuthSignIn.get_provider(provider)
-    user = oauth.callback()
+    return render_template("test.html")
 
-    session["user_id"] = user.get("id", None)
-    session["username"] = user.get("username", None)
-    session["email"] = user.get("email", None)
-    session["provider"] = provider
-
-    if user.get("id", None) is None or user.get("username", None) is None:
-        flash("OAuth Authentication failed :( Please try again later!")
-        return redirect(url_for("index"))
-
-    user = User.get(provider_id="{}${}".format(provider, user.get("id", None)))
-
-    if not user:
-        # User doesn't exist yet, so we'll create it, then redirect to index
-        registered, e = register()
-        if registered:
-            return redirect(url_for("create"))
-        else:
-            return jsonify({"error": 3, "data": e.args})
-
-    else:
-        # User exists, so login and redirect to index
-        login_user(user, True)
-        return redirect(url_for("index"))
+    # if not current_user.is_anonymous:
+    #     return redirect(url_for("index"))
+    #
+    # oauth = OAuthSignIn.get_provider(provider)
+    # user = oauth.callback()
+    #
+    # if user.get("id", None) is None or user.get("username", None) is None:
+    #     flash("OAuth Authentication failed :( Please try again later!")
+    #     return redirect(url_for("index"))
+    #
+    # session["user_id"] = user.get("id", None)
+    # session["username"] = user.get("username", None)
+    # session["email"] = user.get("email", None)
+    # session["provider"] = provider
+    #
+    # user = User.get(provider_id="{}${}".format(provider, user.get("id", None)))
+    #
+    # if not user:
+    #     # User doesn't exist yet, so we'll create it, then redirect to index
+    #     registered, e = register()
+    #     if registered:
+    #         return redirect(url_for("create"), success=True)
+    #     else:
+    #         return jsonify({"error": 3, "data": e.args})
+    #
+    # else:
+    #     # User exists, so login and redirect to index
+    #     login_user(user, True)
+    #     return redirect(url_for("index"))
 
 
 @app.route("/login")
@@ -198,9 +200,16 @@ def repeat_route():
 
 
 @app.route("/create")
-def create():
+def create(**kwargs):
     """Create route."""
-    return render_template("create.html", shouldShow=True)
+    if current_user.is_anonymous:
+        # They're not OAuth logged in, redirect to bot creation
+        return render_template("create.html", shouldShow=True)
+
+    # We're here because user IS OAuth Authed
+    return render_template("create.html",
+                           shouldShow=True,
+                           )
 
 
 @app.route("/create/popup")

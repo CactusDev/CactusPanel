@@ -16,3 +16,21 @@
   bottom: 0;
   right: 0;
 }
+
+.float-l {
+    position: relative;
+    margin: 0px;
+    padding: 0px;
+    float:left
+}
+
+.float-r {
+    position: relative;
+    margin: 0px;
+    padding: 0px;
+    float: right;
+}
+
+.flex-container {
+    align-content: space-between;
+}

@@ -30,28 +30,44 @@ app.controller("RegisterController", function ($scope, $mdDialog, $timeout) {
     $scope.joining = false;
     $scope.thanks = false;
     $scope.state = "Create a Bot"
+    $scope.expanded = false;
 
     $scope.states = [
         "CactusBot",
         "CactusBotAlpha"
     ]
 
-    $scope.login = function (from) {
-        $scope.initial = false;
-        $scope.joining = true;
-        $scope.state = "Joining your Channel"
-
-        if (from == "cactus") {
-
-        } else if (from == "select") {
-            $scope.choose = false;
+    $scope.checkVal = () => {
+        if (window.foo) {
+            $timeout(() => {
+                $scope.thanks = true;
+                $scope.joining = false;
+                $scope.state = "Thank you!"
+            }, 2000);
+        } else {
+            setTimeout(() => {
+                $scope.checkVal();
+            }, 10);
         }
+    }
 
-        $timeout(function () {
-            $scope.thanks = true;
-            $scope.joining = false;
-            $scope.state = "Thank you!"
-        }, 2000);
+    $scope.login = function (from) {
+       $scope.initial = false;
+       $scope.joining = true;
+       $scope.state = "Joining your Channel"
+
+       if (from == "cactus") {
+
+       } else if (from == "select") {
+           $scope.choose = false;
+           $scope.expanded = true;
+       }
+
+       window.open("/authorize/beam");
+
+       setTimeout(() => {
+           $scope.checkVal();
+       }, 10);
     };
 
     $scope.no = function () {

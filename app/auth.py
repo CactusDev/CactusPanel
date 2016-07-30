@@ -94,7 +94,6 @@ class BeamSignIn(OAuthSignIn):
             authorize_url="https://beam.pro/oauth/authorize",
             access_token_url="https://beam.pro/api/v1/oauth/token"
         )
-        # self.callback_url = self.
 
     def authorize(self):
         """Authorize a user."""
