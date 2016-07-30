@@ -109,37 +109,45 @@ def oauth_authorize(provider):
 def oauth_callback(provider):
     """Callback for the provided provider."""
 
-    return render_template("test.html")
+    oauth = OAuthSignIn.get_provider(provider)
+    oauth_data = oauth.callback()
 
-    # if not current_user.is_anonymous:
-    #     return redirect(url_for("index"))
-    #
-    # oauth = OAuthSignIn.get_provider(provider)
-    # user = oauth.callback()
-    #
-    # if user.get("id", None) is None or user.get("username", None) is None:
-    #     flash("OAuth Authentication failed :( Please try again later!")
-    #     return redirect(url_for("index"))
-    #
-    # session["user_id"] = user.get("id", None)
-    # session["username"] = user.get("username", None)
-    # session["email"] = user.get("email", None)
-    # session["provider"] = provider
-    #
-    # user = User.get(provider_id="{}${}".format(provider, user.get("id", None)))
-    #
-    # if not user:
-    #     # User doesn't exist yet, so we'll create it, then redirect to index
-    #     registered, e = register()
-    #     if registered:
-    #         return redirect(url_for("create"), success=True)
-    #     else:
-    #         return jsonify({"error": 3, "data": e.args})
-    #
-    # else:
-    #     # User exists, so login and redirect to index
-    #     login_user(user, True)
-    #     return redirect(url_for("index"))
+    oauth_id = oauth_data.get("id", None)
+    oauth_username = oauth_data.get("username", None)
+
+    # Are either of these from the OAuth data None?
+    if oauth_id is None or oauth_username is None:
+        # One is, can't continue with registration
+        # TODO: Add proper error handling & make error show up on other tab
+        #       with error info, don't just redirect
+        flash("OAuth Authentication failed :( Please try again later!")
+        return redirect(url_for("index"))
+
+    if not current_user.is_anonymous:
+        cur_user = User.get(provider_id="{}${}".format(provider, oauth_id))
+        # Bot already exists for user
+        if not Bot.get(owner=cur_user):
+            # Redirect to index
+            return render_template("registration.html", exists=True)
+
+    # Made it this far, user is NOT logged in yet
+    # Continue on, let's check if user exists yet or not
+    user = User.get(provider_id="{}${}".format(provider, oauth_id))
+
+    if not user:
+        # User doesn't exist yet, so we'll create it, then redirect to index
+        registered, errors = register(oauth_data)
+        if registered:
+            # Registration was successful
+            # Will tell to close OAuth tab & continue to next step on bot
+            #   creation tab
+            session["user_id"] = oauth_id
+            session["username"] = oauth_username
+            session["email"] = oauth_data["email"]
+            return render_template("registration.html", errors=None)
+        else:
+            # Return error to the user
+            return render_template("registration.html", errors=errors)
 
 
 @app.route("/login")

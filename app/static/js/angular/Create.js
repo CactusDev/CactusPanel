@@ -38,13 +38,17 @@ app.controller("RegisterController", function ($scope, $mdDialog, $timeout) {
     ]
 
     $scope.checkVal = () => {
-        if (window.foo) {
+        if (window.passed) {
+            // Fade the dialog to the next status
             $timeout(() => {
                 $scope.thanks = true;
                 $scope.joining = false;
                 $scope.state = "Thank you!"
             }, 2000);
+        } else if (!window.passed && window.errors.length ) {
+            // TODO: Make it show errors
         } else {
+            // Wait a bit, then check again
             setTimeout(() => {
                 $scope.checkVal();
             }, 10);

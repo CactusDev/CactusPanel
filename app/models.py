@@ -27,6 +27,11 @@ class User(Model):
         return True
 
 
+class Bot(Model):
+    """A remodel table model"""
+    belongs_to = ('User', )
+
+
 class Roles(Model):
     """A remodel table model."""
     pass
