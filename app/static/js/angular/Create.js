@@ -43,10 +43,23 @@ app.controller("RegisterController", function ($scope, $mdDialog, $timeout) {
             $timeout(() => {
                 $scope.thanks = true;
                 $scope.joining = false;
-                $scope.state = "Thank you!"
+                $scope.state = 'Thank you!';
             }, 2000);
-        } else if (!window.passed && window.errors.length ) {
+        } else if (!window.passed) {
             // TODO: Make it show errors
+            $timeout(() => {
+                $scope.thanks = true;
+                $scope.joining = false;
+                $scope.state = 'Oh bother. Something went wrong.';
+                console.log(window.errors);
+            }, 2000);
+        } else if (window.exists) {
+            // TODO: Make this link
+            $timeout(() => {
+                $scope.thanks = true;
+                $scope.joining = false;
+                $scope.state = 'Looks like you\'re already good to go! <br /> If you want to change you bot config, do it <a href="url for config">here</a>';
+            }, 2000);
         } else {
             // Wait a bit, then check again
             setTimeout(() => {
