@@ -7,20 +7,20 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000;
 __karma__.loaded = function () {
 };
 
-var distPath = '/base/dist/';
-var appPaths = ['app']; //Add all valid source code folders here
+var distPath = "/base/dist/";
+var appPaths = ["app"]; //Add all valid source code folders here
 
 function isJsFile(path) {
-  return path.slice(-3) == '.js';
+  return path.slice(-3) == ".js";
 }
 
 function isSpecFile(path) {
-  return path.slice(-8) == '.spec.js';
+  return path.slice(-8) == ".spec.js";
 }
 
 function isAppFile(path) {
   return isJsFile(path) && appPaths.some(function(appPath) {
-    var fullAppPath = distPath + appPath + '/';
+    var fullAppPath = distPath + appPath + "/";
     return path.substr(0, fullAppPath.length) == fullAppPath;
   });
 }
@@ -34,11 +34,10 @@ System.config({
   baseURL: distPath
 });
 
-System.import('system-config.js').then(function() {
-  // Load and configure the TestComponentBuilder.
+System.import("system-config.js").then(function() {
   return Promise.all([
-    System.import('@angular/core/testing'),
-    System.import('@angular/platform-browser-dynamic/testing')
+    System.import("@angular/core/testing"),
+    System.import("@angular/platform-browser-dynamic/testing")
   ]).then(function (providers) {
     var testing = providers[0];
     var testingBrowser = providers[1];
@@ -47,8 +46,6 @@ System.import('system-config.js').then(function() {
       testingBrowser.TEST_BROWSER_DYNAMIC_APPLICATION_PROVIDERS);
   });
 }).then(function() {
-  // Finally, load all spec files.
-  // This will run the tests directly.
   return Promise.all(
     allSpecFiles.map(function (moduleName) {
       return System.import(moduleName);

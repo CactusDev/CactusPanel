@@ -1,9 +1,9 @@
 export class CactusPanelPage {
   navigateTo() {
-    return browser.get('/');
+    return browser.get("/");
   }
 
   getParagraphText() {
-    return element(by.css('app-root h1')).getText();
+    return element(by.css("app-root h1")).getText();
   }
 }
