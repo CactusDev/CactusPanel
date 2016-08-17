@@ -137,17 +137,21 @@ def oauth_callback(provider):
     if not user:
         # User doesn't exist yet, so we'll create it, then redirect to index
         registered, errors = register(oauth_data)
-        if registered:
-            # Registration was successful
-            # Will tell to close OAuth tab & continue to next step on bot
-            #   creation tab
-            session["user_id"] = oauth_id
-            session["username"] = oauth_username
-            session["email"] = oauth_data["email"]
-            return render_template("registration.html", errors=None)
-        else:
+        if not registered:
+            # Registration was NOT successful
             # Return error to the user
             return render_template("registration.html", errors=errors)
+
+    # Made it this far, User DOES exist, let's create the bot instance
+    #   and link it to the account
+    # Will tell to close OAuth tab & continue to next step on bot
+    #   creation tab
+    session["user_id"] = oauth_id
+    session["username"] = oauth_username
+    session["email"] = oauth_data["email"]
+
+    # TODO: Create/link bot accounts
+    return render_template("registration.html", errors=None)
 
 
 @app.route("/login")
