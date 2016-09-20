@@ -3,7 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import { AppComponent } from './home/app.component';
+import { AppComponent } from './app.component';
+
+import { HomeComponent } from './home/home.component';
 import { CommandComponent } from './command/command.component';
 import { NotFoundComponent } from './error/notfound.component';
 
@@ -33,6 +35,7 @@ import { RtlModule } from '@angular2-material/core/rtl/dir';
 @NgModule({
   declarations: [
       AppComponent,
+      HomeComponent,
       CommandComponent,
       NotFoundComponent
   ],
@@ -65,6 +68,6 @@ import { RtlModule } from '@angular2-material/core/rtl/dir';
   providers: [
     appRoutingProviders
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }
