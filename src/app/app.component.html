@@ -1,3 +1,49 @@
-<h1>
-  {{title}}
-</h1>
+<!-- Sidebar beginning-->
+<md-sidenav-layout [class.m2app-dark]="isDarkTheme">
+
+    <!-- Create the sidenav -->
+    <md-sidenav #sidenav mode="side" class="app-sidenav">
+        <!-- TODO: Create a working side nav with REAL routes. -->
+        <!-- Sidenav content -->
+        <h1 class="size-1">Navigation</h1>
+    </md-sidenav>
+
+    <md-toolbar color="primary">
+        <button md-button (click)="sidenav.toggle()">Toggle Nav</button>
+    </md-toolbar>
+
+    <md-card>
+        <md-card-title class="size-2">Quick Tools</md-card-title>
+        <md-card-subtitle class="size-5">Access to commonly used tools</md-card-subtitle>
+
+        <md-card-content>
+            <div class="row">
+                <md-card class="app-input-section" style="margin-left: 1%">
+                    <h5 class="size-4">Mod a User</h5>
+                    <md-input placeholder="Username"></md-input>
+                    <button md-raised-button color="primary">Run</button>
+                </md-card>
+
+                <md-card class="app-input-section" style="margin-left: 1%">
+                    <h5 class="size-4">Ban a User</h5>
+                    <md-input placeholder="Username"></md-input>
+                    <button md-raised-button color="primary">Run</button>
+                </md-card>
+
+                <md-card class="app-input-section" style="margin-left: 1%">
+                    <h5 class="size-4">Purge a User</h5>
+                    <md-input placeholder="Username"></md-input>
+                    <button md-raised-button color="primary">Run</button>
+                </md-card>
+
+                <md-card class="app-input-section" style="margin-left: 1%">
+                    <h5 class="size-4">Timeout a user</h5>
+                    <md-input placeholder="Username"></md-input>
+                    <md-input placeholder="Time(s)"></md-input>
+                    <button md-raised-button color="primary">Run</button>
+                </md-card>
+            </div>
+        </md-card-content>
+    </md-card>
+
+</md-sidenav-layout>
