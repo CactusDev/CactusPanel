@@ -3,7 +3,11 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import { AppComponent } from './app.component';
+import { AppComponent } from './home/app.component';
+import { CommandComponent } from './command/command.component';
+import { NotFoundComponent } from './error/notfound.component';
+
+import { routing, appRoutingProviders } from './app.routing';
 
 import { MdButtonToggleModule } from '@angular2-material/button-toggle';
 import { MdButtonModule } from '@angular2-material/button';
@@ -28,7 +32,9 @@ import { RtlModule } from '@angular2-material/core/rtl/dir';
 
 @NgModule({
   declarations: [
-    AppComponent
+      AppComponent,
+      CommandComponent,
+      NotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +59,11 @@ import { RtlModule } from '@angular2-material/core/rtl/dir';
     MdToolbarModule.forRoot(),
     MdTooltipModule.forRoot(),
     MdRippleModule.forRoot(),
-    RtlModule.forRoot()
+    RtlModule.forRoot(),
+    routing
+  ],
+  providers: [
+    appRoutingProviders
   ],
   bootstrap: [AppComponent]
 })

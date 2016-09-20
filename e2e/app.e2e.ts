@@ -5,10 +5,10 @@ describe('cactuspanel App', function() {
 
   beforeEach(() => {
     page = new CactusPanelPage();
-  });
+  })
 
   it('should display message saying app works', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('app works!');
+    expect(page.getParagraphText()).toEqual('cactuspanel works!');
   });
 });

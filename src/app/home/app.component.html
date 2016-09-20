@@ -1,10 +1,15 @@
-<!-- Sidebar beginning-->
-<md-sidenav-layout [class.m2app-dark]="isDarkTheme">
+<nav>
+    <a [routerLink]="['/dashboard']">Dashboard</a>
+    <a [routerLink]="['/command']">Commands</a>
+</nav>
+<router-outlet></router-outlet>
 
-    <!-- Create the sidenav -->
+Hi!
+
+<!-- Sidebar beginning-->
+<!--<md-sidenav-layout [class.m2app-dark]="isDarkTheme">
+
     <md-sidenav #sidenav mode="side" class="app-sidenav">
-        <!-- TODO: Create a working side nav with REAL routes. -->
-        <!-- Sidenav content -->
         <h1 class="size-1">Navigation</h1>
     </md-sidenav>
 
@@ -46,4 +51,4 @@
         </md-card-content>
     </md-card>
 
-</md-sidenav-layout>
+</md-sidenav-layout>-->
