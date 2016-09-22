@@ -171,7 +171,7 @@ declare class HammerInput
   /** Direction moved. Matches the DIRECTION constants. */
   direction:number;
 
-  /** Direction moved from it's starting point. Matches the DIRECTION constants. */
+  /** Direction moved from it"s starting point. Matches the DIRECTION constants. */
   offsetDirection:number;
 
   /** Scaling that has been done when multi-touch. 1 on a single touch. */

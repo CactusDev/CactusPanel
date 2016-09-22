@@ -1,13 +1,12 @@
-<nav>
-    <a [routerLink]="['/dashboard']">Dashboard</a>
-    <a [routerLink]="['/command']">Commands</a>
-</nav>
-
 <!-- Sidebar beginning-->
 <md-sidenav-layout [class.m2app-dark]="isDarkTheme">
 
     <md-sidenav #sidenav mode="side" class="app-sidenav">
         <h1 class="size-1">Navigation</h1>
+        <nav style="margin-left:auto; margin-right:auto">
+            <button md-raised-button color="primary" style="width: 95%; margin-bottom: 3%" [routerLink]="['/dashboard']">Dashboard</button>
+            <button md-raised-button color="primary" style="width: 95%; margin-bottom: 3%" [routerLink]="['/command']">Commands</button>
+        </nav>
     </md-sidenav>
 
     <md-toolbar color="primary">

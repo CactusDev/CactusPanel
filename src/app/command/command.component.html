@@ -1,4 +1,54 @@
-<nav>
-    <a [routerLink]="['/dashboard']">Dashboard</a>
-    <a [routerLink]="['/command']">Commands</a>
-</nav>
+<!-- Sidebar beginning-->
+<md-sidenav-layout [class.m2app-dark]="isDarkTheme">
+
+    <md-sidenav #sidenav mode="side" class="app-sidenav">
+        <h1 class="size-1">Navigation</h1>
+        <nav style="margin-left:auto; margin-right:auto">
+            <button md-raised-button color="primary" style="width: 95%; margin-bottom: 3%" [routerLink]="['/dashboard']">Dashboard</button>
+            <button md-raised-button color="primary" style="width: 95%; margin-bottom: 3%" [routerLink]="['/command']">Commands</button>
+        </nav>
+    </md-sidenav>
+
+    <md-toolbar color="primary">
+        <button md-button (click)="sidenav.toggle()">Toggle Nav</button>
+    </md-toolbar>
+
+    <md-card>
+        <md-card-title class="size-2">Commands</md-card-title>
+        <md-card-subtitle class="size-5">Edit Commands</md-card-subtitle>
+
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <button md-raised-button color="primary" style="width: 70%; margin-bottom: 1%">Create Command</button>
+        </div>
+
+        <md-card-content>
+            <div class="column">
+                <div class="row">
+                    <md-card class="app-input-section" style="width: 70%; margin-bottom: 1%; margin-left:auto; margin-right:auto">
+                        <div class="column">
+                            <div class="row">
+                                <md-input placeholder="Command" value="potato" style="width: 35%"></md-input>
+                                <div style="padding-right: 1%"></div>
+                                <md-input placeholder="Response" value="Salad!" style="width: 65%"></md-input>
+                            </div>
+
+                            <div class="row" style="margin-left: auto; margin-right: auto">
+                                <button md-button color="primary" style="margin-right: 1%">Update</button>
+                                <md-slide-toggle [(ngModel)]="isEnabled">Enabled</md-slide-toggle>
+                                <button md-button color="primary" style="margin-left: 1%">Remove</button>
+                            </div>
+                        </div>
+                        <div style="display: flex; justify-content: center; align-items: center;">
+                            <md-radio-group class="row">
+                                <md-radio-button style="margin-right: 2%" value="viewer">Viewer</md-radio-button>
+                                <md-radio-button style="margin-right: 2%"value="subscriber">Subscriber</md-radio-button>
+                                <md-radio-button value="moderator">Moderator</md-radio-button>
+                            </md-radio-group>
+                        </div>
+                    </md-card>
+                </div>
+            </div>
+        </md-card-content>
+    </md-card>
+
+</md-sidenav-layout>
