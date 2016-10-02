@@ -7,7 +7,7 @@ import { AppComponent } from "./app.component";
 
 import { HomeComponent } from "./home/home.component";
 import { CommandComponent } from "./command/command.component";
-import { NotFoundComponent } from "./error/notfound.component";
+import { QuoteComponent } from "./quote/quote.component";
 
 import { routing, appRoutingProviders } from "./app.routing";
 
@@ -37,7 +37,7 @@ import { RtlModule } from "@angular2-material/core/rtl/dir";
       AppComponent,
       HomeComponent,
       CommandComponent,
-      NotFoundComponent
+      QuoteComponent
   ],
   imports: [
     BrowserModule,
