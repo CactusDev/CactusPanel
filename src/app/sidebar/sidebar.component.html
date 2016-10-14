@@ -1,9 +1,0 @@
-<md-sidenav #sidenav mode="side" class="app-sidenav">
-    <h1 class="size-1">Navigation</h1>
-    <nav style="margin-left:auto; margin-right:auto">
-        <button *ngFor="let route of routes"
-        md-raised-button color="primary"
-        style="width: 95%; margin-bottom: 3%"
-        [routerLink]="['/' + route.route]">{{ route.name }}</button>
-    </nav>
-</md-sidenav>
