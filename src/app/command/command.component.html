@@ -1,19 +1,8 @@
 <!-- Sidebar beginning-->
 <md-sidenav-layout [class.m2app-dark]="isDarkTheme">
 
-    <md-sidenav #sidenav mode="side" class="app-sidenav">
-        <h1 class="size-1">Navigation</h1>
-        <nav style="margin-left:auto; margin-right:auto">
-            <button md-raised-button color="primary" style="width: 97%" [routerLink]="['/dashboard']">Dashboard</button>
-            <button md-raised-button color="primary" style="width: 97%" [routerLink]="['/command']">Commands</button>
-            <button md-raised-button color="primary" style="width: 97%" [routerLink]="['/quote']">Quotes</button>
-         </nav>
-    </md-sidenav>
-
-    <md-toolbar color="primary">
-        <button md-button (click)="sidenav.toggle()">Toggle Nav</button>
-    </md-toolbar>
-
+    <sidenav></sidenav>
+    
     <md-card>
         <md-card-title class="size-2">Commands</md-card-title>
         <md-card-subtitle class="size-5">Edit Commands</md-card-subtitle>

@@ -5,6 +5,8 @@ import { HttpModule } from "@angular/http";
 
 import { AppComponent } from "./app.component";
 
+import { SidebarComponent } from "./sidebar/sidebar.component";
+
 import { HomeComponent } from "./home/home.component";
 import { CommandComponent } from "./command/command.component";
 import { QuoteComponent } from "./quote/quote.component";
@@ -37,7 +39,8 @@ import { RtlModule } from "@angular2-material/core/rtl/dir";
       AppComponent,
       HomeComponent,
       CommandComponent,
-      QuoteComponent
+      QuoteComponent,
+      SidebarComponent
   ],
   imports: [
     BrowserModule,
