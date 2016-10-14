@@ -1,35 +1,18 @@
-<!-- Sidebar beginning-->
 <sidenav>
     <md-card>
         <md-card-title class="size-2">Quick Tools</md-card-title>
-        <md-card-subtitle class="size-5">Access to commonly used tools</md-card-subtitle>
+        <md-card-subtitle class="size-5">Access commonly used tools</md-card-subtitle>
 
         <md-card-content>
-            <div class="row">
-                <md-card class="app-input-section" style="margin-left: 1%">
-                    <h5 class="size-4">Mod a User</h5>
-                    <md-input placeholder="Username"></md-input>
-                    <button md-raised-button color="primary">Run</button>
-                </md-card>
-
-                <md-card class="app-input-section" style="margin-left: 1%">
-                    <h5 class="size-4">Ban a User</h5>
-                    <md-input placeholder="Username"></md-input>
-                    <button md-raised-button color="primary">Run</button>
-                </md-card>
-
-                <md-card class="app-input-section" style="margin-left: 1%">
-                    <h5 class="size-4">Purge a User</h5>
-                    <md-input placeholder="Username"></md-input>
-                    <button md-raised-button color="primary">Run</button>
-                </md-card>
-
-                <md-card class="app-input-section" style="margin-left: 1%">
-                    <h5 class="size-4">Timeout a user</h5>
-                    <md-input placeholder="Username"></md-input>
-                    <md-input placeholder="Time(s)"></md-input>
-                    <button md-raised-button color="primary">Run</button>
-                </md-card>
+            <div class="column">
+                <md-list>
+                    <md-list-item *ngFor="let action of actions">
+                        <md-icon md-list-avatar>{{ action.icon }}</md-icon>
+                        <h4 md-line>{{ action.name }}</h4>
+                        <p md-line>{{  action.subtext }}</p>
+                        <button md-raised-button color="primary" [routerLink]="['/' + action.route]">View</button>
+                    </md-list-item>
+                </md-list>
             </div>
         </md-card-content>
     </md-card>
