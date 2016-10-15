@@ -10,17 +10,19 @@
         <md-card-content>
             <div class="column">
                 <div class="row">
-                    <div style="width: 90%; margin-bottom: 0.5%; margin-left:auto; margin-right:auto">
+                    <div style="width: 90%; margin-left:auto; margin-right:auto">
                         <md-card class="app-input-section">
                             <div class="column">
                                 <div class="row">
                                     <md-input placeholder="Command" value="potato" style="width: 15%" [disabled]="true"></md-input>
                                     <div style="margin-right: 1%"></div>
                                     <md-input placeholder="Response" value="Salad!" style="width: 85%"></md-input>
-                                    <md-icon md-list-avatar style="margin-top: 1.3%">delete_forever</md-icon>
                                 </div>
                                 <div style="margin-left:auto; margin-right:auto">
-                                    <md-slide-toggle>Enabled</md-slide-toggle>
+                                    <div class="row">
+                                        <md-slide-toggle>Enabled</md-slide-toggle>
+                                        <md-icon md-list-avatar style="margin-top: 12%; margin-left: 3%">delete_forever</md-icon>
+                                    </div>
                                 </div>
                             </div>
                         </md-card>
