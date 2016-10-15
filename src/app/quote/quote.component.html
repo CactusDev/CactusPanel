@@ -1,26 +1,23 @@
 <sidenav>
     <md-card>
-        <md-card-title class="size-2">Quotes</md-card-title>
-        <md-card-subtitle class="size-5">Edit Quotes</md-card-subtitle>
+        <md-card-title class="size-2">Commands</md-card-title>
+        <md-card-subtitle class="size-5">Edit Commands</md-card-subtitle>
 
         <div style="display: flex; justify-content: center; align-items: center;">
-            <button md-raised-button color="primary" style="width: 70%; margin-bottom: 1%">Create Quote</button>
+            <button md-raised-button color="primary" style="width: 70%; margin-bottom: 1%">Create Command</button>
         </div>
 
         <md-card-content>
             <div class="column">
                 <div class="row">
-                    <md-card class="app-input-section" style="width: 70%; margin-bottom: 1%; margin-left:auto; margin-right:auto">
+                    <md-card class="app-input-section" 
+                        style="width: 90%; margin-bottom: 0.5%; margin-left:auto; margin-right:auto">
                         <div class="column">
                             <div class="row">
-                                <md-input placeholder="Command" value="1" style="width: 5%"></md-input>
-                                <div style="padding-right: 1%"></div>
-                                <md-input placeholder="Response" value="'How do I quote?' - Someone, somewhere" style="width: 95%"></md-input>
-                            </div>
-
-                            <div class="row" style="margin-left: auto; margin-right: auto">
-                                <button md-button color="primary" style="margin-right: 1%">Update</button>
-                                <button md-button color="primary" style="margin-left: 1%">Remove</button>
+                                <md-input placeholder="ID" value="1" style="width: 5%" [disabled]="true"></md-input>
+                                <div style="margin-right: 1%"></div>
+                                <md-input placeholder="Response" value="Salad!" style="width: 95%"></md-input>
+                                <md-icon md-list-avatar style="margin-top: 1.3%">delete_forever</md-icon>
                             </div>
                         </div>
                     </md-card>
