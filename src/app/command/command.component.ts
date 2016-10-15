@@ -7,8 +7,21 @@ import { Component, OnInit } from "@angular/core";
 })
 export class CommandComponent implements OnInit {
 
-    ngOnInit() {
-        console.log("Potato salad");
+    showControls: boolean = false;
+    isVisible: string = "visibility";
+
+    ngOnInit() { }
+
+    toggleControls() {
+        this.showControls = !this.showControls;
+    }
+
+    toggleEnabled() {
+        if (this.isVisible === "isVisible") {
+            this.isVisible = "visibility_off";
+        } else {
+            this.isVisible = "visibility";
+        }
     }
 
     constuctor() { }

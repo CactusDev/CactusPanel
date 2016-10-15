@@ -10,26 +10,20 @@
         <md-card-content>
             <div class="column">
                 <div class="row">
-                    <md-card class="app-input-section" style="width: 70%; margin-bottom: 1%; margin-left:auto; margin-right:auto">
+                    <md-card class="app-input-section" 
+                        style="width: 90%; margin-bottom: 0.5%; margin-left:auto; margin-right:auto"
+                        (mouseenter)="toggleControls()" (mouseleave)="toggleControls()">
                         <div class="column">
                             <div class="row">
-                                <md-input placeholder="Command" value="potato" style="width: 35%"></md-input>
-                                <div style="padding-right: 1%"></div>
-                                <md-input placeholder="Response" value="Salad!" style="width: 65%"></md-input>
+                                <md-input placeholder="Command" value="potato" style="width: 15%" [disabled]="true"></md-input>
+                                <div style="margin-right: 1%"></div>
+                                <md-input placeholder="Response" value="Salad!" style="width: 85%"></md-input>
+                                <md-icon md-list-avatar style="margin-top: 1.3%">delete_forever</md-icon>
                             </div>
 
-                            <div class="row" style="margin-left: auto; margin-right: auto">
-                                <button md-button color="primary" style="margin-right: 1%">Update</button>
-                                <md-slide-toggle [(ngModel)]="isEnabled">Enabled</md-slide-toggle>
-                                <button md-button color="primary" style="margin-left: 1%">Remove</button>
+                            <div class="row" style="margin-left: auto; margin-right: auto" *ngIf="showControls">
+                                <md-slide-toggle>Enabled</md-slide-toggle>
                             </div>
-                        </div>
-                        <div style="display: flex; justify-content: center; align-items: center;">
-                            <md-radio-group class="row">
-                                <md-radio-button style="margin-right: 2%" value="viewer">Viewer</md-radio-button>
-                                <md-radio-button style="margin-right: 2%"value="subscriber">Subscriber</md-radio-button>
-                                <md-radio-button value="moderator">Moderator</md-radio-button>
-                            </md-radio-group>
                         </div>
                     </md-card>
                 </div>
