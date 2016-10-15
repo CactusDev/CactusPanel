@@ -4,11 +4,13 @@ import { Routes, RouterModule } from "@angular/router";
 import { HomeComponent } from "./home/home.component";
 import { CommandComponent } from "./command/command.component";
 import { QuoteComponent } from "./quote/quote.component";
+import { AlertComponent } from "./alert/alert.component";
 
 const appRoutes: Routes = [
     { path: "command", component: CommandComponent },
     { path: "dashboard", component: HomeComponent },
     { path: "quote", component: QuoteComponent },
+    { path: "alert", component: AlertComponent },
     { path: "", redirectTo: "/dashboard", pathMatch: "full" },
     { path: "**", redirectTo: "/dashboard", pathMatch: "full" }
 ];

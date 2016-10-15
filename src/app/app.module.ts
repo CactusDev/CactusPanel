@@ -10,6 +10,7 @@ import { SidebarComponent } from "./sidebar/sidebar.component";
 import { HomeComponent } from "./home/home.component";
 import { CommandComponent } from "./command/command.component";
 import { QuoteComponent } from "./quote/quote.component";
+import { AlertComponent } from "./alert/alert.component";
 
 import { routing, appRoutingProviders } from "./app.routing";
 
@@ -40,7 +41,8 @@ import { RtlModule } from "@angular2-material/core/rtl/dir";
       HomeComponent,
       CommandComponent,
       QuoteComponent,
-      SidebarComponent
+      SidebarComponent,
+      AlertComponent
   ],
   imports: [
     BrowserModule,
