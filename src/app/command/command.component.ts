@@ -7,8 +7,7 @@ import { Component, OnInit } from "@angular/core";
 })
 export class CommandComponent implements OnInit {
 
-    showControls: boolean = false;
-    isVisible: string = "visibility";
+    isCreatingCommand: boolean = false;
 
     ngOnInit() { }
 

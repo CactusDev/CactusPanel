@@ -3,8 +3,32 @@
         <md-card-title class="size-2">Commands</md-card-title>
         <md-card-subtitle class="size-5">Edit Commands</md-card-subtitle>
 
-        <div style="display: flex; justify-content: center; align-items: center;">
-            <button md-raised-button color="primary" style="width: 70%; margin-bottom: 1%">Create Command</button>
+        <div style="display: flex; justify-content: center; align-items: center">
+            <button 
+                md-raised-button color="primary" style="width: 75%; margin-bottom: 1%"
+                (click)="isCreatingCommand = !isCreatingCommand">
+                Create Command
+            </button>
+        </div>
+
+        <div *ngIf="isCreatingCommand">
+            <div class="column">
+                <div class="row">
+                    <md-input placeholder="Command" style="width: 15%"></md-input>
+                    <div style="margin-right: 1%"></div>
+                    <md-input placeholder="Response" style="width: 85%"></md-input>
+                </div>
+                <div class="row" style="display: flex; justify-content: center; align-items: center">               
+                    <button
+                        md-raised-button
+                        color="primary"
+                        style="width: 50%"
+                        (click)="isCreatingCommand = false">
+                            Create Command
+                    </button>
+                </div>
+            </div>
+            <hr style="margin: 2%" />
         </div>
 
         <md-card-content>
