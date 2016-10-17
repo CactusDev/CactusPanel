@@ -27,3 +27,7 @@ Thumbs.db
 
 # NPM
 npm-debug.log
+
+# Cactus stuff
+
+oauthConfig.ts
