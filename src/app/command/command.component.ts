@@ -6,10 +6,9 @@ import { Component, OnInit } from "@angular/core";
     styleUrls: ["command.component.less"]
 })
 export class CommandComponent implements OnInit {
-
     isCreatingCommand: boolean = false;
 
     ngOnInit() { }
 
-    constuctor() { }
+    constructor() { }
 }
