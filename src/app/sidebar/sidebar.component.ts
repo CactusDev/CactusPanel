@@ -1,14 +1,21 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
+import { Location } from "@angular/common";
 
 @Component({
     selector: "sidenav",
     templateUrl: "./sidebar.component.html"
 })
 
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
     routes: Object[];
 
-    constructor() {
+    moveToCode() {
+        this.location.go("code");
+    }
+
+    constructor(private location: Location) { }
+
+    ngOnInit() {
         this.routes = [
             {
                 "route": "dashboard",

@@ -1,6 +1,7 @@
 import { ModuleWithProviders } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 
+import { CodeComponent } from "./code/code.component";
 import { HomeComponent } from "./home/home.component";
 import { CommandComponent } from "./command/command.component";
 import { QuoteComponent } from "./quote/quote.component";
@@ -11,6 +12,7 @@ const appRoutes: Routes = [
     { path: "dashboard", component: HomeComponent },
     { path: "quote", component: QuoteComponent },
     { path: "alert", component: AlertComponent },
+    { path: "code", component: CodeComponent },
     { path: "", redirectTo: "/dashboard", pathMatch: "full" },
     { path: "**", redirectTo: "/dashboard", pathMatch: "full" }
 ];

@@ -1,14 +1,14 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 
 @Component({
     selector: "app-root",
     templateUrl: "./home.component.html",
     styleUrls: ["home.component.less"]
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
     actions: Object[];
 
-    constructor() {
+    ngOnInit() {
         this.actions = [
             {
                 "name": "Add a user as moderator",
@@ -30,4 +30,6 @@ export class HomeComponent {
             }
         ];
     }
+
+    constructor() { }
 }

@@ -7,6 +7,7 @@ import { AppComponent } from "./app.component";
 
 import { SidebarComponent } from "./sidebar/sidebar.component";
 
+import { CodeComponent } from "./code/code.component";
 import { HomeComponent } from "./home/home.component";
 import { CommandComponent } from "./command/command.component";
 import { QuoteComponent } from "./quote/quote.component";
@@ -19,6 +20,7 @@ import { MaterialModule } from "@angular/material";
 @NgModule({
   declarations: [
       AppComponent,
+      CodeComponent,
       HomeComponent,
       CommandComponent,
       QuoteComponent,
