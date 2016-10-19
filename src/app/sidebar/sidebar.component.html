@@ -13,7 +13,7 @@
 
     <md-toolbar color="primary">
         <button md-button (click)="sidenav.toggle()">Toggle Nav</button>
-        <button md-button (click)="moveToCode()">Enter Code</button>
+        <button md-button [routerLink]="['/code']">Enter Code</button>
     </md-toolbar>
 
     <ng-content></ng-content>

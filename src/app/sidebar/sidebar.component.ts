@@ -10,11 +10,7 @@ import { RouterModule } from "@angular/router";
 export class SidebarComponent implements OnInit {
     routes: Object[];
 
-    moveToCode() {
-        this.location.go("/code");
-    }
-
-    constructor(private location: Location) { }
+    constructor() { }
 
     ngOnInit() {
         this.routes = [
