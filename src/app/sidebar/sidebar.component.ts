@@ -10,7 +10,7 @@ export class SidebarComponent implements OnInit {
     routes: Object[];
 
     moveToCode() {
-        this.location.go("code");
+        this.location.go("/code");
     }
 
     constructor(private location: Location) { }
