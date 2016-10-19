@@ -2,7 +2,7 @@
 @include md-core();
 
 $primary: md-palette($md-green);
-$accent: md-palette($md-purple, A200, A100, A400);
+$accent: md-palette($md-green, 800, 50, 50);
 
 $warn: md-palette($md-red);
 

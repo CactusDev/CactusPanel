@@ -4,7 +4,7 @@
             <h1 class="size-1">Navigation</h1>
             <nav>
                 <button *ngFor="let route of routes"
-                    md-raised-button color="primary"
+                    md-raised-button color="accent"
                     style="margin-bottom: 2%; width: 98%; margin-left: 1%"
                     [routerLink]="['/' + route.route]">{{ route.name }}</button>
             </nav>
