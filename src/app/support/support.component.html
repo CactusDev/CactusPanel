@@ -3,6 +3,7 @@
         <md-card-title class="size-2">Support</md-card-title>
         <md-card-subtitle class="size-5">Need some help? We can help.</md-card-subtitle>
 
+        <h1 class="size-1">Having issues? We've gotchu, bb.</h1>
         <div style="display: flex; justify-content: center; align-items: center">
             <button 
                 md-raised-button color="accent" style="width: 75%; margin-bottom: 1%"
@@ -14,7 +15,7 @@
         <div *ngIf="addingTicket">
             <div class="column">
                 <div class="row">
-                    <md-input placeholder="Response" style="width: 85%"></md-input>
+                    <md-input placeholder="Your problem" style="width: 85%"></md-input>
                 </div>
                 <div class="row" style="display: flex; justify-content: center; align-items: center">               
                     <button
@@ -34,7 +35,14 @@
                 <div class="row">
                     <md-card class="app-input-section" 
                         style="width: 75%; margin-bottom: 0.5%; margin-left:auto; margin-right:auto">
-                        
+                        <md-list>
+                            <md-list-item>
+                                <md-icon md-list-avatar>person</md-icon>
+                                <h4 md-line>My bot won't start</h4>
+                                <p md-line>Recent response: lolhi</p>
+                                <button md-raised-button color="accent">View</button>
+                            </md-list-item>
+                        </md-list>
                     </md-card>
                 </div>
             </div>
