@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 
 @Component({
     selector: "app-root",
@@ -6,6 +6,12 @@ import { Component } from "@angular/core";
     styleUrls: ["code.component.less"]
 
 })
-export class CodeComponent {
+export class CodeComponent implements OnInit {
+    state: string = "";
+
     constructor() { }
+
+    ngOnInit() {
+        this.state = "toRedeem";
+    }
 }
