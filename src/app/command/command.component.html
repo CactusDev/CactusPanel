@@ -1,0 +1,64 @@
+<sidenav>
+    <md-card>
+        <md-card-title class="size-2">Commands</md-card-title>
+        <md-card-subtitle class="size-5">Edit Commands</md-card-subtitle>
+
+        <div style="display: flex; justify-content: center; align-items: center">
+            <button 
+                md-raised-button color="accent" style="width: 75%; margin-bottom: 1%"
+                (click)="isCreatingCommand = !isCreatingCommand">
+                Create Command
+            </button>
+        </div>
+
+        <div *ngIf="isCreatingCommand">
+            <div class="column">
+                <div class="row">
+                    <md-input placeholder="Command" style="width: 15%"></md-input>
+                    <div style="margin-right: 1%"></div>
+                    <md-input placeholder="Response" style="width: 85%"></md-input>
+                </div>
+                <div class="row" style="display: flex; justify-content: center; align-items: center">               
+                    <button
+                        md-raised-button
+                        color="primary"
+                        style="width: 50%"
+                        (click)="isCreatingCommand = false">
+                            Create Command
+                    </button>
+                </div>
+            </div>
+            <hr style="margin: 2%" />
+        </div>
+
+        <md-card-content>
+            <div class="column">
+                <div class="row">
+                    <div style="width: 75%; margin-left:auto; margin-right:auto">
+                        <md-card class="app-input-section">
+                            <div class="column">
+                                <div class="row">
+                                    <md-input placeholder="Command" value="potato" style="width: 15%" [disabled]="true"></md-input>
+                                    <div style="margin-right: 1%"></div>
+                                    <md-input placeholder="Response" value="Salad!" style="width: 85%"></md-input>
+                                </div>
+                                <div style="margin-left:auto; margin-right:auto">
+                                    <div class="row">
+                                        <md-slide-toggle>Enabled</md-slide-toggle>
+                                        <div style="margin-top: 5%; margin-left: 3%">
+                                            <button md-icon-button>
+                                                <md-icon class="md-24">
+                                                    delete_forever
+                                                </md-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </md-card>
+                    </div>
+                </div>
+            </div>
+        </md-card-content>
+    </md-card>
+</sidenav>

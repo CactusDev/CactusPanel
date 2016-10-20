@@ -1,0 +1,20 @@
+<md-sidenav-layout [class.m2app-dark]="isDarkTheme">
+    <md-sidenav #sidenav mode="side" class="app-sidenav">
+            <div class="column">
+            <h1 class="size-1">Navigation</h1>
+            <nav>
+                <button *ngFor="let route of routes"
+                    md-raised-button color="accent"
+                    style="margin-bottom: 2%; width: 98%; margin-left: 1%"
+                    [routerLink]="['/' + route.route]">{{ route.name }}</button>
+            </nav>
+        </div>
+    </md-sidenav>
+
+    <md-toolbar color="primary">
+        <button md-button (click)="sidenav.toggle()">Toggle Nav</button>
+        <button md-button [routerLink]="['/code']">Enter Code</button>
+    </md-toolbar>
+
+    <ng-content></ng-content>
+</md-sidenav-layout>
