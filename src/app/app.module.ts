@@ -26,7 +26,8 @@ import { MaterialModule } from "@angular/material";
       CommandComponent,
       QuoteComponent,
       SidebarComponent,
-      AlertComponent
+      AlertComponent,
+      SupportComponent
   ],
   imports: [
     BrowserModule,
