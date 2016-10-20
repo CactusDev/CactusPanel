@@ -1,8 +1,8 @@
 @import '~@angular/material/core/theming/all-theme';
 @include md-core();
 
-$primary: md-palette($md-green);
-$accent: md-palette($md-green, 800, 50, 50);
+$primary: md-palette($md-green, 600, 600, 600);
+$accent: md-palette($md-green, 800, 800, 800);
 
 $warn: md-palette($md-red);
 
