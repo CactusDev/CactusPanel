@@ -5,14 +5,6 @@
 
         <md-card-content>
             <div class="column">
-                <md-list>
-                    <md-list-item *ngFor="let action of actions">
-                        <md-icon md-list-avatar>{{ action.icon }}</md-icon>
-                        <h4 md-line>{{ action.name }}</h4>
-                        <p md-line>{{  action.subtext }}</p>
-                        <button md-raised-button color="accent" [routerLink]="['/' + action.route]">View</button>
-                    </md-list-item>
-                </md-list>
             </div>
         </md-card-content>
     </md-card>
