@@ -7,6 +7,8 @@ import { Component, OnInit } from "@angular/core";
 
 })
 export class SupportComponent implements OnInit {
+    addingTicket: boolean = false;
+
     constructor() { }
 
     ngOnInit() {
