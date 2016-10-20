@@ -1,0 +1,30 @@
+<sidenav>
+    <md-card>
+        <md-card-title class="size-2">Cactus Codes</md-card-title>
+        <md-card-subtitle class="size-5">Redeem a code</md-card-subtitle>
+
+        <md-card-content>
+            <div class="column">
+                <div class="row">
+                    <md-card class="app-input-section" 
+                        style="width: 75%; margin-bottom: 0.5%; margin-left:auto; margin-right:auto">
+                        <div class="column">
+                            <div class="row" *ngIf="state == 'toRedeem'">
+                                <md-input placeholder="Application Code" value="" style="width: 95%"></md-input>
+                            </div>
+
+                            <div *ngIf="state == 'toRedeem'">
+                                <button md-raised-button color="accent" (click)="state = 'redeeming'">Redeem</button>
+                            </div>
+
+                            <div *ngIf="state == 'redeeming'">
+                                <md-progress-bar mode="query" color="accent"></md-progress-bar>
+                                TODO: Make this actually matter
+                             </div>
+                        </div>
+                    </md-card>
+                </div>
+            </div>
+        </md-card-content>
+    </md-card>
+</sidenav>

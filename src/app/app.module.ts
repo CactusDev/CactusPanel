@@ -7,6 +7,7 @@ import { AppComponent } from "./app.component";
 
 import { SidebarComponent } from "./sidebar/sidebar.component";
 
+import { SupportComponent } from "./support/support.component";
 import { CodeComponent } from "./code/code.component";
 import { HomeComponent } from "./home/home.component";
 import { CommandComponent } from "./command/command.component";

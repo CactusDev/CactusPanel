@@ -24,6 +24,9 @@ export class SidebarComponent implements OnInit {
             }, {
                 "route": "alert",
                 "name": "Chat Alerts"
+            }, {
+                "route": "support",
+                "name": "Support"
             }
         ];
     }
