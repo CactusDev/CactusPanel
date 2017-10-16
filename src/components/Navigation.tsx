@@ -4,7 +4,7 @@ import * as React from "react";
 import { Drawer } from "react-toolbox/lib/drawer";
 import { Button } from "react-toolbox/lib/button";
 
-export class Hello extends React.Component {
+export class Navigation extends React.Component {
     state = {
         active: false,
     };
@@ -16,7 +16,7 @@ export class Hello extends React.Component {
     render() {
         return (
             <div>
-                <Button label='Show Drawer' raised accent onClick={this.toggle} />
+                <Button label="Show Navigation" raised accent onClick={this.toggle} />
                 <Drawer active={this.state.active} onOverlayClick={this.toggle} className="navigation_container">
                     <h3>Navigation</h3>
 
