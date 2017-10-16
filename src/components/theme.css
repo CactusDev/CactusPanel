@@ -1,0 +1,13 @@
+
+.navigation_container {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100%;
+    display: flex;   
+}
+
+.navigation_button {
+    margin-bottom: 2%;
+    width: 95%;
+}
