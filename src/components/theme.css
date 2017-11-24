@@ -1,5 +1,5 @@
 
-.nav_bar_text {
+.center_contents {
     align-items: center;
     justify-content: center;
     text-align: center;
@@ -38,4 +38,18 @@
 .navigation_button {
     margin-bottom: 2%;
     width: 95%;
+}
+
+.navigation_container a {
+    text-decoration: none !important;
+}
+
+html {
+    font-family: "Roboto", sans-serif
+}
+
+.stepped_button {
+    margin-bottom: 1%;
+    margin-left: 1%;
+    margin-right: 1%;
 }

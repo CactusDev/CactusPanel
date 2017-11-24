@@ -1,7 +1,6 @@
 
 import * as React from "react";
 
-import RaisedButton from "material-ui/RaisedButton";
 import AppBar from "material-ui/AppBar";
 
 import Drawer from "material-ui/Drawer";
@@ -12,7 +11,7 @@ import * as MatIcons from "material-ui/svg-icons";
 
 import * as classnames from "classnames";
 
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export class Header extends React.Component {
 
@@ -37,7 +36,7 @@ export class Header extends React.Component {
                 <Drawer docked={true} open={this.state.navOpen} onRequestChange={(open) => this.setState({open})}
                         className="navigation_container">
 
-                    <div className="nav_bar_text">
+                    <div className="center_contents">
                         <h3>Navigation</h3>
                     </div>
 
@@ -45,7 +44,7 @@ export class Header extends React.Component {
                             leftIcon={<MatIcons.NavigationApps />} />
                     </Link>
                     <Link to="/commands"><MenuItem primaryText="Commands"
-                            leftIcon={<MatIcons.NotificationPriorityHigh />} />
+                        leftIcon={<MatIcons.NotificationPriorityHigh />} />
                     </Link>
                     <MenuItem primaryText="Quotes"
                             leftIcon={<MatIcons.CommunicationChat />} />
