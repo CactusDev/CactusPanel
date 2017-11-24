@@ -1,10 +1,38 @@
 
-.navigation_container {
+.nav_bar_text {
     align-items: center;
     justify-content: center;
     text-align: center;
-    height: 100%;
-    display: flex;   
+}
+
+.navigation_bar {
+    -moz-transition: left 218ms cubic-bezier(0.4, 0, 0.2, 1);
+    -o-transition: left 218ms cubic-bezier(0.4, 0, 0.2, 1);
+    -webkit-transition: left 218ms cubic-bezier(0.4, 0, 0.2, 1);
+    transition: left 218ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    position: fixed !important;
+    width: auto !important;
+    right: 0 !important;
+    top: 0 !important;
+    left: 0;
+}
+
+.navigation_bar.expanded {
+    left: 255px;
+}
+
+.content {
+    -moz-transition: padding-left 218ms cubic-bezier(0.4, 0, 0.2, 1);
+    -o-transition: padding-left 218ms cubic-bezier(0.4, 0, 0.2, 1);
+    -webkit-transition: padding-left 218ms cubic-bezier(0.4, 0, 0.2, 1);
+    transition: padding-left 218ms cubic-bezier(0.4, 0, 0.2, 1);
+    padding-right: 20px !important;
+    padding-top: 32px !important;
+}
+
+.content.expanded {
+    padding-left: 255px;
 }
 
 .navigation_button {

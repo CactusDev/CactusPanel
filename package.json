@@ -9,14 +9,17 @@
   "author": "CactusDev",
   "license": "MIT",
   "dependencies": {
+    "@types/classnames": "^2.2.3",
     "@types/material-ui": "^0.18.3",
     "@types/react": "^16.0.10",
     "@types/react-dom": "^16.0.1",
+    "@types/react-router-dom": "^4.2.2",
+    "classnames": "^2.2.5",
     "material-ui": "^0.19.4",
     "react": "^16.0.0",
     "react-css-themr": "^2.1.2",
     "react-dom": "^16.0.0",
-    "react-toolbox": "^2.0.0-beta.12"
+    "react-router-dom": "^4.2.2"
   },
   "devDependencies": {
     "awesome-typescript-loader": "^3.2.3",
