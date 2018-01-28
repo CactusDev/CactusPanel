@@ -103,10 +103,10 @@ export class Setup extends React.Component {
 
     public render() {
         const {finished, stepIndex} = this.state;
-        const contentStyle = {margin: '0 16px'};
+        const contentStyle = {margin: "0 16px"};
     
         return (
-          <div style={{width: "100%", maxWidth: "50%", margin: "auto"}}>
+          <div className="content-width">
             <Stepper activeStep={stepIndex}>
                 <Step>
                     <StepLabel>Platforms</StepLabel>
