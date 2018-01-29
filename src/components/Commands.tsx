@@ -4,17 +4,11 @@ import * as React from "react";
 import FlatButton from "material-ui/FlatButton"
 import * as MatIcons from "material-ui/svg-icons";
 import FloatingActionButton from "material-ui/FloatingActionButton";
-import {
-    Table,
-    TableBody,
-    TableHeader,
-    TableHeaderColumn,
-    TableRow,
-    TableRowColumn
-} from "material-ui/Table"
+import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from "material-ui/Table"
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
+import CommandCreateModal from "./popup/CommandCreate";
 
 interface Command {
     name: string;
@@ -23,6 +17,10 @@ interface Command {
 }
 
 export class Commands extends React.Component {
+
+    state = {
+        creatingCommand: false
+    };
 
     private getCommands(channel: string): Command[] {
         return [
@@ -42,6 +40,36 @@ export class Commands extends React.Component {
                 role: "subscriber"
             }
         ];
+    };
+
+    private getRolesForChannel(channel: string): {[key: string]: any} {
+        return {
+            "Normal": {
+                power: 1
+            },
+            "CactusDev": {
+                power: 1000000000
+            },
+            "Moderators": {
+                power: 50
+            },
+            "Regular": {
+                power: 5
+            }
+        }
+    }
+
+    createCommand = () => {
+        console.log("Creating command");
+        this.closeCommandDialog();
+    }
+
+    closeCommandDialog = () => {
+        this.setState({ creatingCommand: false });
+    }
+
+    openCommandDialog = () => {
+        this.setState({ creatingCommand: true });
     }
 
     public render() {
@@ -90,9 +118,11 @@ export class Commands extends React.Component {
                     </TableBody>
                 </Table>
 
+                <CommandCreateModal items={this.getRolesForChannel("innectic")} open={this.state.creatingCommand} create={this.createCommand} cancel={this.closeCommandDialog} />
+
                 <div className="add_new_command_fab_button">
                     <FloatingActionButton>
-                        <MatIcons.ContentAdd />
+                        <MatIcons.ContentAdd onClick={this.openCommandDialog} />
                     </FloatingActionButton>
                 </div>
             </div>
